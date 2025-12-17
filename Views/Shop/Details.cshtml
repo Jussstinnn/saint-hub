@@ -1,0 +1,87 @@
+﻿@model SaintHub.Models.Product
+
+<div class="product-details-grid">
+
+    <!-- IMÁGENES -->
+    <div class="product-images">
+        @if (Model.Images.Any())
+        {
+            <img src="@Model.Images.First().Url"
+                 alt="@Model.Name"
+                 class="product-main-img" />
+        }
+        else
+        {
+            <img src="/img/no-image.png" class="product-main-img" />
+        }
+    </div>
+
+    <!-- INFO -->
+    <div class="product-info">
+
+        <h1>@Model.Name</h1>
+
+        <h2 class="price">
+            ₡ @Model.PriceCrc.ToString("N0")
+        </h2>
+
+        @if (Model.Fulfillment == 1)
+        {
+            <span class="badge-stock">EN STOCK</span>
+        }
+        else
+        {
+            <span class="badge-encargo">POR ENCARGO</span>
+        }
+
+        <p class="description">
+            @Model.Description
+        </p>
+
+        <!-- FORM -->
+        <form asp-controller="Cart"
+              asp-action="Add"
+              method="post"
+              class="variant-form">
+
+            <h4>Talla / Variante</h4>
+
+            <select class="select-saint"
+                    name="variantId"
+                    required>
+                <option value="" selected disabled>
+                    Elegí una opción…
+                </option>
+
+                @foreach (var v in Model.Variants.Where(v => v.IsActive))
+                {
+                    if (Model.Fulfillment == 1 && v.Stock <= 0)
+                    {
+                        <option disabled>
+                            @v.Option (Sin stock)
+                        </option>
+                    }
+                    else
+                    {
+                        <option value="@v.Id">
+                            @v.Option
+                            @if (Model.Fulfillment == 1)
+                            {
+                                <text> (@v.Stock)</text>
+                            }
+                        </option>
+                    }
+                }
+            </select>
+
+            <button class="btn-saint"
+                    style="margin-top:1rem;">
+                Agregar al carrito
+            </button>
+        </form>
+
+    </div>
+</div>
+
+
+

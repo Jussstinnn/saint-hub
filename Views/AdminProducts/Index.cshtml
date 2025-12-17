@@ -1,0 +1,43 @@
+﻿@model List<SaintHub.Models.Product>
+@{
+    Layout = "_Layout";
+}
+
+<h1>Productos</h1>
+
+<div class="admin-header">
+    
+
+    <a href="/Admin/CreateProduct" class="btn-saint">
+        + Agregar producto
+    </a>
+
+</div>
+
+<table class="table-saint">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Activo</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.Name</td>
+                <td>₡ @p.PriceCrc.ToString("N0")</td>
+                <td>@(p.IsActive ? "Sí" : "No")</td>
+                <td>
+                    <a href="/Admin/Products/Edit/@p.Id" class="btn-saint">
+                        Editar
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

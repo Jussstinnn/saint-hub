@@ -1,0 +1,14 @@
+﻿@model SaintHub.Models.User
+
+<h1>Mi cuenta</h1>
+
+<div class="card-saint" style="max-width:520px; margin-top:1rem;">
+    <p><strong>Nombre:</strong> @Model.FullName</p>
+    <p><strong>Correo:</strong> @Model.Email</p>
+
+    <div style="margin-top:1rem; display:flex; gap:.8rem;">
+        <a class="btn-saint" asp-action="MyOrders">Mis pedidos</a>
+        <a class="btn-saint-outline" asp-action="Logout">Cerrar sesión</a>
+    </div>
+</div>
+

@@ -1,0 +1,207 @@
+﻿@model SaintHub.Models.CustomRequest
+@{
+    ViewData["Title"] = "Pedido personalizado";
+}
+
+@section Styles {
+    <style>
+        .co-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+        }
+
+        .co-hero h1 {
+            font-size: clamp(2.2rem, 3vw, 3rem);
+            margin-bottom: .4rem;
+        }
+
+        .co-hero p {
+            color: rgba(255,255,255,.7);
+            max-width: 70ch;
+        }
+
+        .co-card {
+            margin-top: 2.5rem;
+            background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255,255,255,.08);
+        }
+
+        .co-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.2rem;
+        }
+
+        .co-field label {
+            font-size: .8rem;
+            color: rgba(255,255,255,.65);
+            margin-bottom: .4rem;
+            display: block;
+        }
+
+        .co-field input,
+        .co-field select,
+        .co-field textarea {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,.1);
+            background: rgba(255,255,255,.04);
+            color: #fff;
+            outline: none;
+            transition: border .2s ease, background .2s ease;
+        }
+
+            .co-field input:focus,
+            .co-field select:focus,
+            .co-field textarea:focus {
+                border-color: #ffd166;
+                background: rgba(255,255,255,.06);
+            }
+
+        .co-field textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .co-submit {
+            margin-top: 2rem;
+            width: 100%;
+            padding: 1.2rem;
+            border-radius: 999px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffd166, #fcbf49);
+            border: none;
+            color: #111;
+            cursor: pointer;
+            transition: transform .15s ease, box-shadow .15s ease;
+        }
+
+            .co-submit:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 25px rgba(255,209,102,.25);
+            }
+
+        .co-hint {
+            text-align: center;
+            margin-top: .8rem;
+            font-size: .9rem;
+            color: rgba(255,255,255,.6);
+        }
+
+        .validation-summary-errors {
+            background: rgba(255,0,0,.15);
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1.2rem;
+        }
+
+        .field-validation-error {
+            color: #ffb4b4;
+            font-size: .8rem;
+            margin-top: .3rem;
+            display: block;
+        }
+
+        @@media (max-width: 768px) {
+            .co-grid {
+                grid-template-columns: 1fr;
+            }
+        {
+            grid-template-columns: 1fr;
+        }
+
+        }
+
+        
+    </style>
+}
+
+<form asp-action="Index" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="co-wrap">
+
+        <div class="co-hero">
+            <h1>Pedido personalizado</h1>
+            <p>
+                ¿Buscás algo específico y no lo encontrás en la tienda?
+                Contanos qué necesitás y nosotros nos encargamos.
+            </p>
+        </div>
+
+        <div class="co-card">
+
+            @Html.ValidationSummary()
+
+            <h3>Datos de contacto</h3>
+
+            <div class="co-grid">
+                <div class="co-field">
+                    <label asp-for="FullName"></label>
+                    <input asp-for="FullName" placeholder="Nombre completo" />
+                    @Html.ValidationMessageFor(m => m.FullName)
+                </div>
+
+                <div class="co-field">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" placeholder="correo@ejemplo.com" />
+                    @Html.ValidationMessageFor(m => m.Email)
+                </div>
+
+                <div class="co-field">
+                    <label asp-for="Phone"></label>
+                    <input asp-for="Phone" placeholder="Ej. 8888 8888" />
+                    @Html.ValidationMessageFor(m => m.Phone)
+                </div>
+            </div>
+
+            <h3 style="margin-top:2rem;">Detalle del pedido</h3>
+
+            <div class="co-grid">
+                <div class="co-field">
+                    <label asp-for="RequestType"></label>
+                    <select asp-for="RequestType">
+                        <option value="">Seleccioná el tipo</option>
+                        <option>En stock</option>
+                        <option>Por encargo</option>
+                        <option>Pedido personalizado</option>
+                    </select>
+                </div>
+
+                <div class="co-field">
+                    <label asp-for="Brand"></label>
+                    <input asp-for="Brand" placeholder="Ej. Adidas" />
+                </div>
+
+                <div class="co-field">
+                    <label asp-for="Model"></label>
+                    <input asp-for="Model" placeholder="Ej. Samba OG" />
+                </div>
+
+                <div class="co-field">
+                    <label asp-for="Size"></label>
+                    <input asp-for="Size" placeholder="Ej. US 7" />
+                </div>
+
+                <div class="co-field" style="grid-column:1/-1;">
+                    <label asp-for="Description"></label>
+                    <textarea asp-for="Description"
+                              placeholder="Color, condición, presupuesto, urgencia…"></textarea>
+                </div>
+            </div>
+
+            <button class="co-submit" type="submit">
+                Enviar solicitud
+            </button>
+
+            <p class="co-hint">
+                Nos pondremos en contacto para confirmar disponibilidad y precio.
+            </p>
+
+        </div>
+    </div>
+</form>

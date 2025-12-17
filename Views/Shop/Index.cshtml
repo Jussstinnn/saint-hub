@@ -1,0 +1,55 @@
+﻿@model List<SaintHub.Models.Product>
+
+<div class="hero">
+    <h1>Shop</h1>
+    <p>Sneakers, ropa y cultura.</p>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="card-saint">
+        <p style="color:var(--text-muted);">
+            No hay productos todavía.
+        </p>
+        <p>Agregá productos desde el panel de admin.</p>
+    </div>
+}
+else
+{
+    <div class="product-grid">
+        @foreach (var p in Model)
+        {
+            var img = p.Images.FirstOrDefault()?.Url ?? "/img/no-image.png";
+
+            <a asp-action="Details"
+               asp-route-id="@p.Id"
+               style="text-decoration:none;">
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="@img" alt="@p.Name" />
+                    </div>
+
+                    <div class="product-body">
+                        <div class="product-title">@p.Name</div>
+
+                        <div class="product-price">
+                            ₡ @p.PriceCrc.ToString("N0")
+                        </div>
+
+                        @if (p.Fulfillment == 1)
+                        {
+                            <span class="badge badge-stock">EN STOCK</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-encargo">POR ENCARGO</span>
+                        }
+                    </div>
+                </div>
+            </a>
+        }
+    </div>
+}
+
+
+

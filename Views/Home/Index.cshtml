@@ -1,0 +1,115 @@
+﻿@{
+    ViewData["Title"] = "Saint Hub";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+}
+
+<!-- HERO -->
+<section class="home-hero" style="background-image:url('/img/home/hero.jpg')">
+    <div class="home-hero-overlay"></div>
+
+    <div class="home-hero-content">
+        <h1>SAINT HUB</h1>
+        <p>Sneakers & Culture</p>
+
+        <a asp-controller="Shop" asp-action="Index" class="btn-saint">
+            Explorar tienda
+        </a>
+    </div>
+</section>
+<section class="purchase-modes">
+
+    <a asp-controller="Shop" asp-action="Index"
+       class="mode-card"
+       style="background-image:url('/img/home/stock.jpg')">
+
+        <div class="mode-overlay"></div>
+
+        <div class="mode-content">
+            <h3>En stock</h3>
+            <p>Productos disponibles para entrega inmediata.</p>
+        </div>
+    </a>
+
+    <a asp-controller="Shop" asp-action="Index"
+       class="mode-card"
+       style="background-image:url('/img/home/on-demand.jpg')">
+
+        <div class="mode-overlay"></div>
+
+        <div class="mode-content">
+            <h3>Por encargo</h3>
+            <p>Traemos piezas exclusivas bajo pedido.</p>
+        </div>
+    </a>
+
+    <a asp-controller="CustomOrder" asp-action="Index"
+       class="mode-card"
+       style="background-image:url('/img/home/custom.jpg')">
+
+        <div class="mode-overlay"></div>
+
+        <div class="mode-content">
+            <h3>Pedido personalizado</h3>
+            <p>Buscamos lo que querés, a tu medida.</p>
+        </div>
+    </a>
+
+</section>
+
+<section class="home-feature">
+    <div class="feature-img">
+        <img src="/img/home/feature-1.jpg" alt="Featured sneaker">
+    </div>
+
+    <div class="feature-content">
+        <small>Lo más pedido</small>
+        <h2>Timberland 6 Inch</h2>
+        <p>
+            Esta bota cuenta materiales impermeables / Waterproof y el rendimiento de una parte superior de piel Timberland® de primera calidad. Tus pies apreciarán aún más la plantilla extraíble antifatiga que te ayudará a mantenerte cómodo sin importar el desafío que tengas por delante.
+
+        </p>
+
+        <a asp-controller="Shop" asp-action="Index" class="btn-saint-outline">
+            Ver colección
+        </a>
+    </div>
+</section>
+
+<section class="home-logos">
+    <h2>Marcas</h2>
+
+    <div class="logos-grid">
+        <img src="/img/brands/adidas.png" alt="Adidas">
+        <img src="/img/brands/Asics.png" alt="Asics">
+        <img src="/img/brands/DrMartens.png" alt="Dr. Martens">
+        <img src="/img/brands/jordan.png" alt="Jordan">
+        <img src="/img/brands/newbalance.png" alt="New Balance">
+        <img src="/img/brands/nike.png" alt="Nike">
+        <img src="/img/brands/puma.png" alt="Puma">
+        <img src="/img/brands/Supreme.png" alt="Supreme">
+        <img src="/img/brands/Timberland.png" alt="Timberland">
+    </div>
+</section>
+
+
+
+<section class="home-editorial">
+    <img src="/img/home/editorial.jpg" alt="Saint Hub culture">
+
+    <div class="editorial-text">
+        <h2>La cultura no se copia</h2>
+        <p>
+            Saint Hub nace donde el diseño, la calle y la identidad se cruzan.
+            No seguimos tendencias. Las interpretamos.
+        </p>
+    </div>
+</section>
+<section class="home-cta">
+    <h2>Entrá al hub</h2>
+    <a asp-controller="Shop" asp-action="Index" class="btn-saint">
+        Shop now
+    </a>
+</section>

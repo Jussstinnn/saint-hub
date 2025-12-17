@@ -1,0 +1,27 @@
+﻿@model SaintHub.Models.Order
+@{
+    var items = ViewBag.Items as List<SaintHub.Models.OrderItem>;
+}
+
+<h1>Pedido #@Model.Id</h1>
+
+<div class="product-details" style="margin-top:1rem;">
+    <div class="card-saint">
+        <h3>Resumen</h3>
+        @foreach (var i in items)
+        {
+            <p>@i.ProductName × @i.Quantity — ₡ @i.SubtotalCrc.ToString("N0")</p>
+
+        }
+        <hr />
+        <h2>Total: ₡ @Model.TotalCrc.ToString("N0")</h2>
+    </div>
+
+    <div class="card-saint">
+        <h3>Estado</h3>
+        <p><strong>@Model.Status</strong></p>
+
+        <h3 style="margin-top:1rem;">Entrega</h3>
+        <p>@Model.Address</p>
+    </div>
+</div>

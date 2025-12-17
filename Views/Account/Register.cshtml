@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "Crear cuenta";
+}
+
+<div style="display:flex; justify-content:center; margin-top:4rem;">
+    <div class="card-saint" style="max-width:480px; width:100%;">
+
+        <h1 style="text-align:center;">Crear cuenta</h1>
+        <p style="text-align:center; color:var(--text-muted); margin-bottom:1.5rem;">
+            Unite a Saint Hub y hacé tus pedidos más rápido
+        </p>
+
+        <form method="post">
+            <input class="input-saint"
+                   name="FullName"
+                   placeholder="Nombre completo"
+                   required />
+
+            <input class="input-saint"
+                   type="email"
+                   name="Email"
+                   placeholder="Correo electrónico"
+                   required
+                   style="margin-top:.8rem;" />
+
+            <input class="input-saint"
+                   type="password"
+                   name="password"
+                   placeholder="Contraseña"
+                   required
+                   style="margin-top:.8rem;" />
+
+            @if (ViewBag.Error != null)
+            {
+                <p style="color:var(--danger); margin-top:.6rem;">
+                    @ViewBag.Error
+                </p>
+            }
+
+            <button class="btn-saint"
+                    style="margin-top:1.2rem; width:100%;">
+                Crear cuenta
+            </button>
+        </form>
+
+        <div style="text-align:center; margin-top:1.5rem;">
+            <small style="color:var(--text-muted);">
+                ¿Ya tenés cuenta?
+            </small><br />
+            <a asp-action="Login"
+               style="color:var(--accent); text-decoration:none; font-weight:700;">
+                Iniciar sesión
+            </a>
+        </div>
+
+    </div>
+</div>
+
