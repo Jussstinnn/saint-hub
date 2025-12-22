@@ -1,0 +1,70 @@
+﻿@model SaintHub.Models.Order
+@{
+    Layout = "_Layout";
+}
+
+<h1>Pedido #@Model.Id</h1>
+
+<div class="card-saint" style="margin-bottom:1.5rem;">
+    <p><strong>Cliente:</strong> @Model.Email</p>
+    <p><strong>Fecha:</strong> @Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</p>
+    <p><strong>Total:</strong> ₡ @Model.TotalCrc.ToString("N0")</p>
+    <p><strong>Estado actual:</strong> @Model.Status</p>
+</div>
+
+<h2>Productos</h2>
+
+<table class="table-saint">
+    <thead>
+        <tr>
+            <th>Producto</th>
+            <th>Opción</th>
+            <th>Cantidad</th>
+            <th>Subtotal</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in Model.Items)
+        {
+            <tr>
+                <td>@i.ProductName</td>
+                <td>@i.Option</td>
+
+                <td>@i.Quantity</td>
+                <td>₡ @i.SubtotalCrc.ToString("N0")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2 style="margin-top:2rem;">Cambiar estado</h2>
+
+<div style="display:flex; gap:.6rem; flex-wrap:wrap;">
+    <form asp-action="UpdateStatus" method="post">
+        <input type="hidden" name="id" value="@Model.Id" />
+        <input type="hidden" name="status" value="Pendiente" />
+        <button class="btn-saint">Pendiente</button>
+    </form>
+
+    <form asp-action="UpdateStatus" method="post">
+        <input type="hidden" name="id" value="@Model.Id" />
+        <input type="hidden" name="status" value="Pagado" />
+        <button class="btn-saint">Pagado</button>
+    </form>
+
+    <form asp-action="UpdateStatus" method="post">
+        <input type="hidden" name="id" value="@Model.Id" />
+        <input type="hidden" name="status" value="Enviado" />
+        <button class="btn-saint">Enviado</button>
+    </form>
+
+    <form asp-action="UpdateStatus" method="post">
+        <input type="hidden" name="id" value="@Model.Id" />
+        <input type="hidden" name="status" value="Cancelado" />
+        <button class="btn-danger">Cancelado</button>
+    </form>
+</div>
+
+
+
+

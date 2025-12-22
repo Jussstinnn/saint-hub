@@ -1,0 +1,47 @@
+﻿@model List<SaintHub.ViewModels.CartItemVM>
+
+<h1>Checkout</h1>
+
+<div class="checkout-grid">
+
+    <div class="checkout-items">
+        @foreach (var item in Model)
+        {
+            <div class="checkout-item">
+                <img src="@item.ImageUrl" />
+
+                <div>
+                    <strong>@item.ProductName</strong>
+                    <div>Talla: @item.Size</div>
+                    <div>Cantidad: @item.Quantity</div>
+                </div>
+
+                <div class="price">
+                    ₡ @item.PriceCrc.ToString("N0")
+
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="checkout-summary card-saint">
+        <h3>Resumen</h3>
+
+        <div class="row">
+            <span>Total</span>
+            <strong>
+                ₡ @(((int)ViewBag.Total).ToString("N0"))
+
+
+            </strong>
+        </div>
+
+        <form asp-action="Confirm" method="post">
+            <button class="btn-saint" style="width:100%;">
+                Confirmar pedido
+            </button>
+        </form>
+    </div>
+
+</div>
+

@@ -1,0 +1,23 @@
+﻿<h1>Admin · Saint Hub</h1>
+
+<div class="card-saint" style="max-width:420px; margin-top:2rem;">
+    <form method="post">
+        <input class="input-saint"
+               type="password"
+               name="password"
+               placeholder="Contraseña de administrador"
+               required />
+
+        @if (ViewBag.Error != null)
+        {
+            <p style="color:var(--danger); margin-top:.6rem;">
+                @ViewBag.Error
+            </p>
+        }
+
+        <button class="btn-saint" style="margin-top:1rem; width:100%;">
+            Entrar
+        </button>
+    </form>
+</div>
+

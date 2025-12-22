@@ -1,0 +1,71 @@
+﻿@using SaintHub.Services
+@using SaintHub.ViewModels
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>Saint Hub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- GLOBAL CSS -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/navbar.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+    <!-- PAGE SPECIFIC CSS -->
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+
+    <!-- =========================
+         NAVBAR – SAINT HUB
+    ========================== -->
+    <header class="saint-header">
+
+        <!-- TOP BAR -->
+        <div class="saint-topbar">
+
+            <!-- LOGO -->
+            <a asp-controller="Home" asp-action="Index" class="saint-logo">
+                <img src="~/img/branding/logo-white.png" alt="Saint Hub" />
+            </a>
+
+            <!-- SEARCH -->
+            <input type="text"
+                   class="saint-search"
+                   placeholder="Buscar sneakers, marcas, modelos…" />
+
+            <!-- ACTIONS -->
+            <div class="top-right">
+                <a asp-controller="Account" asp-action="Login" class="pill">Inicia Sesión</a>
+                <a asp-controller="Account" asp-action="Register" class="pill">Registrate</a>
+                <a asp-controller="Cart" asp-action="Index" class="pill cart-pill">
+                    Carrito <span class="counter">0</span>
+                </a>
+            </div>
+
+        </div>
+
+        <!-- CATEGORY BAR -->
+        <nav class="saint-categories">
+            <a href="#">Zapatos</a>
+            <a href="#">Camisas</a>
+            <a href="#">Pantalones</a>
+            <a href="#">Accesorios</a>
+            <a href="#">Vinilos</a>
+            
+        </nav>
+
+    </header>
+
+    <!-- MAIN -->
+    @RenderBody()
+
+    <!-- FOOTER -->
+    <footer>
+        © @DateTime.Now.Year · Saint Hub · Sneakers & Culture
+    </footer>
+
+</body>
+</html>
+

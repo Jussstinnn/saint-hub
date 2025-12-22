@@ -1,0 +1,131 @@
+﻿@model SaintHub.Models.Product
+@{
+    Layout = "_Layout";
+}
+
+<h1>Editar producto</h1>
+
+<!-- =========================
+     DATOS DEL PRODUCTO
+========================= -->
+<form method="post">
+    <div class="card-saint">
+
+        <label>Nombre</label>
+        <input asp-for="Name" class="input-saint" />
+
+        <label>Descripción</label>
+        <textarea asp-for="Description" class="input-saint"></textarea>
+
+        <label>Precio (₡)</label>
+        <input asp-for="PriceCrc" type="number" class="input-saint" />
+
+        <label class="checkbox-line">
+            <input asp-for="IsActive" type="checkbox" />
+            Producto activo
+        </label>
+
+        <button type="submit" class="btn-saint">
+            Guardar cambios
+        </button>
+    </div>
+</form>
+
+<!-- =========================
+     IMÁGENES
+========================= -->
+<div class="admin-section">
+    <h2>Imágenes</h2>
+
+    <form asp-action="AddImage" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="productId" value="@Model.Id" />
+        <input type="file" name="image" required />
+        <button class="btn-saint small">Subir imagen</button>
+    </form>
+
+    <div class="image-grid">
+        @foreach (var img in Model.Images)
+        {
+            <div class="image-card @(img.IsPrimary ? "primary" : "")">
+                <img src="@img.Url" />
+
+                <div class="image-actions">
+                    @if (!img.IsPrimary)
+                    {
+                        <form asp-action="SetPrimaryImage" method="post">
+                            <input type="hidden" name="imageId" value="@img.Id" />
+                            <input type="hidden" name="productId" value="@Model.Id" />
+                            <button class="btn-secondary small">Principal</button>
+                        </form>
+                    }
+
+                    <form asp-action="DeleteImage" method="post">
+                        <input type="hidden" name="imageId" value="@img.Id" />
+                        <input type="hidden" name="productId" value="@Model.Id" />
+                        <button class="btn-danger small">Eliminar</button>
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- =========================
+     VARIANTES / TALLAS
+========================= -->
+<div class="admin-section">
+    <h2>Variantes (Tallas)</h2>
+
+    <table class="table-saint variant-table">
+        <thead>
+            <tr>
+                <th>Talla</th>
+                <th>Stock</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var v in Model.Variants)
+            {
+                <tr>
+                    <td>@v.Option</td>
+                    <td>
+                        <form asp-action="UpdateVariant" method="post" class="variant-row">
+                            <input type="hidden" name="variantId" value="@v.Id" />
+                            <input type="hidden" name="productId" value="@Model.Id" />
+
+                            <input type="number" name="stock" value="@v.Stock" min="0" />
+
+                            <div class="variant-actions">
+                                <button class="btn-saint small">Guardar</button>
+                            </div>
+                        </form>
+                    </td>
+                    <td>
+                        <form asp-action="DeleteVariant" method="post">
+                            <input type="hidden" name="variantId" value="@v.Id" />
+                            <input type="hidden" name="productId" value="@Model.Id" />
+                            <button class="btn-danger small">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h3>Agregar talla</h3>
+
+    <form asp-action="AddVariant" method="post" class="add-variant clean">
+        <input type="hidden" name="productId" value="@Model.Id" />
+
+        <div class="variant-add-row">
+            <input name="option" placeholder="Ej: US 10" required />
+            <input type="number" name="stock" placeholder="Stock" min="0" required />
+            <button class="btn-saint wide">Agregar</button>
+        </div>
+    </form>
+
+</div>
+
+
+

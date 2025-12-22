@@ -1,0 +1,52 @@
+﻿@model SaintHub.Models.CustomRequest
+
+<h1>Pedido personalizado</h1>
+
+<div class="card-saint">
+
+    <h3>Cliente</h3>
+    <p><strong>@Model.FullName</strong></p>
+    <p>@Model.Email</p>
+    <p>@Model.Phone</p>
+
+    <hr />
+
+    <h3>Solicitud</h3>
+    <p><strong>Tipo:</strong> @Model.RequestType</p>
+    <p><strong>Marca:</strong> @Model.Brand</p>
+    <p><strong>Modelo:</strong> @Model.Model</p>
+    <p><strong>Talla:</strong> @Model.Size</p>
+    <p><strong>Detalles:</strong></p>
+    <p>@Model.Description</p>
+
+    <hr />
+
+    <h3>Estado</h3>
+    <form asp-action="UpdateStatus" method="post">
+        <input type="hidden" name="id" value="@Model.Id" />
+
+        <select name="status" class="select-saint">
+            <option selected>@Model.Status</option>
+            <option>Nuevo</option>
+            <option>En proceso</option>
+            <option>Cotizado</option>
+            <option>Cerrado</option>
+        </select>
+
+        <button type="submit" class="btn-saint">
+            Actualizar estado
+        </button>
+    </form>
+
+    <hr />
+
+    <a class="btn-whatsapp"
+       target="_blank"
+       href="https://wa.me/@Model.Phone">
+        Contactar por WhatsApp
+    </a>
+
+</div>
+
+
+

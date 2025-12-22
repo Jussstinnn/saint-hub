@@ -1,0 +1,46 @@
+﻿@model List<SaintHub.Models.Order>
+
+<h1>Mis pedidos</h1>
+
+@if (!Model.Any())
+{
+    <div class="card-saint" style="margin-top:1rem;">
+        <p style="color:var(--text-muted);">Aún no tenés pedidos.</p>
+        <a class="btn-saint" asp-controller="Shop" asp-action="Index">Ir a Shop</a>
+    </div>
+}
+else
+{
+    <div class="card-saint" style="margin-top:1rem;">
+        <table class="table-saint">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var o in Model)
+                {
+                    <tr>
+                        <td>#@o.Id</td>
+                        <td>@o.CreatedAt.ToLocalTime().ToString("dd/MM/yyyy")</td>
+                        <td>₡ @o.TotalCrc.ToString("N0")</td>
+                        <td>@o.Status</td>
+                        <td>
+                            <a class="btn-saint-outline"
+                               asp-action="OrderDetails"
+                               asp-route-id="@o.Id">
+                                Ver
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+

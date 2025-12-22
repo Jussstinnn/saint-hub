@@ -1,0 +1,38 @@
+﻿@model List<SaintHub.Models.Order>
+
+<h1>Pedidos</h1>
+
+<table class="table-saint">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Total</th>
+            <th>Estado</th>
+            <th>Fecha</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var o in Model)
+        {
+            <tr>
+                <td>@o.Id</td>
+                <td>@o.Email</td>
+                <td>₡ @o.TotalCrc.ToString("N0")</td>
+                <td>@o.Status</td>
+                <td>@o.CreatedAt.ToString("dd/MM/yyyy")</td>
+                <td>
+                    <a asp-action="Edit"
+                       asp-route-id="@o.Id"
+                       class="btn-saint">
+                        Ver / Editar
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+

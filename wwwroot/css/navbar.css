@@ -1,0 +1,126 @@
+/* =========================
+   NAVBAR – SAINT HUB
+   (StockX Inspired – Premium)
+========================= */
+
+.saint-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: linear-gradient(180deg, #0f0f0f, #0b0b0b);
+    border-bottom: 1px solid #1f1f1f;
+    box-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+
+/* ---------- TOP BAR ---------- */
+
+.saint-topbar {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 2.5rem;
+    padding: 1rem 2.5rem;
+}
+
+/* =========================
+   NAVBAR LOGO
+========================= */
+
+.saint-logo {
+    display: flex;
+    align-items: center;
+    height: 90px; /* controla el alto total */
+}
+
+    .saint-logo img {
+        
+        height: 198px; /* AJUSTÁ ESTE VALOR */
+        width: auto;
+        object-fit: contain;
+        display: block;
+    }
+
+
+/* SEARCH */
+
+.saint-search {
+    width: 100%;
+    max-width: 680px;
+    background: linear-gradient(180deg, #1a1a1a, #141414);
+    border: 1px solid #2a2a2a;
+    border-radius: 999px;
+    padding: 0.65rem 1.4rem;
+    color: #fff;
+    font-size: 0.95rem;
+    transition: all .25s ease;
+}
+
+    .saint-search::placeholder {
+        color: #777;
+    }
+
+    .saint-search:focus {
+        outline: none;
+        border-color: var(--accent);
+        background: #121212;
+    }
+
+/* ACTIONS */
+
+.top-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+    .top-right a {
+        color: #ccc;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: color .2s ease;
+    }
+
+        .top-right a:hover {
+            color: #fff;
+        }
+
+    .top-right .pill {
+        padding: 0.45rem 1rem;
+        border-radius: 999px;
+        background: linear-gradient(180deg, #1a1a1a, #141414);
+        border: 1px solid #2a2a2a;
+        font-weight: 500;
+    }
+
+.cart-pill {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+}
+
+/* ---------- CATEGORY BAR ---------- */
+
+.saint-categories {
+    display: flex;
+    gap: 1.4rem;
+    padding: 0.7rem 2.5rem;
+    background: linear-gradient(180deg, #121212, #0f0f0f);
+    border-top: 1px solid #1f1f1f;
+    overflow-x: auto;
+}
+
+    .saint-categories a {
+        white-space: nowrap;
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #aaa;
+        padding-bottom: 2px;
+        border-bottom: 2px solid transparent;
+        transition: all .2s ease;
+    }
+
+        .saint-categories a:hover {
+            color: #fff;
+            border-bottom-color: var(--accent);
+        }

@@ -1,0 +1,63 @@
+﻿@model List<SaintHub.ViewModels.CartItemVM>
+
+<h1>Tu carrito</h1>
+
+@if (!Model.Any())
+{
+    <p style="color:var(--text-muted)">Tu carrito está vacío.</p>
+}
+else
+{
+    <div class="cart-grid">
+        @foreach (var item in Model)
+        {
+            <div class="cart-item">
+                <img src="@item.ImageUrl" alt="@item.ProductName" />
+
+                <div class="cart-info">
+                    <strong>@item.ProductName</strong>
+                    <small>Talla: @item.Size</small>
+                    <small>₡ @item.PriceCrc.ToString("N0")</small>
+                </div>
+
+                <div class="cart-qty">
+                    <form asp-action="Decrease" method="post">
+                        <input type="hidden" name="variantId" value="@item.VariantId" />
+                        <button>-</button>
+                    </form>
+
+                    <span>@item.Quantity</span>
+
+                    <form asp-action="Increase" method="post">
+                        <input type="hidden" name="variantId" value="@item.VariantId" />
+                        <button @(item.Quantity >= item.Stock ? "disabled" : "")>+</button>
+                    </form>
+                </div>
+
+                <div class="cart-subtotal">
+                    ₡ @item.SubtotalCrc.ToString("N0")
+                </div>
+
+                <form asp-action="Remove" method="post">
+                    <input type="hidden" name="variantId" value="@item.VariantId" />
+                    <button class="remove">✕</button>
+                </form>
+            </div>
+        }
+    </div>
+
+    <div class="cart-summary">
+        <h3>Total: ₡ @Model.Sum(x => x.SubtotalCrc).ToString("N0")</h3>
+
+        <div class="cart-actions">
+            <a class="btn-saint-outline" asp-controller="Shop" asp-action="Index">
+                Seguir comprando
+            </a>
+
+            <a class="btn-saint" asp-controller="Checkout" asp-action="Index">
+                Proceder al pago
+            </a>
+        </div>
+    </div>
+}
+
