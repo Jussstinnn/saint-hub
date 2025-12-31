@@ -1,10 +1,13 @@
 ﻿# ---------- BUILD ----------
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /app
 
+WORKDIR /app
 COPY . .
-RUN dotnet restore
-RUN dotnet publish -c Release -o out
+
+WORKDIR /app/SaintHub
+
+RUN dotnet restore SaintHub.csproj
+RUN dotnet publish SaintHub.csproj -c Release -o /app/out
 
 # ---------- RUNTIME ----------
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
