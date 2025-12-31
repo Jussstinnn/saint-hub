@@ -219,7 +219,7 @@ body {
     align-items: center;
     justify-content: center;
     padding: .65rem 3.4rem;
-    padding-top; 10PX
+    padding-top: 10PX;
     border-radius: 10px;
     background: transparent;
     color: #f5c451;
@@ -976,4 +976,227 @@ input[type="number"] {
     gap: 1rem;
     justify-content: center;
     flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+
+    .container-saint {
+        padding: 1.5rem 1rem;
+    }
+
+    .hero {
+        padding: 2rem 1.5rem;
+    }
+
+        .hero h1 {
+            font-size: 2rem;
+        }
+}
+@media (max-width: 600px) {
+
+    .product-grid {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+    }
+
+    .product-img {
+        height: 200px;
+    }
+}
+@media (max-width: 900px) {
+
+    .product-details,
+    .product-details-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .product-main-img {
+        max-height: 420px;
+    }
+
+    .product-info h1 {
+        font-size: 1.7rem;
+    }
+}
+@media (max-width: 768px) {
+
+    .cart-item {
+        grid-template-columns: 1fr;
+        gap: .6rem;
+    }
+
+        .cart-item img {
+            width: 100%;
+            height: 220px;
+        }
+
+    .cart-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+@media (max-width: 900px) {
+
+    .checkout-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .checkout-item {
+        grid-template-columns: 1fr;
+        gap: .6rem;
+    }
+}
+@media (max-width: 768px) {
+
+    .table-saint th {
+        display: none;
+    }
+
+    .table-saint tr {
+        display: block;
+        margin-bottom: 1rem;
+        background: rgba(255,255,255,.03);
+        border-radius: 14px;
+        padding: .8rem;
+    }
+
+    .table-saint td {
+        display: flex;
+        justify-content: space-between;
+        border: none;
+        padding: .4rem 0;
+        font-size: .85rem;
+    }
+}
+@media (max-width: 900px) {
+
+    .admin-wrapper {
+        padding: 0 1rem;
+    }
+
+    .image-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .variant-row,
+    .variant-add-row,
+    .add-variant {
+        grid-template-columns: 1fr;
+    }
+}
+@media (max-width: 768px) {
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .success-card {
+        padding: 2rem 1.5rem;
+    }
+}
+@media (max-width: 600px) {
+
+    .btn-saint,
+    .btn-saint-outline,
+    .btn-whatsapp {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .nav-pill {
+        margin-left: 0;
+    }
+}
+.product-preview-img {
+    transition: opacity .25s ease;
+}
+
+    .product-preview-img.fade-out {
+        opacity: 0;
+    }
+.product-image {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+}
+
+    .product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: absolute;
+        inset: 0;
+        transform: translateX(0);
+        transition: transform .55s cubic-bezier(.4,0,.2,1);
+    }
+
+        /* Imagen que entra */
+        .product-image img.slide-in {
+            transform: translateX(100%);
+        }
+
+        /* Imagen que sale */
+        .product-image img.slide-out {
+            transform: translateX(-100%);
+        }
+.product-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+@media (max-width: 768px) {
+
+    .product-card {
+        gap: .8rem;
+    }
+
+    .product-image {
+        aspect-ratio: 4 / 3; /* ?? más natural en mobile */
+    }
+
+    .product-info {
+        padding-top: .3rem;
+    }
+
+        .product-info h3 {
+            font-size: .95rem;
+            line-height: 1.3;
+        }
+
+        .product-info .price {
+            font-size: .9rem;
+        }
+
+    .product-card .btn-saint {
+        padding: .55rem .8rem;
+        font-size: .85rem;
+    }
+}
+
+/* =========================
+   SEARCH – OVERRIDE DEFINITIVO
+========================= */
+@media (max-width: 1200px) {
+
+    .topbar .nav-left form.saint-search-form.desktop-search {
+        flex: 1 !important;
+        width: 100% !important;
+        max-width: none !important;
+        min-width: 0 !important;
+        display: flex !important;
+    }
+
+    .topbar .nav-left .saint-search-wrapper {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    .topbar .nav-left input.saint-search {
+        width: 100% !important;
+    }
 }

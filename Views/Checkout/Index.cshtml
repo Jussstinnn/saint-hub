@@ -1,47 +1,158 @@
 ﻿@model List<SaintHub.ViewModels.CartItemVM>
 
-<h1>Checkout</h1>
+@{
+    ViewData["Title"] = "Checkout";
+    var total = Model.Sum(x => x.SubtotalCrc);
+}
 
-<div class="checkout-grid">
+<div class="checkout-page">
 
-    <div class="checkout-items">
-        @foreach (var item in Model)
-        {
-            <div class="checkout-item">
-                <img src="@item.ImageUrl" />
-
-                <div>
-                    <strong>@item.ProductName</strong>
-                    <div>Talla: @item.Size</div>
-                    <div>Cantidad: @item.Quantity</div>
-                </div>
-
-                <div class="price">
-                    ₡ @item.PriceCrc.ToString("N0")
-
-                </div>
-            </div>
-        }
+    <div class="checkout-header">
+        <h1>Checkout</h1>
+        <p>Completá tus datos para finalizar la compra.</p>
     </div>
 
-    <div class="checkout-summary card-saint">
-        <h3>Resumen</h3>
-
-        <div class="row">
-            <span>Total</span>
-            <strong>
-                ₡ @(((int)ViewBag.Total).ToString("N0"))
-
-
-            </strong>
+    @if (TempData["Error"] != null)
+    {
+        <div class="checkout-alert">
+            @TempData["Error"]
         </div>
+    }
 
-        <form asp-action="Confirm" method="post">
-            <button class="btn-saint" style="width:100%;">
-                Confirmar pedido
-            </button>
+    @if (Model == null || !Model.Any())
+    {
+        <div class="card-saint" style="max-width:720px;">
+            <h3 style="margin-bottom:.5rem;">Tu carrito está vacío</h3>
+            <p style="color:var(--text-muted); margin:0 0 1rem;">
+                Agregá productos antes de continuar al checkout.
+            </p>
+
+            <a class="btn-saint" asp-controller="Home" asp-action="Index">
+                Ir a la tienda
+            </a>
+        </div>
+    }
+    else
+    {
+        <form asp-controller="Checkout"
+              asp-action="PreConfirm"
+              method="post"
+              class="checkout-layout">
+
+            @Html.AntiForgeryToken()
+
+
+            <!-- =========================
+                 IZQUIERDA
+            ========================= -->
+            <div class="checkout-left">
+
+                <!-- DATOS DE ENVÍO -->
+                <section class="checkout-card">
+                    <div class="checkout-card-head">
+                        <h3>Datos de envío</h3>
+                        <span class="pill">Obligatorio</span>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group span-2">
+                            <label>Nombre completo</label>
+                            <input name="FullName" class="input-saint"
+                                   placeholder="Nombre Completo" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Teléfono</label>
+                            <input name="Phone" class="input-saint"
+                                   placeholder="Ej: 7123 4567" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Correo electrónico</label>
+                            <input name="Email" type="email" class="input-saint"
+                                   placeholder="correo@gmail.com" required />
+                        </div>
+
+                        <div class="form-group span-2">
+                            <label>Dirección exacta</label>
+                            <textarea name="Address" class="input-saint"
+                                  rows="3"
+                                  placeholder="Provincia, cantón, distrito, barrio, referencias…"
+                                  required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Método de pago</label>
+                            <select name="PaymentMethod" class="select-saint" required>
+                                <option value="" disabled selected>Seleccionar…</option>
+                                <option value="SINPE Móvil">SINPE Móvil</option>
+                                <option value="Efectivo contra entrega">Efectivo contra entrega</option>
+                                <option value="Transferencia bancaria">Transferencia bancaria</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Notas (opcional)</label>
+                            <input name="Notes" class="input-saint"
+                                   placeholder="Ej: Llamar antes de entregar" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PRODUCTOS -->
+                <section class="checkout-card">
+                    <div class="checkout-card-head">
+                        <h3>Productos</h3>
+                        <span class="muted">@Model.Count ítem(s)</span>
+                    </div>
+
+                    <div class="checkout-items">
+                        @foreach (var item in Model)
+                        {
+                            <div class="checkout-item">
+                                <img src="@item.ImageUrl" alt="@item.ProductName" />
+
+                                <div class="item-info">
+                                    <strong class="item-title">@item.ProductName</strong>
+                                    <div class="item-meta">
+                                        <span>Talla: <b>@item.Size</b></span>
+                                        <span>Cantidad: <b>@item.Quantity</b></span>
+                                    </div>
+                                </div>
+
+                                <div class="item-price">
+                                    ₡ @item.SubtotalCrc.ToString("N0")
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- =========================
+                 DERECHA (RESUMEN)
+            ========================= -->
+
+            <aside class="checkout-summary">
+                <h3>Resumen</h3>
+
+                <div class="summary-row">
+                    <span>Total</span>
+                    <strong>₡ @total.ToString("N0")</strong>
+                </div>
+
+                <button type="submit" class="btn-saint checkout-cta">
+                    Confirmar pedido
+                </button>
+
+                <div class="summary-foot">
+                    Al confirmar aceptás nuestros términos y condiciones.
+                </div>
+            </aside>
+
+
         </form>
-    </div>
-
+    }
 </div>
 

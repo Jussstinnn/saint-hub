@@ -36,7 +36,7 @@ namespace SaintHub.Controllers
                 .FirstOrDefault(v => v.Id == variantId && v.IsActive);
 
             if (variant == null || variant.Stock <= 0)
-                return RedirectToAction("Index", "Shop");
+                return Json(new { success = false });
 
             var cart = HttpContext.Session.GetObject<List<CartItemVM>>(CART_KEY)
                        ?? new List<CartItemVM>();
@@ -50,25 +50,41 @@ namespace SaintHub.Controllers
             }
             else
             {
+                // =========================
+                // ?? IMAGEN SEGÚN COLOR
+                // =========================
+                var imageForColor = variant.Product.Images
+                    .FirstOrDefault(i =>
+                        !string.IsNullOrEmpty(i.Color) &&
+                        i.Color.ToLower() == variant.Color.ToLower()
+                    )
+                    ?? variant.Product.Images.FirstOrDefault(i => i.IsPrimary)
+                    ?? variant.Product.Images.FirstOrDefault();
+
                 cart.Add(new CartItemVM
                 {
                     ProductId = variant.ProductId,
                     VariantId = variant.Id,
                     ProductName = variant.Product.Name,
-                    ImageUrl = variant.Product.Images
-                        .FirstOrDefault(i => i.IsPrimary)?.Url
-                        ?? variant.Product.Images.FirstOrDefault()?.Url
-                        ?? "",
+
+                    // ? AQUÍ QUEDA LA IMAGEN CORRECTA
+                    ImageUrl = imageForColor?.Url ?? "",
+
                     Size = variant.Option,
                     Quantity = 1,
                     Stock = variant.Stock,
-                    PriceCrc = variant.Product.PriceCrc
+                    PriceCrc = variant.PriceCrc
                 });
             }
 
             HttpContext.Session.SetObject(CART_KEY, cart);
-            return RedirectToAction("Index");
+
+            var count = cart.Sum(x => x.Quantity);
+
+            return Json(new { success = true, count });
         }
+
+
 
         // ============================
         // AUMENTAR CANTIDAD
@@ -76,17 +92,22 @@ namespace SaintHub.Controllers
         [HttpPost]
         public IActionResult Increase(int variantId)
         {
-            var cart = HttpContext.Session.GetObject<List<CartItemVM>>(CART_KEY) ?? new();
+            var cart = HttpContext.Session.GetObject<List<CartItemVM>>(CART_KEY)
+                       ?? new List<CartItemVM>();
 
             var item = cart.FirstOrDefault(x => x.VariantId == variantId);
+
             if (item != null && item.Quantity < item.Stock)
             {
                 item.Quantity++;
+                HttpContext.Session.SetObject(CART_KEY, cart);
             }
 
-            HttpContext.Session.SetObject(CART_KEY, cart);
-            return RedirectToAction("Index");
+            var count = cart.Sum(x => x.Quantity);
+
+            return Json(new { count });
         }
+
 
         // ============================
         // DISMINUIR CANTIDAD
@@ -94,19 +115,26 @@ namespace SaintHub.Controllers
         [HttpPost]
         public IActionResult Decrease(int variantId)
         {
-            var cart = HttpContext.Session.GetObject<List<CartItemVM>>(CART_KEY) ?? new();
+            var cart = HttpContext.Session.GetObject<List<CartItemVM>>(CART_KEY)
+                       ?? new List<CartItemVM>();
 
             var item = cart.FirstOrDefault(x => x.VariantId == variantId);
+
             if (item != null)
             {
                 item.Quantity--;
+
                 if (item.Quantity <= 0)
                     cart.Remove(item);
+
+                HttpContext.Session.SetObject(CART_KEY, cart);
             }
 
-            HttpContext.Session.SetObject(CART_KEY, cart);
-            return RedirectToAction("Index");
+            var count = cart.Sum(x => x.Quantity);
+
+            return Json(new { count });
         }
+
 
         // ============================
         // QUITAR ITEM

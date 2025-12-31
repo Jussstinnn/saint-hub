@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SaintHub")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+95cf0badcac07a906d3277d3ef57bf3104efbdc2")]
 [assembly: System.Reflection.AssemblyProductAttribute("SaintHub")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SaintHub")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

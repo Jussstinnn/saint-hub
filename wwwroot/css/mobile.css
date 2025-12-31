@@ -1,0 +1,340 @@
+﻿/* =========================
+   MOBILE ONLY – SAINT HUB
+========================= */
+@media (max-width: 768px) {
+
+    /* HEADER */
+    .saint-header {
+        position: sticky;
+        top: 0;
+        z-index: 3000;
+        background: radial-gradient(120% 120% at 0% 0%, #121212, #050505);
+    }
+
+    .saint-topbar {
+        height: 64px;
+        display: grid;
+        grid-template-columns: 44px 1fr 44px;
+        align-items: center;
+        padding: 0 12px;
+    }
+
+    /* HAMBURGER */
+    .nav-hamburger {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+
+        .nav-hamburger span {
+            width: 22px;
+            height: 2px;
+            background: #fff;
+            border-radius: 2px;
+        }
+
+    /* LOGO PERFECTAMENTE CENTRADO */
+    .saint-logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+        .saint-logo img {
+            height: 30px;
+        }
+
+    /* CART */
+    .nav-cart {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        font-size: 1.3rem;
+        color: var(--accent);
+        position: relative;
+    }
+
+    .cart-count {
+        position: absolute;
+        top: -4px;
+        right: -6px;
+        width: 16px;
+        height: 16px;
+        background: var(--accent);
+        color: #000;
+        font-size: .65rem;
+        font-weight: 700;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* MOBILE MENU */
+    .mobile-menu {
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(180deg, #0e0e0e, #050505);
+        z-index: 4000;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.4rem;
+        transform: translateX(-100%);
+        transition: transform .35s cubic-bezier(.4,0,.2,1);
+    }
+
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+
+    .mobile-menu-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: .9rem;
+        opacity: .7;
+    }
+
+    .mobile-menu a {
+        font-size: 1.05rem;
+        letter-spacing: .15em;
+        text-transform: uppercase;
+        color: #fff;
+        text-decoration: none;
+        padding: .6rem 0;
+        border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    /* HERO OFFSET */
+    .home-hero {
+        padding-top: 64px;
+    }
+
+    /* DESACTIVAR DESKTOP */
+    .nav-left,
+    .top-right,
+    .saint-social,
+    .saint-categories {
+        display: none !important;
+    }
+
+}
+/* =========================
+   HERO – MOBILE SIZE TWEAK
+========================= */
+@media (max-width: 768px) {
+
+    .home-hero-content h1 {
+        font-size: clamp(2.6rem, 9vw, 3.2rem); /* ?? antes ~2.2–2.6 */
+        letter-spacing: 0.32em;
+        margin-bottom: .6rem;
+    }
+
+    .home-hero-content p {
+        font-size: .95rem;
+        letter-spacing: .14em;
+        margin-bottom: 1.4rem;
+        opacity: .85;
+    }
+
+    .home-hero-content .btn-saint {
+        width: 90%;
+        max-width: 340px;
+        height: 52px; /* ?? más touch friendly */
+        font-size: .95rem;
+        border-radius: 999px;
+    }
+}
+@media (max-width: 768px) {
+    .home-hero-content {
+        transform: translateY(-6px);
+    }
+}
+/* =========================
+   NAVBAR – RESPONSIVE VISIBILITY FIX
+========================= */
+
+/* --- Desktop --- */
+@media (min-width: 769px) {
+
+    /* Ocultar elementos mobile */
+    .nav-hamburger {
+        display: none !important;
+    }
+
+    .nav-cart {
+        display: none !important;
+    }
+}
+
+/* --- Mobile --- */
+@media (max-width: 768px) {
+
+    /* Ocultar elementos desktop */
+    .nav-left,
+    .top-right,
+    .saint-categories {
+        display: none !important;
+    }
+
+    /* Asegurar layout mobile */
+    .saint-topbar {
+        display: grid;
+        grid-template-columns: 44px 1fr 44px;
+        align-items: center;
+        height: 64px;
+        padding: 0 0.8rem;
+    }
+
+    .saint-logo {
+        justify-self: center;
+    }
+
+    .nav-cart {
+        justify-self: end;
+    }
+
+    .nav-hamburger {
+        justify-self: start;
+        display: flex;
+    }
+}
+
+/* =====================================================
+   SEARCH VISIBILITY RESET (BASE)
+===================================================== */
+
+/* Mobile search oculto por defecto */
+.mobile-search {
+    display: none;
+}
+
+/* Desktop search visible por defecto */
+.desktop-search {
+    display: block;
+}
+
+/* =====================================================
+   MOBILE / TABLET (≤ 991.98px)
+===================================================== */
+@media (max-width: 991.98px) {
+
+    /* ❌ Ocultar search desktop */
+    .desktop-search {
+        display: none !important;
+    }
+
+    /* ✅ Mostrar search mobile */
+    .mobile-search {
+        display: flex !important;
+        position: sticky;
+        top: 64px; /* debajo del header */
+        z-index: 3000;
+        width: 100%;
+        height: 64px;
+        align-items: center;
+        padding: 0 1rem;
+        background: linear-gradient(180deg, #0f0f0f, #0b0b0b);
+        box-sizing: border-box;
+    }
+
+        /* Input mobile */
+        .mobile-search .saint-search {
+            flex: 1; /* 🔑 CLAVE */
+            height: 44px;
+            padding: 0 1rem 0 3rem;
+            border-radius: 999px;
+            background: rgba(255,255,255,.08);
+            border: 1px solid rgba(255,255,255,.15);
+            color: #fff;
+            font-size: .95rem;
+            outline: none;
+        }
+
+            .mobile-search .saint-search::placeholder {
+                color: rgba(255,255,255,.55);
+            }
+
+        /* Icono lupa */
+        .mobile-search .search-icon {
+            position: absolute;
+            left: 1.8rem;
+            font-size: 1rem;
+            color: rgba(255,255,255,.6);
+            pointer-events: none;
+        }
+}
+
+/* =====================================================
+   DESKTOP (≥ 992px)
+===================================================== */
+@media (min-width: 992px) {
+
+    /* ❌ Nunca mostrar mobile search */
+    .mobile-search {
+        display: none !important;
+    }
+
+    /* ✅ Asegurar desktop search */
+    .desktop-search {
+        display: block;
+    }
+}
+
+/* =========================
+   MOBILE SEARCH – FIX REAL
+========================= */
+@media (max-width: 768px) {
+
+    .mobile-search {
+        display: flex;
+        position: sticky;
+        top: 64px;
+        z-index: 3000;
+        width: 100%;
+        height: 64px;
+        padding: 0 1rem;
+        align-items: center;
+        background: linear-gradient(180deg, #0f0f0f, #0b0b0b);
+    }
+
+    .mobile-search-input {
+        display: block !important; /* 🔥 */
+        width: 100%;
+        height: 44px;
+        padding: 0 1rem 0 3rem;
+        border-radius: 999px;
+        background: rgba(255,255,255,.08);
+        border: 1px solid rgba(255,255,255,.15);
+        color: #fff;
+        font-size: .95rem;
+    }
+
+    .mobile-search .search-icon {
+        position: absolute;
+        left: 1.8rem;
+        color: rgba(255,255,255,.6);
+        pointer-events: none;
+    }
+}
+
+/* =========================
+   HIDE SEARCH WHEN MENU IS OPEN
+========================= */
+@media (max-width: 768px) {
+
+    .mobile-menu.open ~ .mobile-search {
+        display: none !important;
+    }
+}
+.mobile-search {
+    z-index: 2000; /* menor que el menú */
+}
+
+.mobile-menu {
+    z-index: 5000; /* siempre arriba */
+}

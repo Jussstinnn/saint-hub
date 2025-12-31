@@ -1,0 +1,215 @@
+:root {
+    --accent: #f5c451;
+}
+
+/* WRAPPER */
+.orders-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem 5rem;
+}
+
+/* HEADER */
+.orders-header {
+    margin-bottom: 3rem;
+}
+
+    .orders-header h1 {
+        font-size: 2.6rem;
+        font-weight: 800;
+    }
+
+.orders-count {
+    display: block;
+    margin-top: .4rem;
+    font-size: .85rem;
+    opacity: .5;
+}
+
+/* CARD */
+.orders-card {
+    background: radial-gradient(120% 120% at 0% 0%, #121212 0%, #070707 65%);
+    border-radius: 26px;
+    padding: 2rem;
+    box-shadow: 0 40px 80px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+/* TABLE HEAD */
+.orders-table-head {
+    display: grid;
+    grid-template-columns: .7fr 2fr 1fr 1fr 1fr 140px;
+    gap: 1rem;
+    padding: .8rem 1rem;
+    font-size: .7rem;
+    opacity: .6;
+    text-transform: uppercase;
+}
+
+/* ROW */
+.orders-row {
+    display: grid;
+    grid-template-columns: .7fr 2fr 1fr 1fr 1fr 140px;
+    gap: 1rem;
+    align-items: center;
+    padding: 1.2rem 1rem;
+    border-radius: 18px;
+    background: rgba(255,255,255,.03);
+    margin-top: .6rem;
+    transition: .25s;
+}
+
+    .orders-row:hover {
+        background: rgba(255,255,255,.06);
+    }
+
+/* CELLS */
+.order-id {
+    font-weight: 700;
+}
+
+.order-client strong {
+    display: block;
+    font-size: .95rem;
+}
+
+.order-client span {
+    font-size: .75rem;
+    opacity: .6;
+}
+
+.order-total {
+    font-weight: 700;
+}
+
+/* STATUS */
+.order-status {
+    padding: .35rem .9rem;
+    border-radius: 999px;
+    font-size: .7rem;
+    font-weight: 700;
+    width: fit-content;
+}
+
+.status-pendiente {
+    background: rgba(255,255,255,.08);
+    color: #ccc;
+}
+
+.status-pagado {
+    background: rgba(245,196,81,.18);
+    color: var(--accent);
+}
+
+.status-enviado {
+    background: rgba(120,200,255,.18);
+    color: #78c8ff;
+}
+
+.status-cancelado {
+    background: rgba(255,120,120,.18);
+    color: #ff7878;
+}
+
+/* BUTTON */
+.btn-view {
+    background: #111;
+    color: #fff;
+    border-radius: 999px;
+    padding: .6rem 1.4rem;
+    font-size: .75rem;
+    font-weight: 700;
+    text-decoration: none;
+    text-align: center;
+    transition: .25s;
+}
+
+    .btn-view:hover {
+        background: #1a1a1a;
+    }
+
+@media (max-width: 768px) {
+
+    .orders-wrapper {
+        padding: 2rem 1rem 3.5rem;
+    }
+
+    .orders-header {
+        margin-bottom: 2rem;
+    }
+
+        .orders-header h1 {
+            font-size: 2.1rem;
+        }
+}
+
+@media (max-width: 600px) {
+
+    .orders-card {
+        padding: 1.6rem 1.2rem;
+        border-radius: 22px;
+    }
+}
+@media (max-width: 768px) {
+
+    .orders-table-head {
+        display: none;
+    }
+}
+@media (max-width: 768px) {
+
+    .orders-row {
+        grid-template-columns: 1fr;
+        gap: .6rem;
+        padding: 1.2rem;
+    }
+}
+@media (max-width: 768px) {
+
+    .order-id {
+        order: 1;
+        font-size: .9rem;
+        opacity: .7;
+    }
+
+    .order-client {
+        order: 2;
+    }
+
+    .order-total {
+        order: 3;
+        font-size: 1rem;
+    }
+
+    .order-status {
+        order: 4;
+        margin-top: .2rem;
+    }
+
+    .btn-view {
+        order: 5;
+        margin-top: .6rem;
+        width: 100%;
+    }
+}
+@media (max-width: 480px) {
+
+    .order-client strong {
+        font-size: .9rem;
+    }
+
+    .order-client span {
+        font-size: .7rem;
+    }
+
+    .btn-view {
+        padding: .8rem 0;
+        font-size: .8rem;
+    }
+}
+@media (max-width: 480px) {
+
+    .order-status {
+        font-size: .65rem;
+        padding: .45rem 1rem;
+    }
+}

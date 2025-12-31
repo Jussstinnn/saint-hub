@@ -1,27 +1,113 @@
 ﻿@model SaintHub.Models.Order
 @{
-    var items = ViewBag.Items as List<SaintHub.Models.OrderItem>;
+    var statusSteps = new[]
+    {
+        "Pendiente",
+        "En proceso",
+        "Enviado",
+        "En entrega",
+        "Entregado"
+    };
+
+    var currentIndex = Array.IndexOf(statusSteps, Model.Status);
 }
 
-<h1>Pedido #@Model.Id</h1>
+@{
+    ViewData["Title"] = $"Pedido #{Model.Id}";
+}
 
-<div class="product-details" style="margin-top:1rem;">
-    <div class="card-saint">
-        <h3>Resumen</h3>
-        @foreach (var i in items)
-        {
-            <p>@i.ProductName × @i.Quantity — ₡ @i.SubtotalCrc.ToString("N0")</p>
+@section Styles {
+    <link rel="stylesheet" href="~/css/Account.css" asp-append-version="true" />
+}
 
+
+
+<div class="account-wrapper">
+
+    <div class="account-card order-desktop-wide">
+
+
+
+        <!-- HEADER -->
+        @{
+            var fechaPedido = Model.CreatedAt
+            .ToLocalTime()
+            .ToString("dd/MM/yyyy · HH:mm");
         }
-        <hr />
-        <h2>Total: ₡ @Model.TotalCrc.ToString("N0")</h2>
+
+        <div class="account-head">
+            <h1>Pedido #@Model.Id</h1>
+            <p>Realizado el @fechaPedido</p>
+        </div>
+
+
+        <div class="order-timeline">
+
+            @for (int i = 0; i < statusSteps.Length; i++)
+            {
+                var step = statusSteps[i];
+                var isActive = i <= currentIndex;
+
+                <div class="timeline-step @(isActive ? "active" : "")">
+                    <span class="dot"></span>
+                    <span class="label">@step</span>
+                </div>
+
+                @if (i < statusSteps.Length - 1)
+                {
+                    <div class="timeline-line @(isActive ? "active" : "")"></div>
+                }
+            }
+
+        </div>
+
+        <!-- STATUS -->
+        <p class="order-current-status">
+            Estado actual: <strong>@Model.Status</strong>
+        </p>
+        <div class="order-status-client status-@Model.Status.ToLower()">
+            @Model.Status
+        </div>
+
+        <!-- ITEMS -->
+        <div class="order-items">
+
+            @foreach (var i in Model.Items)
+            {
+                <div class="order-item-row">
+                    <div class="item-info">
+                        <strong>@i.ProductName</strong>
+                        <span>Cantidad: @i.Quantity</span>
+                    </div>
+
+                    <div class="item-price">
+                        ₡ @i.SubtotalCrc.ToString("N0")
+                    </div>
+                </div>
+            }
+
+        </div>
+
+        <!-- SUMMARY -->
+        <div class="order-summary-client">
+            <span>Total</span>
+            <strong>₡ @Model.TotalCrc.ToString("N0")</strong>
+        </div>
+
+        <!-- DELIVERY -->
+        <div class="order-delivery">
+            <span>Dirección de entrega</span>
+            <p>@Model.Address</p>
+        </div>
+
+        <!-- ACTION -->
+        <div class="account-actions">
+            <a class="btn-account-outline"
+               asp-action="MyOrders">
+                Volver a mis pedidos
+            </a>
+        </div>
+
     </div>
 
-    <div class="card-saint">
-        <h3>Estado</h3>
-        <p><strong>@Model.Status</strong></p>
-
-        <h3 style="margin-top:1rem;">Entrega</h3>
-        <p>@Model.Address</p>
-    </div>
 </div>

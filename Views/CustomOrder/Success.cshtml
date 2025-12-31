@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Solicitud enviada";
+    ViewData["Title"] = "Pedido confirmado";
 }
 
 <section class="custom-success">
@@ -8,35 +8,42 @@
 
         <div class="success-icon">✓</div>
 
-        <h1>Solicitud enviada</h1>
+        <h1>Pedido confirmado</h1>
 
         <p class="success-text">
-            Recibimos tu pedido personalizado correctamente.
-            Nuestro equipo revisará la información y se pondrá en contacto con vos
-            para confirmar disponibilidad y cotización.
+            Tu pedido fue recibido correctamente.
+            Estamos procesándolo y te notificaremos cualquier actualización.
         </p>
 
         <div class="success-info">
+            <p>
+                <strong>Número de pedido:</strong>
+                <span>#@ViewBag.OrderId</span>
+            </p>
+
             <p><strong>¿Qué sigue ahora?</strong></p>
             <ul>
-                <li>Revisamos tu solicitud</li>
-                <li>Verificamos disponibilidad</li>
-                <li>Te contactamos por WhatsApp o correo</li>
+                <li>Procesamos tu pedido</li>
+                <li>Verificamos el pago y el stock</li>
+                <li>Coordinamos la entrega</li>
             </ul>
         </div>
 
         <div class="success-actions">
-            <a asp-controller="Shop" asp-action="Index" class="btn-saint">
-                Volver a la tienda
+            <a asp-controller="Account"
+               asp-action="OrderDetails"
+               asp-route-id="@ViewBag.OrderId"
+               class="btn-saint">
+                Ver detalle del pedido
             </a>
 
-            <a asp-controller="Home" asp-action="Index" class="btn-saint-outline">
-                Ir al inicio
+            <a asp-controller="Shop"
+               asp-action="Index"
+               class="btn-saint-outline">
+                Seguir comprando
             </a>
         </div>
 
     </div>
 
 </section>
-
-

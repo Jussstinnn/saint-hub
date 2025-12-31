@@ -1,69 +1,152 @@
 ﻿@model SaintHub.Models.Order
-@{
-    Layout = "_Layout";
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/order-details.css" asp-append-version="true" />
 }
 
-<h1>Pedido #@Model.Id</h1>
+<div class="order-wrapper">
 
-<div class="card-saint" style="margin-bottom:1.5rem;">
-    <p><strong>Cliente:</strong> @Model.Email</p>
-    <p><strong>Fecha:</strong> @Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</p>
-    <p><strong>Total:</strong> ₡ @Model.TotalCrc.ToString("N0")</p>
-    <p><strong>Estado actual:</strong> @Model.Status</p>
-</div>
+    <!-- HEADER -->
+    <div class="order-header">
+        <div>
+            <h1>Pedido #@Model.Id</h1>
+            <span class="order-date">
+                @Model.CreatedAt.ToString("dd/MM/yyyy · HH:mm")
+            </span>
+        </div>
 
-<h2>Productos</h2>
+        <span class="order-status status-@Model.Status.ToLower()">
+            @Model.Status
+        </span>
+    </div>
 
-<table class="table-saint">
-    <thead>
-        <tr>
-            <th>Producto</th>
-            <th>Opción</th>
-            <th>Cantidad</th>
-            <th>Subtotal</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var i in Model.Items)
-        {
-            <tr>
-                <td>@i.ProductName</td>
-                <td>@i.Option</td>
+    <!-- DATOS DE ENVÍO -->
+    <section class="order-card">
+        <h2>Datos de envío</h2>
 
-                <td>@i.Quantity</td>
-                <td>₡ @i.SubtotalCrc.ToString("N0")</td>
-            </tr>
+        <div class="shipping-grid">
+
+            <div class="shipping-block span-2">
+                <span>Cliente</span>
+                <strong>@Model.FullName</strong>
+            </div>
+
+            <div class="shipping-block">
+                <span>Teléfono</span>
+                <strong>@Model.Phone</strong>
+            </div>
+
+            <div class="shipping-block">
+                <span>Correo electrónico</span>
+                <strong>@Model.Email</strong>
+            </div>
+
+            <div class="shipping-block span-2">
+                <span>Dirección exacta</span>
+                <strong>@Model.Address</strong>
+            </div>
+
+            <div class="shipping-block">
+                <span>Método de pago</span>
+                <strong>@Model.PaymentMethod</strong>
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Notes))
+            {
+                <div class="shipping-block span-2">
+                    <span>Notas del cliente</span>
+                    <strong>@Model.Notes</strong>
+                </div>
+            }
+
+        </div>
+    </section>
+
+    <!-- PRODUCTOS -->
+    <section class="order-card">
+        <h2>Productos</h2>
+
+        <div class="order-table">
+            <div class="order-table-head">
+                <span>Producto</span>
+                <span>Opción</span>
+                <span>Cantidad</span>
+                <span>Subtotal</span>
+            </div>
+
+            @foreach (var i in Model.Items)
+            {
+                <div class="order-table-row">
+                    <span>@i.ProductName</span>
+                    <span>@i.Option</span>
+                    <span>@i.Quantity</span>
+                    <span>₡ @i.SubtotalCrc.ToString("N0")</span>
+                </div>
+            }
+        </div>
+    </section>
+
+    <!-- RESUMEN -->
+    <section class="order-card">
+        <h2>Resumen</h2>
+
+        <div class="order-summary">
+            <div>
+                <span>Total del pedido</span>
+                <strong>₡ @Model.TotalCrc.ToString("N0")</strong>
+            </div>
+        </div>
+    </section>
+
+    <!-- CAMBIAR ESTADO -->
+    <section class="order-card">
+        <h2>Actualizar estado del pedido</h2>
+
+        @{
+            var statusSteps = new[]
+            {
+                "Pendiente",
+                "En proceso",
+                "Enviado",
+                "En entrega",
+                "Entregado"
+                };
+
+            var currentIndex = Array.IndexOf(statusSteps, Model.Status);
         }
-    </tbody>
-</table>
 
-<h2 style="margin-top:2rem;">Cambiar estado</h2>
+        <div class="order-status-timeline">
 
-<div style="display:flex; gap:.6rem; flex-wrap:wrap;">
-    <form asp-action="UpdateStatus" method="post">
-        <input type="hidden" name="id" value="@Model.Id" />
-        <input type="hidden" name="status" value="Pendiente" />
-        <button class="btn-saint">Pendiente</button>
-    </form>
+            @for (int i = 0; i < statusSteps.Length; i++)
+            {
+                var step = statusSteps[i];
+                var isActive = i <= currentIndex;
 
-    <form asp-action="UpdateStatus" method="post">
-        <input type="hidden" name="id" value="@Model.Id" />
-        <input type="hidden" name="status" value="Pagado" />
-        <button class="btn-saint">Pagado</button>
-    </form>
+                <form asp-action="UpdateStatus" method="post" class="timeline-form">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <input type="hidden" name="status" value="@step" />
 
-    <form asp-action="UpdateStatus" method="post">
-        <input type="hidden" name="id" value="@Model.Id" />
-        <input type="hidden" name="status" value="Enviado" />
-        <button class="btn-saint">Enviado</button>
-    </form>
+                    <button type="submit"
+                            class="timeline-step @(isActive ? "active" : "")">
 
-    <form asp-action="UpdateStatus" method="post">
-        <input type="hidden" name="id" value="@Model.Id" />
-        <input type="hidden" name="status" value="Cancelado" />
-        <button class="btn-danger">Cancelado</button>
-    </form>
+                        <span class="dot"></span>
+                        <span class="label">@step</span>
+
+                    </button>
+                </form>
+
+                @if (i < statusSteps.Length - 1)
+                {
+                    <div class="timeline-line @(isActive ? "active" : "")"></div>
+                }
+            }
+
+        </div>
+    </section>
+
+
 </div>
+
 
 
 

@@ -143,3 +143,161 @@
     padding: 0.35rem 0.8rem;
     font-size: 0.75rem;
 }
+/* =========================
+   ADMIN MODE
+========================= */
+
+body.admin-mode {
+    background: radial-gradient(circle at top, #111, #000);
+    margin: 0;
+}
+
+/* Grid principal */
+.admin-shell {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.admin-sidebar {
+    background: linear-gradient(180deg, #0e0e0e, #050505);
+    border-right: 1px solid rgba(255,255,255,.06);
+    padding: 2rem 1.4rem;
+}
+
+/* Logo */
+.admin-logo img {
+    width: 140px;
+    margin-bottom: 3rem;
+}
+
+/* Nav */
+.admin-nav a {
+    display: block;
+    padding: .75rem 1rem;
+    border-radius: 14px;
+    margin-bottom: .4rem;
+    color: rgba(255,255,255,.6);
+    text-decoration: none;
+    transition: all .25s ease;
+}
+
+    .admin-nav a:hover {
+        background: rgba(255,255,255,.04);
+        color: #fff;
+    }
+
+    .admin-nav a.active {
+        background: linear-gradient( 135deg, rgba(245,196,81,.25), rgba(245,196,81,.08) );
+        color: var(--accent);
+        font-weight: 600;
+    }
+
+/* Contenido admin */
+.admin-content {
+    padding: 3rem 4rem;
+}
+
+/* =========================
+   ADMIN – MOBILE LAYOUT
+========================= */
+@media (max-width: 900px) {
+
+    .admin-shell {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-sidebar {
+        padding: 1.2rem 1rem;
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+    .admin-logo img {
+        width: 120px;
+        margin-bottom: 1.5rem;
+    }
+
+    .admin-nav {
+        display: flex;
+        gap: .4rem;
+        overflow-x: auto;
+        padding-bottom: .4rem;
+    }
+
+        .admin-nav a {
+            white-space: nowrap;
+            margin-bottom: 0;
+            padding: .6rem .9rem;
+            font-size: .85rem;
+        }
+
+    .admin-content {
+        padding: 2rem 1.2rem;
+    }
+}
+@media (max-width: 600px) {
+
+    .status-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .status-item {
+        padding: .9rem;
+    }
+
+    .status-count {
+        font-size: 1.2rem;
+    }
+}
+@media (max-width: 700px) {
+
+    .admin-grid {
+        grid-template-columns: 1fr;
+        gap: 1.4rem;
+        margin-top: 2rem;
+    }
+
+    .admin-module {
+        padding: 1.5rem;
+    }
+
+    .admin-metric {
+        font-size: 2.2rem;
+    }
+}
+@media (max-width: 700px) {
+
+    .admin-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+        .admin-table td,
+        .admin-table th {
+            font-size: .8rem;
+            padding: .6rem;
+        }
+
+    .btn-sm {
+        padding: .3rem .6rem;
+        font-size: .7rem;
+    }
+}
+@media (max-width: 480px) {
+
+    .kpi-card h2 {
+        font-size: 1.6rem;
+    }
+
+    .admin-description {
+        font-size: .85rem;
+    }
+
+    .badge-status,
+    .status-pill {
+        font-size: .7rem;
+    }
+}

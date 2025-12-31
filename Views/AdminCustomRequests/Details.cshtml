@@ -1,52 +1,109 @@
 ﻿@model SaintHub.Models.CustomRequest
 
-<h1>Pedido personalizado</h1>
+@section Styles {
+    <link rel="stylesheet" href="~/css/custom-request-details.css" asp-append-version="true" />
+}
 
-<div class="card-saint">
+<div class="custom-detail-wrapper">
 
-    <h3>Cliente</h3>
-    <p><strong>@Model.FullName</strong></p>
-    <p>@Model.Email</p>
-    <p>@Model.Phone</p>
+    <!-- HEADER -->
+    <div class="custom-detail-header">
+        <div>
+            <h1>Pedido personalizado</h1>
+            <span class="custom-id">Solicitud #@Model.Id</span>
+        </div>
 
-    <hr />
+        <span class="custom-status status-@Model.Status.ToLower().Replace(" ", "_")">
+            @Model.Status
+        </span>
+    </div>
 
-    <h3>Solicitud</h3>
-    <p><strong>Tipo:</strong> @Model.RequestType</p>
-    <p><strong>Marca:</strong> @Model.Brand</p>
-    <p><strong>Modelo:</strong> @Model.Model</p>
-    <p><strong>Talla:</strong> @Model.Size</p>
-    <p><strong>Detalles:</strong></p>
-    <p>@Model.Description</p>
+    <!-- CLIENTE -->
+    <section class="custom-card">
+        <h2>Cliente</h2>
 
-    <hr />
+        <div class="custom-grid">
+            <div>
+                <span>Nombre</span>
+                <strong>@Model.FullName</strong>
+            </div>
 
-    <h3>Estado</h3>
-    <form asp-action="UpdateStatus" method="post">
-        <input type="hidden" name="id" value="@Model.Id" />
+            <div>
+                <span>Email</span>
+                <strong>@Model.Email</strong>
+            </div>
 
-        <select name="status" class="select-saint">
-            <option selected>@Model.Status</option>
-            <option>Nuevo</option>
-            <option>En proceso</option>
-            <option>Cotizado</option>
-            <option>Cerrado</option>
-        </select>
+            <div>
+                <span>Teléfono</span>
+                <strong>@Model.Phone</strong>
+            </div>
+        </div>
+    </section>
 
-        <button type="submit" class="btn-saint">
-            Actualizar estado
-        </button>
-    </form>
+    <!-- SOLICITUD -->
+    <section class="custom-card">
+        <h2>Solicitud</h2>
 
-    <hr />
+        <div class="custom-grid">
 
-    <a class="btn-whatsapp"
-       target="_blank"
-       href="https://wa.me/@Model.Phone">
-        Contactar por WhatsApp
-    </a>
+            <div>
+                <span>Tipo</span>
+                <strong>@Model.RequestType</strong>
+            </div>
+
+            <div>
+                <span>Marca</span>
+                <strong>@Model.Brand</strong>
+            </div>
+
+            <div>
+                <span>Modelo</span>
+                <strong>@Model.Model</strong>
+            </div>
+
+            <div>
+                <span>Talla</span>
+                <strong>@Model.Size</strong>
+            </div>
+
+            <div class="span-2">
+                <span>Detalles del cliente</span>
+                <strong>@Model.Description</strong>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ESTADO -->
+    <section class="custom-card">
+        <h2>Estado del pedido</h2>
+
+        <form asp-action="UpdateStatus" method="post" class="status-form">
+            <input type="hidden" name="id" value="@Model.Id" />
+
+            <select name="status" class="select-premium">
+                <option selected>@Model.Status</option>
+                <option>Nuevo</option>
+                <option>En proceso</option>
+                <option>Cotizado</option>
+                <option>Cerrado</option>
+            </select>
+
+            <button type="submit" class="btn-primary">
+                Actualizar estado
+            </button>
+        </form>
+    </section>
+
+    <!-- CONTACTO -->
+    <section class="custom-card contact-card">
+        <h2>Contacto rápido</h2>
+
+        <a class="btn-whatsapp"
+           target="_blank"
+           href="https://wa.me/@Model.Phone">
+            Contactar por WhatsApp
+        </a>
+    </section>
 
 </div>
-
-
-

@@ -1,46 +1,81 @@
 ﻿@model List<SaintHub.Models.Order>
 
-<h1>Mis pedidos</h1>
-
-@if (!Model.Any())
-{
-    <div class="card-saint" style="margin-top:1rem;">
-        <p style="color:var(--text-muted);">Aún no tenés pedidos.</p>
-        <a class="btn-saint" asp-controller="Shop" asp-action="Index">Ir a Shop</a>
-    </div>
+@{
+    ViewData["Title"] = "Mis pedidos";
 }
-else
-{
-    <div class="card-saint" style="margin-top:1rem;">
-        <table class="table-saint">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Fecha</th>
-                    <th>Total</th>
-                    <th>Estado</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Account.css" asp-append-version="true" />
+}
+
+<div class="account-wrapper">
+    <div class="account-card orders-card">
+
+        <!-- HEADER -->
+        <div class="account-head">
+            <h1>Mis pedidos</h1>
+            <p>Revisá el estado y detalle de tus compras en Saint Hub</p>
+        </div>
+        <a class="dashboard-back"
+           asp-controller="Account"
+           asp-action="Dashboard">
+            ← Volver al dashboard
+        </a>
+
+        @if (!Model.Any())
+        {
+            <!-- EMPTY STATE -->
+            <div class="orders-empty">
+                <p>Aún no tenés pedidos realizados.</p>
+
+                <a class="dashboard-cta primary"
+                   asp-controller="Home"
+                   asp-action="Index">
+                    🛍️ Ir a la tienda
+                </a>
+            </div>
+        }
+        else
+        {
+            <!-- ORDERS GRID -->
+            <div class="orders-grid">
+
                 @foreach (var o in Model)
                 {
-                    <tr>
-                        <td>#@o.Id</td>
-                        <td>@o.CreatedAt.ToLocalTime().ToString("dd/MM/yyyy")</td>
-                        <td>₡ @o.TotalCrc.ToString("N0")</td>
-                        <td>@o.Status</td>
-                        <td>
-                            <a class="btn-saint-outline"
-                               asp-action="OrderDetails"
-                               asp-route-id="@o.Id">
-                                Ver
-                            </a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-}
+                    <div class="order-card-item">
 
+                        <!-- TOP -->
+                        <div class="order-card-head">
+                            <div>
+                                <strong>Pedido #@o.Id</strong>
+                                <span class="order-date">
+                                    @o.CreatedAt.ToLocalTime().ToString("dd/MM/yyyy · HH:mm")
+                                </span>
+                            </div>
+
+                            <span class="order-status status-@o.Status.ToLower()">
+                                @o.Status
+                            </span>
+                        </div>
+
+                        <!-- META -->
+                        <div class="order-card-meta">
+                            <span>Total</span>
+                            <strong>₡ @o.TotalCrc.ToString("N0")</strong>
+                        </div>
+
+                        <!-- ACTION -->
+                        <a class="dashboard-cta outline"
+                           asp-action="OrderDetails"
+                           asp-route-id="@o.Id">
+                            Ver detalle
+                        </a>
+
+                    </div>
+                }
+
+            </div>
+        }
+
+    </div>
+</div>

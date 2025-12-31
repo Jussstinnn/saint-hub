@@ -1,0 +1,118 @@
+﻿@model SaintHub.ViewModels.AccountDashboardVM
+
+@{
+    ViewData["Title"] = "Mi cuenta";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Account.css" asp-append-version="true" />
+}
+
+<div class="account-wrapper">
+    <div class="account-card account-dashboard">
+
+        <!-- HEADER -->
+        <div class="account-head">
+            <h1>Hola, @Model.FullName 👋</h1>
+            <p>Este es el resumen de tu actividad en Saint Hub</p>
+        </div>
+
+        <!-- STATS -->
+        <div class="dashboard-stats">
+
+            <div class="stat-card">
+                <span>Pedidos realizados</span>
+                <strong>@Model.TotalOrders</strong>
+            </div>
+
+            <div class="stat-card">
+                <span>Total gastado</span>
+                <strong>₡ @Model.TotalSpentCrc.ToString("N0")</strong>
+            </div>
+
+        </div>
+
+        <!-- LAST ORDER -->
+        @if (Model.LastOrderId != null)
+        {
+            <div class="dashboard-last-order">
+                <span>Último pedido</span>
+
+                <div class="last-order-box">
+                    <div>
+                        <strong>Pedido #@Model.LastOrderId</strong>
+                        @{
+                            var lastOrderDate = Model.LastOrderDate != null
+                            ? Model.LastOrderDate.Value.ToLocalTime().ToString("dd/MM/yyyy · HH:mm")
+                            : "";
+                        }
+
+                        <p>@lastOrderDate</p>
+
+
+                    </div>
+
+                    <span class="order-status status-@Model.LastOrderStatus!.ToLower()">
+                        @Model.LastOrderStatus
+                    </span>
+                </div>
+
+                <a class="btn-account-outline"
+                   asp-action="OrderDetails"
+                   asp-route-id="@Model.LastOrderId">
+                    Ver detalle
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="account-empty">
+                <p>Aún no tenés pedidos realizados.</p>
+
+                
+            </div>
+        }
+
+        <!-- ACTIONS -->
+        @if (TempData["ProfileUpdated"] != null)
+        {
+            <div class="account-message">
+                @TempData["ProfileUpdated"]
+            </div>
+        }
+
+        <!-- CTA PRINCIPAL -->
+        <div class="dashboard-section">
+            <a class="dashboard-cta primary"
+               asp-action="MyOrders">
+                📦 Ver mis pedidos
+            </a>
+        </div>
+
+        <!-- ACCIONES SECUNDARIAS -->
+        <div class="dashboard-section dashboard-secondary-grid">
+            <a class="dashboard-cta outline"
+               asp-action="EditProfile">
+                ✏️ Editar perfil
+            </a>
+
+            <a class="dashboard-cta outline"
+               asp-controller="Home"
+               asp-action="Index">
+                🛍️ Seguir comprando
+            </a>
+        </div>
+
+        <!-- CERRAR SESIÓN -->
+        <div class="dashboard-section dashboard-danger">
+            <a class="dashboard-cta danger"
+               asp-action="Logout">
+                Cerrar sesión
+            </a>
+        </div>
+
+      
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,137 @@
+/* =========================
+   AUTH / LOGIN
+========================= */
+
+.auth-wrapper {
+    min-height: calc(100vh - 160px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 420px;
+    padding: 2.6rem 2.2rem 2.4rem;
+    border-radius: 22px;
+    background: rgba(255,255,255,.02);
+    border: 1px solid rgba(255,255,255,.08);
+    box-shadow: 0 30px 120px rgba(0,0,0,.55);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 1.8rem;
+}
+
+    .auth-header h1 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 600;
+        letter-spacing: -.02em;
+    }
+
+    .auth-header p {
+        margin: .5rem 0 0;
+        color: var(--text-muted);
+        font-size: .95rem;
+    }
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: .9rem;
+}
+
+.input-group .input-saint {
+    height: 50px;
+}
+
+.auth-btn {
+    margin-top: .8rem;
+    height: 52px;
+    border-radius: 999px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    box-shadow: 0 12px 40px rgba(245,196,81,.35);
+}
+
+.auth-error {
+    margin-top: .3rem;
+    padding: .6rem .8rem;
+    font-size: .85rem;
+    border-radius: 10px;
+    background: rgba(255,80,80,.08);
+    color: #ff6b6b;
+    border: 1px solid rgba(255,80,80,.25);
+}
+
+.auth-footer {
+    margin-top: 1.8rem;
+    text-align: center;
+    font-size: .9rem;
+    color: var(--text-muted);
+}
+
+    .auth-footer a {
+        display: inline-block;
+        margin-top: .3rem;
+        color: var(--accent);
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
+@media (max-width: 600px) {
+
+    .auth-wrapper {
+        padding: 1.5rem 1rem;
+        min-height: calc(100vh - 120px);
+    }
+}
+@media (max-width: 480px) {
+
+    .auth-card {
+        padding: 2.2rem 1.8rem 2rem;
+        border-radius: 18px;
+    }
+}
+@media (max-width: 480px) {
+
+    .auth-header h1 {
+        font-size: 1.75rem;
+    }
+
+    .auth-header p {
+        font-size: .9rem;
+    }
+}
+@media (max-width: 480px) {
+
+    .input-group .input-saint {
+        height: 54px;
+        font-size: 1rem;
+    }
+}
+@media (max-width: 480px) {
+
+    .auth-btn {
+        height: 56px;
+        font-size: .95rem;
+        letter-spacing: .1em;
+    }
+}
+@media (max-width: 480px) {
+
+    .auth-error {
+        font-size: .8rem;
+    }
+
+    .auth-footer {
+        font-size: .85rem;
+    }
+}

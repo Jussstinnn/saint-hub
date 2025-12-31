@@ -1,55 +1,59 @@
 ﻿@model List<SaintHub.Models.Product>
 
-<div class="hero">
-    <h1>Shop</h1>
-    <p>Sneakers, ropa y cultura.</p>
+<div class="category-wrapper">
+
+    @if (!Model.Any())
+    {
+        <div class="empty-state">
+            <h3>Aún no hay productos</h3>
+            <p>Estamos preparando nuevos lanzamientos.</p>
+
+            <a asp-controller="Shop"
+               asp-action="Index"
+               class="btn-saint">
+                Ver catálogo
+            </a>
+        </div>
+    }
+    else
+    {
+        <section class="product-grid">
+            @foreach (var p in Model)
+            {
+                <article class="product-card">
+                    <div class="product-badge @(p.Fulfillment == 1 ? "stock" : "on-demand")">
+                        @(p.Fulfillment == 1 ? "EN STOCK" : "POR ENCARGO")
+                    </div>
+                    <div class="product-image">
+                        <img src="@p.Images.FirstOrDefault()?.Url"
+                             alt="@p.Name" />
+
+
+                    </div>
+
+                    <div class="product-info">
+                        <h3>@p.Name</h3>
+
+                        <p class="price">
+                            ₡ @p.PriceCrc.ToString("N0")
+                        </p>
+
+                        <a asp-controller="Shop"
+                           asp-action="Details"
+                           asp-route-id="@p.Id"
+                           class="btn-saint btn-outline">
+                            Ver producto
+                        </a>
+                    </div>
+
+                </article>
+            }
+        </section>
+    }
+
 </div>
 
-@if (!Model.Any())
-{
-    <div class="card-saint">
-        <p style="color:var(--text-muted);">
-            No hay productos todavía.
-        </p>
-        <p>Agregá productos desde el panel de admin.</p>
-    </div>
-}
-else
-{
-    <div class="product-grid">
-        @foreach (var p in Model)
-        {
-            var img = p.Images.FirstOrDefault()?.Url ?? "/img/no-image.png";
 
-            <a asp-action="Details"
-               asp-route-id="@p.Id"
-               style="text-decoration:none;">
-                <div class="product-card">
-                    <div class="product-img">
-                        <img src="@img" alt="@p.Name" />
-                    </div>
-
-                    <div class="product-body">
-                        <div class="product-title">@p.Name</div>
-
-                        <div class="product-price">
-                            ₡ @p.PriceCrc.ToString("N0")
-                        </div>
-
-                        @if (p.Fulfillment == 1)
-                        {
-                            <span class="badge badge-stock">EN STOCK</span>
-                        }
-                        else
-                        {
-                            <span class="badge badge-encargo">POR ENCARGO</span>
-                        }
-                    </div>
-                </div>
-            </a>
-        }
-    </div>
-}
 
 
 

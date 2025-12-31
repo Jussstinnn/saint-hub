@@ -1,24 +1,5 @@
-wwwroot\css\admin.css
-wwwroot\css\navbar.css
-wwwroot\favicon.ico
-wwwroot\img\branding\jordan.png
-wwwroot\img\branding\logo-white.png
-wwwroot\img\brands\adidas.png
-wwwroot\img\brands\Asics.png
-wwwroot\img\brands\DrMartens.png
 wwwroot\img\brands\jordan.png
-wwwroot\img\brands\newbalance.png
-wwwroot\img\brands\nike.png
-wwwroot\img\brands\puma.png
-wwwroot\img\brands\Supreme.png
-wwwroot\img\brands\Timberland.png
-wwwroot\img\home\custom.jpg
-wwwroot\img\home\editorial.jpg
-wwwroot\img\home\feature-1.jpg
-wwwroot\img\home\hero.jpg
-wwwroot\img\home\hero.jpg.jpg
-wwwroot\img\home\on-demand.jpg
-wwwroot\img\home\stock.jpg
+wwwroot\favicon.ico
 wwwroot\js\site.js
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
@@ -79,6 +60,67 @@ wwwroot\lib\jquery\dist\jquery.min.map
 wwwroot\lib\jquery\LICENSE.txt
 wwwroot\uploads\products\32d11a61-971b-42eb-aa22-8b079b4e8ca1_Sin_titulo-1.png
 wwwroot\uploads\products\3bbf6f95-33c8-49cb-bbbd-f913d1228848_puma_speedcar.png
-wwwroot\uploads\products\cf0a254f-19fa-430e-a071-375b29473d64_Asics.png
+wwwroot\img\brands\Timberland.png
+wwwroot\img\brands\puma.png
+wwwroot\img\home\hero.jpg
+wwwroot\img\home\hero.jpg.jpg
+wwwroot\img\home\feature-1.jpg
+wwwroot\img\home\custom.jpg
+wwwroot\img\home\stock.jpg
+wwwroot\img\home\on-demand.jpg
+wwwroot\img\home\editorial.jpg
+wwwroot\css\products-admin.css
+wwwroot\img\branding\logo-white.png
+wwwroot\img\branding\jordan.png
+wwwroot\img\brands\DrMartens.png
+wwwroot\css\Checkout.css
+wwwroot\img\brands\newbalance.png
+wwwroot\img\brands\nike.png
+wwwroot\css\order-details.css
+wwwroot\img\brands\Supreme.png
+wwwroot\css\admin-login.css
+wwwroot\img\brands\Asics.png
+wwwroot\img\brands\adidas.png
+wwwroot\css\custom-requests.css
+wwwroot\uploads\products\48d85397-ea23-441b-885a-06c466c3ab14_ec064606413a48c69c7c34ecd8c0c87b.webp
+wwwroot\css\mobile.css
+wwwroot\css\orders.css
+wwwroot\css\categories.css
+wwwroot\uploads\products\2ad0ca73-96a9-4722-93d9-2a7a11b80d57_R.jpeg
+wwwroot\uploads\products\ad98e621-a0a5-4c08-9b76-2ee416e8e7c0_Captura de pantalla 2025-12-16 230951.png
 wwwroot\css\home.css
+wwwroot\css\carousel.css
+wwwroot\css\Order.css
+wwwroot\img\carousel\slide1.jpg
+wwwroot\img\carousel\slide2.jpg
+wwwroot\img\carousel\slide3.jpg
+wwwroot\img\carousel\slide4.jpg
+wwwroot\img\carousel\slide5.jpg
 wwwroot\css\site.css
+wwwroot\css\custom-request-details.css
+wwwroot\css\Auth.css
+wwwroot\css\admin.css
+wwwroot\css\editproduct.css
+wwwroot\css\details.css
+wwwroot\css\home-animations.css
+wwwroot\css\navbar.css
+wwwroot\css\create-product.css
+wwwroot\css\Cart.css
+wwwroot\css\Account.css
+wwwroot\uploads\products\462b2b10-179c-4627-a6cc-78b5c55b5a0f_ASICS SILVER.webp
+wwwroot\uploads\products\c34b4e83-d302-4fff-a219-acf511f010a8_White Clay Canyon.webp
+wwwroot\uploads\products\3d1693d8-adfd-4d36-80ca-73bf550e0067_White Cloud Grey.jpg
+wwwroot\uploads\products\709e7d0f-4e89-46e1-993a-2e8ded458fed_1203A830_001_SR_RT_GLB.webp
+wwwroot\uploads\products\9d8cb31d-8751-43ad-8d2b-0dfb27abcda7_s-l1600 (1).webp
+wwwroot\uploads\products\338b9108-ecf3-4624-bca9-cc661607a134_TB0A5VB5-C60-timberland-premium-6-inch-lace-up-waterproof-dark-port-1.jpg
+wwwroot\uploads\products\8e721960-50d4-40cb-8d0f-52c0ea056b7a_OIP (1).webp
+wwwroot\uploads\products\14f3e3b4-b03a-4e70-91cf-08e065927715_maison-mihara-yasuhiro-hank-og-sole-canvas-low-top-sneaker-black--1.jpg
+wwwroot\uploads\products\955ad5df-34ef-48d9-9820-7b0812c23dd9_d588b262-3b8c-4523-97e5-6e0420133640.jpg
+wwwroot\uploads\products\67148b7f-c19a-4217-a401-4e929c1866e0_OIP (2).webp
+wwwroot\uploads\products\748829f5-031f-4626-8070-7fa6eec89a29_OIP (3).webp
+wwwroot\uploads\products\21b90f3c-3e2b-4359-b85d-572cbf0c8a22_a1_1d69a7de-7f73-49a2-9d26-18cd345503cd.webp
+wwwroot\uploads\products\cb94ff80-1d19-4f7e-986f-07eef91ca29d_adidas-Samba-OG-Collegiate-Green-Gum-Grey-Toe-1500x1071.webp
+wwwroot\uploads\products\6fe203ab-5993-4cf6-8025-c8c738a5ef69_Onitsuka-Tiger-Mexico-66-Silver-Off-White_-SA-Sneakers-153873225.webp
+wwwroot\uploads\products\af26f203-de7c-458a-ac3f-ec79bbbf85e8_OIP (4).webp
+wwwroot\uploads\products\490b740b-5188-4f12-8e15-8c0eb408cfa7_1183A872_204_SR_RT_GLB.webp
+wwwroot\uploads\products\f1cf239b-6a2a-45d0-b6ff-7843f49f7022_DL408_9001_SR_RT_GLB-2.webp

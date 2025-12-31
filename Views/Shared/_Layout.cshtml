@@ -1,5 +1,27 @@
 ﻿@using SaintHub.Services
 @using SaintHub.ViewModels
+@using SaintHub.Data
+@{
+    var cart = Context.Session.GetObject<List<CartItemVM>>("SAINT_CART");
+    var cartCount = cart?.Sum(x => x.Quantity) ?? 0;
+}
+
+@inject AppDbContext Db
+
+@{
+    var isAdmin =
+        ViewContext.RouteData.Values["controller"]?.ToString()?.StartsWith("Admin") == true;
+
+    var userIdStr = Context.Session.GetString("USER_AUTH");
+    var isLogged = int.TryParse(userIdStr, out var userId);
+
+    var currentUser = isLogged
+        ? Db.Users.FirstOrDefault(u => u.Id == userId)
+        : null;
+
+    var firstName = currentUser?.FullName?.Split(' ').FirstOrDefault() ?? "";
+}
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -12,60 +34,253 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/navbar.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
-    <!-- PAGE SPECIFIC CSS -->
+    <link rel="stylesheet" href="~/css/categories.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/details.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Auth.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Cart.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Checkout.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Order.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/carousel.css" asp-append-version="true" />
+
+    <!-- MOBILE -->
+    <link rel="stylesheet" href="~/css/mobile.css" asp-append-version="true" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     @RenderSection("Styles", required: false)
 </head>
-<body>
 
-    <!-- =========================
-         NAVBAR – SAINT HUB
-    ========================== -->
-    <header class="saint-header">
+<body class="@(isAdmin ? "admin-mode" : "")">
 
-        <!-- TOP BAR -->
-        <div class="saint-topbar">
+    @if (!isAdmin)
+    {
+        <!-- =========================
+             HEADER (NAVBAR)
+        ========================= -->
+        <header class="saint-header">
 
-            <!-- LOGO -->
-            <a asp-controller="Home" asp-action="Index" class="saint-logo">
-                <img src="~/img/branding/logo-white.png" alt="Saint Hub" />
-            </a>
+            <!-- TOPBAR -->
+            <div class="saint-topbar">
 
-            <!-- SEARCH -->
-            <input type="text"
-                   class="saint-search"
-                   placeholder="Buscar sneakers, marcas, modelos…" />
+                <!-- HAMBURGER -->
+                <button class="nav-hamburger" id="openMenu" aria-label="Abrir menú">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
 
-            <!-- ACTIONS -->
-            <div class="top-right">
-                <a asp-controller="Account" asp-action="Login" class="pill">Inicia Sesión</a>
-                <a asp-controller="Account" asp-action="Register" class="pill">Registrate</a>
-                <a asp-controller="Cart" asp-action="Index" class="pill cart-pill">
-                    Carrito <span class="counter">0</span>
+                <!-- LOGO -->
+                <a asp-controller="Home" asp-action="Index" class="saint-logo">
+                    <img src="~/img/branding/logo-white.png" alt="Saint Hub" />
                 </a>
+
+                <!-- CART MOBILE -->
+                <a asp-controller="Cart" asp-action="Index" class="nav-cart">
+                    <i class="bi bi-bag"></i>
+                    <span class="cart-count">@cartCount</span>
+
+                </a>
+
+                <!-- LEFT -->
+                <div class="nav-left">
+                    <div class="saint-social">
+                        <a href="https://www.instagram.com/saint_hubcr/" target="_blank" class="social-icon">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="https://wa.me/50671270397" target="_blank" class="social-icon">
+                            <i class="bi bi-whatsapp"></i>
+                        </a>
+                    </div>
+
+                    <form asp-controller="Shop"
+                          asp-action="Index"
+                          method="get"
+                          class="saint-search-form desktop-search">
+
+                        <div class="saint-search-wrapper">
+                            <i class="bi bi-search saint-search-icon"></i>
+
+                            <input class="saint-search"
+                                   name="q"
+                                   placeholder="Buscar sneakers, marcas, modelos…" />
+                        </div>
+                    </form>
+
+                </div>
+
+                <!-- RIGHT -->
+                <div class="top-right">
+
+                    @if (isLogged)
+                    {
+                        <a asp-controller="Account"
+                           asp-action="Dashboard"
+                           class="nav-btn outline">
+                            <i class="bi bi-person"></i>
+                            <span>@firstName</span>
+                        </a>
+
+
+                        <a asp-controller="Account"
+                           asp-action="Logout"
+                           class="nav-btn outline">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span>Salir</span>
+                        </a>
+                    }
+
+                    else
+                    {
+                        <a asp-controller="Account" asp-action="Login" class="nav-btn outline">
+                            <i class="bi bi-person"></i>
+                            <span>Inicia sesión</span>
+                        </a>
+
+                        <a asp-controller="Account" asp-action="Register" class="nav-btn outline">
+                            <i class="bi bi-person-plus"></i>
+                            <span>Regístrate</span>
+                        </a>
+                    }
+
+                    <a asp-controller="Cart" asp-action="Index" class="nav-btn outline">
+                        <i class="bi bi-bag"></i>
+                        <span>Carrito</span>
+                        <span class="cart-count">@cartCount</span>
+
+                    </a>
+                </div>
             </div>
 
+            <!-- CATEGORIES -->
+            <nav class="saint-categories">
+                <a asp-controller="Category" asp-action="Index" asp-route-id="1">Zapatos</a>
+                <a asp-controller="Category" asp-action="Index" asp-route-id="2">Camisas</a>
+                <a asp-controller="Category" asp-action="Index" asp-route-id="3">Suetas</a>
+                <a asp-controller="Category" asp-action="Index" asp-route-id="4">Pantalones</a>
+                <a asp-controller="Category" asp-action="Index" asp-route-id="5">Accesorios</a>
+                <a asp-controller="Category" asp-action="Index" asp-route-id="6">Vinilos</a>
+            </nav>
+
+            <!-- MOBILE MENU -->
+            <nav class="mobile-menu" id="mobileMenu">
+                <div class="mobile-menu-header">
+                    <span>Menú</span>
+                    <button id="closeMenu">&times;</button>
+                </div>
+
+                @if (isLogged)
+                {
+                    <span style="padding:.6rem 1rem; color:var(--text-muted);">
+                        👤 @firstName
+                    </span>
+
+                    <a asp-controller="Account" asp-action="Dashboard">Mi cuenta</a>
+
+                    <a asp-controller="Account" asp-action="Logout">Cerrar sesión</a>
+                }
+
+                else
+                {
+                    <a asp-controller="Account" asp-action="Login">Iniciar sesión</a>
+                    <a asp-controller="Account" asp-action="Register">Crear cuenta</a>
+                }
+
+                <hr />
+
+                <a asp-controller="Category" asp-action="Index" asp-route-id="1">Zapatos</a>
+                <a asp-controller="Category" asp-action="Index" asp-route-id="2">Camisas</a>
+                <a asp-controller="Category" asp-action="Index" asp-route-id="3">Suetas</a>
+                <a asp-controller="Category" asp-action="Index" asp-route-id="4">Pantalones</a>
+                <a asp-controller="Category" asp-action="Index" asp-route-id="5">Accesorios</a>
+                <a asp-controller="Category" asp-action="Index" asp-route-id="6">Vinilos</a>
+            </nav>
+
+        </header>
+
+        <!-- MOBILE SEARCH -->
+        <!-- MOBILE SEARCH -->
+        <form asp-controller="Shop"
+              asp-action="Index"
+              method="get"
+              class="mobile-search">
+
+            <i class="bi bi-search search-icon"></i>
+
+            <input class="saint-search mobile-search-input"
+                   type="search"
+                   name="q"
+                   placeholder="Buscar sneakers, marcas, modelos…" />
+        </form>
+
+
+
+    }
+
+    @if (isAdmin)
+    {
+        <div class="admin-shell">
+            <aside class="admin-sidebar">
+                <div class="admin-logo">
+                    <img src="~/img/branding/logo-white.png" />
+                </div>
+
+                <nav class="admin-nav">
+                    <a asp-controller="Admin" asp-action="Dashboard">Dashboard</a>
+                    <a asp-controller="AdminProducts" asp-action="Index">Productos</a>
+                    <a asp-controller="AdminOrders" asp-action="Index">Pedidos</a>
+                    <a asp-controller="AdminCustomRequests" asp-action="Index">Clientes</a>
+                    <a asp-controller="Account" asp-action="Logout">Salir</a>
+                </nav>
+            </aside>
+
+            <main class="admin-content">
+                @RenderBody()
+            </main>
         </div>
+    }
+    else
+    {
+        <main class="site-shell">
+            @RenderBody()
+        </main>
+    }
 
-        <!-- CATEGORY BAR -->
-        <nav class="saint-categories">
-            <a href="#">Zapatos</a>
-            <a href="#">Camisas</a>
-            <a href="#">Pantalones</a>
-            <a href="#">Accesorios</a>
-            <a href="#">Vinilos</a>
-            
-        </nav>
+    @if (!isAdmin)
+    {
+        <footer>
+            © @DateTime.Now.Year · Saint Hub · Sneakers & Culture
+        </footer>
+    }
+    <script>
+        function updateCartCount(count) {
+            document.querySelectorAll('.cart-count').forEach(el => {
+                if (count > 0) {
+                    el.textContent = count;
+                    el.style.display = 'inline-flex';
+                } else {
+                    el.style.display = 'none';
+                }
+            });
+        }
+    </script>
 
-    </header>
 
-    <!-- MAIN -->
-    @RenderBody()
+    <script>
+        const openBtn = document.getElementById("openMenu");
+        const closeBtn = document.getElementById("closeMenu");
+        const menu = document.getElementById("mobileMenu");
 
-    <!-- FOOTER -->
-    <footer>
-        © @DateTime.Now.Year · Saint Hub · Sneakers & Culture
-    </footer>
+        if (openBtn && closeBtn && menu) {
+            openBtn.addEventListener("click", () => {
+                menu.classList.add("open");
+                document.body.style.overflow = "hidden";
+            });
+
+            closeBtn.addEventListener("click", () => {
+                menu.classList.remove("open");
+                document.body.style.overflow = "";
+            });
+        }
+    </script>
 
 </body>
 </html>
-

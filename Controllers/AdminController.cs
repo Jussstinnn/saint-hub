@@ -204,6 +204,17 @@ namespace SaintHub.Controllers
 
             return RedirectToAction("Products");
         }
+        public IActionResult Details(int id)
+        {
+            var order = _db.Orders
+                .Include(o => o.Items)
+                .FirstOrDefault(o => o.Id == id);
+
+            if (order == null)
+                return NotFound();
+
+            return View(order);
+        }
 
         public IActionResult Dashboard()
         {

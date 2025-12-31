@@ -1,77 +1,99 @@
 ﻿@model List<SaintHub.Models.CustomRequest>
 
-<h1>Pedidos personalizados</h1>
-<p class="text-muted">
-    Solicitudes recibidas por encargo y pedidos especiales
-</p>
-
-@if (!Model.Any())
-{
-    <div class="card-saint" style="margin-top:2rem;">
-        <p>No hay solicitudes registradas.</p>
-    </div>
+@section Styles {
+    <link rel="stylesheet" href="~/css/custom-requests.css" asp-append-version="true" />
 }
-else
-{
-    <div class="card-saint" style="margin-top:2rem;">
-        <table class="table-saint admin-table">
-            <thead>
-                <tr>
-                    <th>Cliente</th>
-                    <th>Contacto</th>
-                    <th>Pedido</th>
-                    <th>Estado</th>
-                    <th>Fecha</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var r in Model)
-                {
-                    <tr>
-                        <td>
-                            <strong>@(string.IsNullOrWhiteSpace(r.FullName) ? "—" : r.FullName)</strong>
-                        </td>
 
-                        <td>
-                            <small>
-                                @(string.IsNullOrWhiteSpace(r.Email) ? "Sin email" : r.Email)<br />
-                                @(string.IsNullOrWhiteSpace(r.Phone) ? "Sin teléfono" : r.Phone)
-                            </small>
-                        </td>
+<div class="custom-wrapper">
 
-                        <td>
-                            <small>
-                                @(string.IsNullOrWhiteSpace(r.RequestType) ? "Pedido personalizado" : r.RequestType)<br />
-                                @(string.IsNullOrWhiteSpace(r.Brand) ? "Marca no indicada" : r.Brand)
-                                @(string.IsNullOrWhiteSpace(r.Model) ? "" : r.Model)<br />
-                                Talla: @(string.IsNullOrWhiteSpace(r.Size) ? "—" : r.Size)
-                            </small>
-                        </td>
+    <!-- HEADER -->
+    <div class="custom-header">
+        <div>
+            <h1>Pedidos personalizados</h1>
+            <span class="custom-subtitle">
+                Solicitudes recibidas por encargo y pedidos especiales
+            </span>
+        </div>
+    </div>
 
-                        <td>
-                            <span class="status-pill status-@r.Status.ToLower()">
-                                @r.Status
-                            </span>
-                        </td>
+    @if (!Model.Any())
+    {
+        <div class="custom-empty">
+            No hay solicitudes registradas.
+        </div>
+    }
+    else
+    {
+        <section class="custom-card">
 
-                        <td>
-                            <small>@r.CreatedAt.ToString("dd/MM/yyyy HH:mm")</small>
-                        </td>
+            <div class="custom-table-head">
+                <span>Cliente</span>
+                <span>Contacto</span>
+                <span>Pedido</span>
+                <span>Estado</span>
+                <span>Fecha</span>
+                <span></span>
+            </div>
 
-                        <td>
-                            <a asp-action="Details"
-                               asp-route-id="@r.Id"
-                               class="btn-saint-outline btn-sm">
-                                Ver
-                            </a>
-                        </td>
-                    </tr>
+            @foreach (var r in Model)
+            {
+                <div class="custom-row">
+
+                    <!-- CLIENTE -->
+                    <div class="custom-client">
+                        <strong>
+                            @(string.IsNullOrWhiteSpace(r.FullName) ? "Cliente sin nombre" : r.FullName)
+                        </strong>
+                    </div>
+
+                    <!-- CONTACTO -->
+                    <div class="custom-contact">
+                        <span>
+                            @(string.IsNullOrWhiteSpace(r.Email) ? "Sin email" : r.Email)
+                        </span>
+                        <span>
+                            @(string.IsNullOrWhiteSpace(r.Phone) ? "Sin teléfono" : r.Phone)
+                        </span>
+                    </div>
+
+                    <!-- PEDIDO -->
+                    <div class="custom-request">
+                        <span>
+                            @(string.IsNullOrWhiteSpace(r.RequestType)
+                                                ? "Pedido personalizado"
+                                                : r.RequestType)
+                </span>
+
+                        <span class="muted">
+                            @(string.IsNullOrWhiteSpace(r.Brand) ? "Marca no indicada" : r.Brand)
+                            @(string.IsNullOrWhiteSpace(r.Model) ? "" : $" {r.Model}")
+                            · Talla: @(string.IsNullOrWhiteSpace(r.Size) ? "—" : r.Size)
+                        </span>
+                    </div>
+
+                    <!-- ESTADO -->
+                    <span class="custom-status status-@r.Status.ToLower()">
+                        @r.Status
+                    </span>
+
+                    <!-- FECHA -->
+                    <span class="custom-date">
+                        @r.CreatedAt.ToString("dd/MM/yyyy · HH:mm")
+                    </span>
+
+                    <!-- ACTION -->
+                    <a asp-action="Details"
+                       asp-route-id="@r.Id"
+                       class="btn-view">
+                        Ver
+                    </a>
+
+                </div>
                 }
-            </tbody>
-        </table>
-    </div>
-}
+        </section>
+    }
+
+</div>
 
 
 

@@ -1,131 +1,456 @@
-﻿@model SaintHub.Models.Product
-@{
-    Layout = "_Layout";
+﻿@model SaintHub.ViewModels.AdminProductVariantsByColorVM
+
+
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/editproduct.css" asp-append-version="true" />
 }
 
-<h1>Editar producto</h1>
+<div class="editproduct-wrapper">
 
-<!-- =========================
-     DATOS DEL PRODUCTO
-========================= -->
-<form method="post">
-    <div class="card-saint">
+    <!-- HEADER -->
+    <div class="editproduct-header">
+        <div>
+            <h1>@Model.Name</h1>
+            <span class="editproduct-id">Producto #@Model.Id</span>
+        </div>
 
-        <label>Nombre</label>
-        <input asp-for="Name" class="input-saint" />
-
-        <label>Descripción</label>
-        <textarea asp-for="Description" class="input-saint"></textarea>
-
-        <label>Precio (₡)</label>
-        <input asp-for="PriceCrc" type="number" class="input-saint" />
-
-        <label class="checkbox-line">
-            <input asp-for="IsActive" type="checkbox" />
-            Producto activo
-        </label>
-
-        <button type="submit" class="btn-saint">
-            Guardar cambios
-        </button>
+        <span class="editproduct-status @(Model.IsActive ? "active" : "inactive")">
+            @(Model.IsActive ? "Activo" : "Inactivo")
+        </span>
     </div>
-</form>
 
-<!-- =========================
-     IMÁGENES
-========================= -->
-<div class="admin-section">
-    <h2>Imágenes</h2>
+    <!-- INFO GENERAL -->
+    <section class="editproduct-card">
+        <h2>Información general</h2>
 
-    <form asp-action="AddImage" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="productId" value="@Model.Id" />
-        <input type="file" name="image" required />
-        <button class="btn-saint small">Subir imagen</button>
-    </form>
+        <form asp-action="Edit"
+              asp-controller="AdminProducts"
+              asp-route-id="@Model.Id"
+              method="post"
+              class="editproduct-form">
 
-    <div class="image-grid">
-        @foreach (var img in Model.Images)
-        {
-            <div class="image-card @(img.IsPrimary ? "primary" : "")">
-                <img src="@img.Url" />
+            @Html.AntiForgeryToken()
 
-                <div class="image-actions">
-                    @if (!img.IsPrimary)
-                    {
-                        <form asp-action="SetPrimaryImage" method="post">
-                            <input type="hidden" name="imageId" value="@img.Id" />
-                            <input type="hidden" name="productId" value="@Model.Id" />
-                            <button class="btn-secondary small">Principal</button>
-                        </form>
-                    }
+            <input type="hidden" asp-for="Id" />
 
-                    <form asp-action="DeleteImage" method="post">
-                        <input type="hidden" name="imageId" value="@img.Id" />
-                        <input type="hidden" name="productId" value="@Model.Id" />
-                        <button class="btn-danger small">Eliminar</button>
-                    </form>
+            <div class="field">
+                <label>Nombre del producto</label>
+                <input asp-for="Name" />
+            </div>
+
+            <div class="field small">
+                <label>Precio base (₡)</label>
+                <input asp-for="PriceCrc" type="number" />
+            </div>
+
+            <div class="field full">
+                <label>Descripción</label>
+                <textarea asp-for="Description"></textarea>
+            </div>
+
+            <label class="toggle">
+                <input asp-for="IsActive" type="checkbox" />
+                <span></span>
+                Producto activo
+            </label>
+            <div class="field full">
+                <label>Disponibilidad</label>
+
+                <div class="segmented-control">
+                    <input type="radio"
+                           id="fulfillment-stock"
+                           name="Fulfillment"
+                           value="1"
+                           @(Model.Fulfillment == 1 ? "checked" : "") />
+
+                    <label for="fulfillment-stock">
+                        En stock
+                    </label>
+
+                    <input type="radio"
+                           id="fulfillment-order"
+                           name="Fulfillment"
+                           value="2"
+                           @(Model.Fulfillment == 2 ? "checked" : "") />
+
+                    <label for="fulfillment-order">
+                        Por encargo
+                    </label>
+
+                    <input type="radio"
+                           id="fulfillment-both"
+                           name="Fulfillment"
+                           value="3"
+                           @(Model.Fulfillment == 3 ? "checked" : "") />
+
+                    <label for="fulfillment-both">
+                        Ambos
+                    </label>
                 </div>
             </div>
-        }
-    </div>
-</div>
 
-<!-- =========================
-     VARIANTES / TALLAS
-========================= -->
-<div class="admin-section">
-    <h2>Variantes (Tallas)</h2>
+            <button type="submit" class="btn-primary">
+                Guardar cambios
+            </button>
+        </form>
 
-    <table class="table-saint variant-table">
-        <thead>
-            <tr>
-                <th>Talla</th>
-                <th>Stock</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var v in Model.Variants)
+    </section>
+
+    <!-- GALERÍA -->
+    <section class="editproduct-card">
+        <h2>Galería</h2>
+
+        <form asp-action="AddImage"
+              method="post"
+              enctype="multipart/form-data"
+              class="image-upload">
+
+            <input type="hidden" name="productId" value="@Model.Id" />
+
+            <input type="file"
+                   id="imageInput"
+                   name="image"
+                   class="file-input"
+                   hidden />
+
+            <label for="imageInput" class="btn-secondary">
+                Seleccionar imagen
+            </label>
+
+            <span class="file-name" id="fileName">
+                Ningún archivo seleccionado
+            </span>
+
+            <button type="submit" class="btn-secondary">
+                Subir imagen
+            </button>
+        </form>
+
+
+        <div class="image-grid">
+            @foreach (var img in Model.Images)
             {
-                <tr>
-                    <td>@v.Option</td>
-                    <td>
-                        <form asp-action="UpdateVariant" method="post" class="variant-row">
-                            <input type="hidden" name="variantId" value="@v.Id" />
-                            <input type="hidden" name="productId" value="@Model.Id" />
+                <div class="image-card @(img.IsPrimary ? "primary" : "")">
 
-                            <input type="number" name="stock" value="@v.Stock" min="0" />
+                    <!-- IMAGE -->
+                    <div class="image-preview">
+                        <img src="@img.Url" />
 
-                            <div class="variant-actions">
-                                <button class="btn-saint small">Guardar</button>
-                            </div>
-                        </form>
-                    </td>
-                    <td>
-                        <form asp-action="DeleteVariant" method="post">
-                            <input type="hidden" name="variantId" value="@v.Id" />
-                            <input type="hidden" name="productId" value="@Model.Id" />
-                            <button class="btn-danger small">Eliminar</button>
-                        </form>
-                    </td>
-                </tr>
+                        <div class="image-actions">
+                            @if (!img.IsPrimary)
+                            {
+                                <form asp-action="SetPrimaryImage" method="post">
+                                    <input type="hidden" name="imageId" value="@img.Id" />
+                                    <input type="hidden" name="productId" value="@Model.Id" />
+                                    <button class="btn-overlay">Principal</button>
+                                </form>
+                            }
+
+                            <form asp-action="DeleteImage" method="post">
+                                <input type="hidden" name="imageId" value="@img.Id" />
+                                <input type="hidden" name="productId" value="@Model.Id" />
+                                <button class="btn-overlay danger">Eliminar</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- COLOR -->
+                    <form asp-action="UpdateImageColor"
+                          method="post"
+                          class="image-meta">
+
+                        <input type="hidden" name="imageId" value="@img.Id" />
+                        <input type="hidden" name="productId" value="@Model.Id" />
+
+                        <label>Color</label>
+                        <input name="color"
+                               value="@img.Color"
+                               placeholder="Ej: Amarillo" />
+                    </form>
+
+                </div>
             }
-        </tbody>
-    </table>
-
-    <h3>Agregar talla</h3>
-
-    <form asp-action="AddVariant" method="post" class="add-variant clean">
-        <input type="hidden" name="productId" value="@Model.Id" />
-
-        <div class="variant-add-row">
-            <input name="option" placeholder="Ej: US 10" required />
-            <input type="number" name="stock" placeholder="Stock" min="0" required />
-            <button class="btn-saint wide">Agregar</button>
         </div>
-    </form>
+    </section>
+
+
+    <!-- VARIANTES -->
+    <section class="editproduct-card">
+        <h2>Variantes por color</h2>
+
+        @foreach (var color in Model.Colors)
+        {
+            <div class="color-block">
+
+                <!-- HEADER DEL COLOR -->
+                <div class="color-header">
+                    <div class="color-info">
+                        <strong>@color.Color</strong>
+                        <span class="color-stock">
+                            @color.Variants.Sum(v => v.Stock) unidades
+                        </span>
+                    </div>
+
+                    <!-- AGREGAR TALLA A ESTE COLOR -->
+                    <form asp-action="AddVariant"
+                          method="post"
+                          class="variant-add-inline">
+
+                        <input type="hidden" name="productId" value="@Model.Id" />
+                        <input type="hidden" name="color" value="@color.Color" />
+
+                        <input name="option"
+                               placeholder="US 10"
+                               required />
+
+                        <input type="number"
+                               name="priceCrc"
+                               placeholder="₡ Precio"
+                               required />
+
+                        <input type="number"
+                               name="stock"
+                               placeholder="Stock"
+                               required />
+
+                        <button class="btn-secondary">
+                            + Agregar
+                        </button>
+                    </form>
+                </div>
+
+                <!-- LISTA DE VARIANTES -->
+                <div class="color-variants">
+                    @foreach (var v in color.Variants)
+                    {
+                        <div class="variant-row">
+                            <div class="variant-size-edit">
+                                <input type="text"
+                                       class="size-input"
+                                       value="@v.Option"
+                                       data-variant-id="@v.VariantId" />
+
+                                <span class="save-indicator" hidden>✔</span>
+                            </div>
+
+                            <div class="variant-price-edit">
+                                ₡
+                                <input type="number"
+                                       class="price-input"
+                                       value="@v.PriceCrc"
+                                       data-variant-id="@v.VariantId"
+                                       min="0" />
+
+                                <span class="save-indicator" hidden>✔</span>
+                            </div>
+
+                            <div class="variant-stock-edit">
+                                <span>Stock:</span>
+
+                                <input type="number"
+                                       class="stock-input"
+                                       value="@v.Stock"
+                                       data-variant-id="@v.VariantId"
+                                       min="0" />
+
+                                <span class="save-indicator" hidden>✔</span>
+                            </div>
+                            <div class="variant-status">
+                                <label class="switch">
+                                    <input type="checkbox"
+                                           class="status-toggle"
+                                           data-variant-id="@v.VariantId"
+                                           @(v.IsActive ? "checked" : "") />
+                                    <span class="slider"></span>
+                                </label>
+
+                                <span class="save-indicator" hidden>✔</span>
+                            </div>
+
+                        </div>
+                    }
+                </div>
+
+            </div>
+        }
+
+        <!-- AGREGAR NUEVA VARIANTE (NUEVO COLOR + TALLA) -->
+        <div class="variant-add-new">
+
+            <h3>Agregar nueva variante</h3>
+
+            <form asp-action="AddVariant"
+                  method="post"
+                  class="variant-add-inline">
+
+                <input type="hidden" name="productId" value="@Model.Id" />
+
+                <input name="color"
+                       placeholder="Color (ej: Red)"
+                       required />
+
+                <input name="option"
+                       placeholder="US 9"
+                       required />
+
+                <input type="number"
+                       name="priceCrc"
+                       placeholder="₡ Precio"
+                       required />
+
+                <input type="number"
+                       name="stock"
+                       placeholder="Stock"
+                       required />
+
+                <button class="btn-primary">
+                    + Agregar variante
+                </button>
+            </form>
+
+        </div>
+    </section>
+
+
 
 </div>
+<script>
+    const fileInput = document.getElementById('imageInput');
+    const fileName = document.getElementById('fileName');
 
+    if (fileInput && fileName) {
+        fileInput.addEventListener('change', () => {
+            fileName.textContent = fileInput.files.length
+                ? fileInput.files[0].name
+                : 'Ningún archivo seleccionado';
+        });
+    }
+</script>
+<script>
+    document.querySelectorAll('.stock-input').forEach(input => {
 
+        let timeout;
 
+        input.addEventListener('input', () => {
+            clearTimeout(timeout);
+
+            timeout = setTimeout(() => {
+                const variantId = input.dataset.variantId;
+                const stock = input.value;
+
+                fetch('/Admin/Products/UpdateVariantStock', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        variantId: parseInt(variantId),
+                        stock: parseInt(stock)
+                    })
+                }).then(res => {
+                    if (res.ok) {
+                        const check = input.nextElementSibling;
+                        check.hidden = false;
+                        setTimeout(() => check.hidden = true, 1000);
+                    }
+                });
+            }, 600); // debounce
+        });
+
+    });
+</script>
+<script>
+    document.querySelectorAll('.price-input').forEach(input => {
+
+        let timeout;
+
+        input.addEventListener('input', () => {
+            clearTimeout(timeout);
+
+            timeout = setTimeout(() => {
+                const variantId = input.dataset.variantId;
+                const price = input.value;
+
+                fetch('/Admin/Products/UpdateVariantPrice', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        variantId: parseInt(variantId),
+                        priceCrc: parseInt(price)
+                    })
+                }).then(res => {
+                    if (res.ok) {
+                        const check = input.nextElementSibling;
+                        check.hidden = false;
+                        setTimeout(() => check.hidden = true, 1000);
+                    }
+                });
+            }, 600);
+        });
+
+    });
+</script>
+<script>
+    document.querySelectorAll('.status-toggle').forEach(toggle => {
+
+        toggle.addEventListener('change', () => {
+            const variantId = toggle.dataset.variantId;
+            const isActive = toggle.checked;
+
+            fetch('/Admin/Products/ToggleVariantStatus', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    variantId: parseInt(variantId),
+                    isActive: isActive
+                })
+            }).then(res => {
+                if (res.ok) {
+                    const check = toggle.closest('.variant-status')
+                                        .querySelector('.save-indicator');
+                    check.hidden = false;
+                    setTimeout(() => check.hidden = true, 1000);
+                }
+            });
+        });
+
+    });
+</script>
+<script>
+    document.querySelectorAll('.size-input').forEach(input => {
+
+        let timeout;
+
+        input.addEventListener('input', () => {
+            clearTimeout(timeout);
+
+            timeout = setTimeout(() => {
+                const variantId = input.dataset.variantId;
+                const option = input.value;
+
+                fetch('/Admin/Products/UpdateVariantOption', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        variantId: parseInt(variantId),
+                        option: option
+                    })
+                }).then(res => {
+                    if (res.ok) {
+                        const check = input.nextElementSibling;
+                        check.hidden = false;
+                        setTimeout(() => check.hidden = true, 1000);
+                    }
+                });
+            }, 600);
+        });
+
+    });
+</script>

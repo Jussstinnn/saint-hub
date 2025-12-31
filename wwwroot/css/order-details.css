@@ -1,0 +1,368 @@
+:root {
+    --accent: #f5c451;
+}
+
+/* WRAPPER */
+.order-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 2rem 5rem;
+}
+
+/* HEADER */
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+}
+
+    .order-header h1 {
+        font-size: 2.4rem;
+        font-weight: 800;
+    }
+
+.order-date {
+    font-size: .85rem;
+    opacity: .5;
+}
+
+/* STATUS BADGE */
+.order-status {
+    padding: .5rem 1.4rem;
+    border-radius: 999px;
+    font-size: .7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.status-pendiente {
+    background: rgba(255,255,255,.08);
+    color: #ccc;
+}
+
+.status-pagado {
+    background: rgba(245,196,81,.18);
+    color: var(--accent);
+}
+
+.status-enviado {
+    background: rgba(120,200,255,.18);
+    color: #78c8ff;
+}
+
+.status-cancelado {
+    background: rgba(255,120,120,.18);
+    color: #ff7878;
+}
+
+/* CARD */
+.order-card {
+    background: radial-gradient(120% 120% at 0% 0%, #121212 0%, #070707 65%);
+    border-radius: 26px;
+    padding: 2.5rem;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 40px 80px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+    .order-card h2 {
+        font-size: 1.4rem;
+        margin-bottom: 1.8rem;
+    }
+
+/* SHIPPING */
+.shipping-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+.shipping-block span {
+    font-size: .7rem;
+    opacity: .6;
+}
+
+.shipping-block strong {
+    display: block;
+    margin-top: .4rem;
+    font-size: .95rem;
+}
+
+.shipping-block.span-2 {
+    grid-column: span 2;
+}
+
+/* TABLE */
+.order-table {
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+}
+
+.order-table-head,
+.order-table-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 1rem;
+    padding: .9rem 1.2rem;
+}
+
+.order-table-head {
+    font-size: .7rem;
+    opacity: .6;
+    text-transform: uppercase;
+}
+
+.order-table-row {
+    background: rgba(255,255,255,.03);
+    border-radius: 16px;
+}
+
+/* SUMMARY */
+.order-summary span {
+    font-size: .75rem;
+    opacity: .6;
+}
+
+.order-summary strong {
+    display: block;
+    margin-top: .4rem;
+    font-size: 1.2rem;
+}
+
+/* STATUS ACTIONS */
+.status-actions {
+    display: flex;
+    gap: .8rem;
+    flex-wrap: wrap;
+}
+
+.btn-status {
+    border: none;
+    border-radius: 999px;
+    padding: .7rem 1.6rem;
+    font-size: .75rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+    .btn-status.pending {
+        background: #1a1a1a;
+        color: #fff;
+    }
+
+    .btn-status.paid {
+        background: linear-gradient(135deg, #f5c451, #e1ac2f);
+        color: #000;
+    }
+
+    .btn-status.shipped {
+        background: #12324a;
+        color: #78c8ff;
+    }
+
+    .btn-status.cancel {
+        background: #2a0f0f;
+        color: #ff7b7b;
+    }
+
+@media (max-width: 768px) {
+
+    .order-wrapper {
+        padding: 2rem 1rem 3.5rem;
+    }
+
+    .order-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: .8rem;
+        margin-bottom: 2rem;
+    }
+
+        .order-header h1 {
+            font-size: 2rem;
+        }
+}
+@media (max-width: 480px) {
+
+    .order-status {
+        padding: .55rem 1.2rem;
+        font-size: .65rem;
+    }
+}
+@media (max-width: 600px) {
+
+    .order-card {
+        padding: 2rem 1.4rem;
+        border-radius: 22px;
+        margin-bottom: 2rem;
+    }
+
+        .order-card h2 {
+            font-size: 1.2rem;
+            margin-bottom: 1.4rem;
+        }
+}
+@media (max-width: 768px) {
+
+    .shipping-grid {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+    }
+
+    .shipping-block.span-2 {
+        grid-column: auto;
+    }
+}
+@media (max-width: 768px) {
+
+    .order-table-head {
+        display: none;
+    }
+
+    .order-table-row {
+        grid-template-columns: 1fr;
+        gap: .4rem;
+        padding: 1rem;
+    }
+
+        .order-table-row > * {
+            display: flex;
+            justify-content: space-between;
+            gap: .6rem;
+            font-size: .85rem;
+        }
+}
+@media (max-width: 600px) {
+
+    .order-summary strong {
+        font-size: 1.05rem;
+    }
+}
+@media (max-width: 600px) {
+
+    .status-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-status {
+        width: 100%;
+        padding: .9rem 0;
+        font-size: .8rem;
+    }
+}
+
+/* =========================
+   ADMIN – ORDER STATUS TIMELINE
+========================= */
+
+.order-status-timeline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .8rem;
+    margin-top: 1.8rem;
+    width: 100%;
+}
+
+/* FORM */
+.timeline-form {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+/* BUTTON */
+.timeline-step {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .4rem;
+    padding: .5rem;
+    color: rgba(255,255,255,.6);
+    transition: .25s;
+}
+
+    .timeline-step:hover {
+        color: #fff;
+    }
+
+    /* DOT */
+    .timeline-step .dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: rgba(255,255,255,.25);
+        border: 2px solid rgba(255,255,255,.35);
+    }
+
+    .timeline-step.active .dot {
+        background: var(--accent);
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px rgba(245,196,81,.15);
+    }
+
+    /* LABEL */
+    .timeline-step .label {
+        font-size: .7rem;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .timeline-step.active .label {
+        font-weight: 700;
+        color: #fff;
+    }
+
+/* LINE */
+.timeline-line {
+    flex: 1;
+    height: 2px;
+    background: rgba(255,255,255,.15);
+}
+
+    .timeline-line.active {
+        background: linear-gradient( to right, var(--accent), rgba(245,196,81,.4) );
+    }
+/* =========================
+   ADMIN TIMELINE – MOBILE
+========================= */
+
+@media (max-width: 768px) {
+
+    .order-status-timeline {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+    }
+
+    .timeline-form {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .timeline-step {
+        flex-direction: row;
+        align-items: center;
+        gap: .8rem;
+    }
+
+        .timeline-step .label {
+            font-size: .85rem;
+        }
+
+    .timeline-line {
+        width: 2px;
+        height: 22px;
+        margin-left: 6px;
+        background: rgba(255,255,255,.15);
+    }
+
+        .timeline-line.active {
+            background: linear-gradient( to bottom, var(--accent), rgba(245,196,81,.4) );
+        }
+}

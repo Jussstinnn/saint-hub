@@ -8,12 +8,21 @@
     ".NETCoreApp,Version=v8.0": {
       "SaintHub/1.0.0": {
         "dependencies": {
+          "Microsoft.AspNetCore.Authentication.Google": "8.0.22",
           "Microsoft.EntityFrameworkCore.Tools": "10.0.1",
           "Pomelo.EntityFrameworkCore.MySql": "9.0.0",
           "Stripe.net": "50.0.0"
         },
         "runtime": {
           "SaintHub.dll": {}
+        }
+      },
+      "Microsoft.AspNetCore.Authentication.Google/8.0.22": {
+        "runtime": {
+          "lib/net8.0/Microsoft.AspNetCore.Authentication.Google.dll": {
+            "assemblyVersion": "8.0.22.0",
+            "fileVersion": "8.0.2225.52808"
+          }
         }
       },
       "Microsoft.EntityFrameworkCore/9.0.0": {
@@ -235,6 +244,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "Microsoft.AspNetCore.Authentication.Google/8.0.22": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-NXmczBh2Ze0x+HbMXIlBHoG+8y6NZHA1SA8vNVAUJdlw1B4w78ZJ3L5dnNNfstBs35bGOdG5F2TSp00Gx48Q/w==",
+      "path": "microsoft.aspnetcore.authentication.google/8.0.22",
+      "hashPath": "microsoft.aspnetcore.authentication.google.8.0.22.nupkg.sha512"
     },
     "Microsoft.EntityFrameworkCore/9.0.0": {
       "type": "package",

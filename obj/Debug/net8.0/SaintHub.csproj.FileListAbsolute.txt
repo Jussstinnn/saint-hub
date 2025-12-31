@@ -52,3 +52,5 @@ C:\Users\justi\source\repos\SaintHub\SaintHub\bin\Debug\net8.0\Newtonsoft.Json.d
 C:\Users\justi\source\repos\SaintHub\SaintHub\bin\Debug\net8.0\Stripe.net.dll
 C:\Users\justi\source\repos\SaintHub\SaintHub\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
 C:\Users\justi\source\repos\SaintHub\SaintHub\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\justi\source\repos\SaintHub\SaintHub\obj\Debug\net8.0\SaintHub.sourcelink.json
+C:\Users\justi\source\repos\SaintHub\SaintHub\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.Google.dll

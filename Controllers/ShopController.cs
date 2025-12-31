@@ -16,7 +16,8 @@ namespace SaintHub.Controllers
 
         // /Shop
         // /Shop?category=1&q=air
-        public async Task<IActionResult> Index(int? category, string? q)
+        public async Task<IActionResult> Index(int? category, int? fulfillment, string? q)
+
         {
             var query = _db.Products
                 .Include(p => p.Images)
@@ -25,6 +26,10 @@ namespace SaintHub.Controllers
             if (category.HasValue)
             {
                 query = query.Where(p => p.Category == category.Value);
+            }
+            if (fulfillment.HasValue)
+            {
+                query = query.Where(p => p.Fulfillment == fulfillment.Value);
             }
 
             if (!string.IsNullOrWhiteSpace(q))

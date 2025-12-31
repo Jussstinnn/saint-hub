@@ -1,0 +1,57 @@
+/* =========================
+   ADMIN – ORDER DETAILS
+========================= */
+
+.admin-order-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1.8fr;
+    gap: 1.4rem;
+    margin-top: 1.4rem;
+}
+
+.order-data {
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+    font-size: .9rem;
+}
+
+.order-summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: .6rem .7rem;
+    border-radius: 12px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.06);
+    margin-bottom: .6rem;
+}
+
+@media (max-width: 900px) {
+    .admin-order-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .admin-order-grid {
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+}
+@media (max-width: 600px) {
+
+    .order-summary-row {
+        padding: .75rem .9rem;
+        font-size: .85rem;
+        margin-bottom: .8rem;
+    }
+}
+@media (max-width: 480px) {
+
+    .order-summary-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: .25rem;
+    }
+}

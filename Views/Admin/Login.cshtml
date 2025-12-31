@@ -1,23 +1,48 @@
-﻿<h1>Admin · Saint Hub</h1>
+﻿@{
+    ViewData["Title"] = "Admin · Saint Hub";
+}
 
-<div class="card-saint" style="max-width:420px; margin-top:2rem;">
-    <form method="post">
-        <input class="input-saint"
-               type="password"
-               name="password"
-               placeholder="Contraseña de administrador"
-               required />
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin-login.css" asp-append-version="true" />
+}
 
-        @if (ViewBag.Error != null)
-        {
-            <p style="color:var(--danger); margin-top:.6rem;">
-                @ViewBag.Error
-            </p>
-        }
+<div class="admin-login-wrapper">
 
-        <button class="btn-saint" style="margin-top:1rem; width:100%;">
-            Entrar
-        </button>
-    </form>
+    <div class="admin-login-card">
+
+        <div class="admin-login-head">
+            <h1>Saint Hub</h1>
+            <span>Panel administrativo</span>
+        </div>
+
+        <form method="post" class="admin-login-form">
+
+            <div class="field">
+                <label>Contraseña de administrador</label>
+                <input type="password"
+                       name="password"
+                       placeholder="••••••••"
+                       required />
+            </div>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="login-error">
+                    @ViewBag.Error
+                </div>
+            }
+
+            <button type="submit" class="btn-login">
+                Entrar al panel
+            </button>
+
+        </form>
+
+        <div class="admin-login-foot">
+            Acceso restringido · Saint Hub
+        </div>
+
+    </div>
+
 </div>
 

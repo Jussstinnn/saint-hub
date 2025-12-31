@@ -4,6 +4,8 @@
 
 @section Styles {
     <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/home-animations.css" asp-append-version="true" />
+
 }
 
 <!-- HERO -->
@@ -11,6 +13,7 @@
     <div class="home-hero-overlay"></div>
 
     <div class="home-hero-content">
+
         <h1>SAINT HUB</h1>
         <p>Sneakers & Culture</p>
 
@@ -21,9 +24,12 @@
 </section>
 <section class="purchase-modes">
 
-    <a asp-controller="Shop" asp-action="Index"
-       class="mode-card"
-       style="background-image:url('/img/home/stock.jpg')">
+    <a asp-controller="Shop"
+       asp-action="Index"
+       asp-route-fulfillment="1"
+       class="mode-card reveal reveal-up"
+       style="background-image:url('/img/home/stock.jpg');
+              transition-delay:.05s">
 
         <div class="mode-overlay"></div>
 
@@ -33,9 +39,12 @@
         </div>
     </a>
 
-    <a asp-controller="Shop" asp-action="Index"
-       class="mode-card"
-       style="background-image:url('/img/home/on-demand.jpg')">
+    <a asp-controller="Shop"
+       asp-action="Index"
+       asp-route-fulfillment="2"
+       class="mode-card reveal reveal-up"
+       style="background-image:url('/img/home/on-demand.jpg');
+              transition-delay:.2s">
 
         <div class="mode-overlay"></div>
 
@@ -45,9 +54,11 @@
         </div>
     </a>
 
-    <a asp-controller="CustomOrder" asp-action="Index"
-       class="mode-card"
-       style="background-image:url('/img/home/custom.jpg')">
+    <a asp-controller="CustomOrder"
+       asp-action="Index"
+       class="mode-card reveal reveal-up"
+       style="background-image:url('/img/home/custom.jpg');
+              transition-delay:.35s">
 
         <div class="mode-overlay"></div>
 
@@ -59,57 +70,415 @@
 
 </section>
 
+<section class="home-how">
+
+    <div class="how-header reveal">
+        <small>Proceso</small>
+        <h2>Cómo funciona Saint Hub</h2>
+        <p>
+            Seleccionamos piezas con criterio.
+            Te acompañamos durante todo el proceso.
+        </p>
+    </div>
+
+    <div class="how-steps">
+
+      
+
+        <div class="how-step reveal" data-step="1">
+            <span class="step-number">01</span>
+            <h4>Elegís la pieza</h4>
+            <p>Explorá productos en stock o solicitá un modelo específico.</p>
+        </div>
+
+        <div class="how-step reveal" data-step="2">
+            <span class="step-number">02</span>
+            <h4>La gestionamos</h4>
+            <p>Verificamos disponibilidad, autenticidad y tiempos de entrega.</p>
+        </div>
+
+        <div class="how-step reveal" data-step="3">
+            <span class="step-number">03</span>
+            <h4>Te la entregamos</h4>
+            <p>Recibís tu pedido con seguimiento y atención personalizada.</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+
+
+
 <section class="home-feature">
-    <div class="feature-img">
+
+    <div class="feature-img reveal reveal-left">
         <img src="/img/home/feature-1.jpg" alt="Featured sneaker">
     </div>
 
-    <div class="feature-content">
+    <div class="feature-content reveal reveal-right">
         <small>Lo más pedido</small>
         <h2>Timberland 6 Inch</h2>
         <p>
-            Esta bota cuenta materiales impermeables / Waterproof y el rendimiento de una parte superior de piel Timberland® de primera calidad. Tus pies apreciarán aún más la plantilla extraíble antifatiga que te ayudará a mantenerte cómodo sin importar el desafío que tengas por delante.
-
+            Esta bota cuenta materiales impermeables / Waterproof y el rendimiento
+            de una parte superior de piel Timberland® de primera calidad.
+            Tus pies apreciarán aún más la plantilla extraíble antifatiga que te
+            ayudará a mantenerte cómodo sin importar el desafío que tengas por delante.
         </p>
 
-        <a asp-controller="Shop" asp-action="Index" class="btn-saint-outline">
+        <a asp-controller="Shop"
+           asp-action="Index"
+           class="btn-saint-outline">
             Ver colección
         </a>
     </div>
+
 </section>
 
-<section class="home-logos">
-    <h2>Marcas</h2>
 
-    <div class="logos-grid">
-        <img src="/img/brands/adidas.png" alt="Adidas">
-        <img src="/img/brands/Asics.png" alt="Asics">
-        <img src="/img/brands/DrMartens.png" alt="Dr. Martens">
-        <img src="/img/brands/jordan.png" alt="Jordan">
-        <img src="/img/brands/newbalance.png" alt="New Balance">
-        <img src="/img/brands/nike.png" alt="Nike">
-        <img src="/img/brands/puma.png" alt="Puma">
-        <img src="/img/brands/Supreme.png" alt="Supreme">
-        <img src="/img/brands/Timberland.png" alt="Timberland">
+    
+
+<!-- =========================
+     FAQ – SAINT HUB
+========================= -->
+<section class="home-faq">
+
+    <div class="faq-header reveal reveal-scale">
+        <small>Claridad</small>
+        <h2>Antes de comprar</h2>
     </div>
-</section>
 
+    <div class="faq-grid">
 
+        <div class="faq-item reveal reveal-up" style="transition-delay:.05s">
+            <h4>¿Por qué algunos pedidos tardan 7 a 14 días?</h4>
+            <p>
+                Trabajamos con stock limitado y pedidos bajo encargo.
+                Esto nos permite ofrecer piezas que no siempre están disponibles localmente.
+            </p>
+        </div>
 
-<section class="home-editorial">
-    <img src="/img/home/editorial.jpg" alt="Saint Hub culture">
+        <div class="faq-item reveal reveal-up" style="transition-delay:.15s">
+            <h4>¿Los productos son originales?</h4>
+            <p>
+                Sí. Verificamos autenticidad y condición antes de gestionar cualquier pedido.
+            </p>
+        </div>
 
-    <div class="editorial-text">
-        <h2>La cultura no se copia</h2>
-        <p>
-            Saint Hub nace donde el diseño, la calle y la identidad se cruzan.
-            No seguimos tendencias. Las interpretamos.
-        </p>
+        <div class="faq-item reveal reveal-up" style="transition-delay:.25s">
+            <h4>¿Qué pasa si no hay disponibilidad?</h4>
+            <p>
+                Te avisamos antes de continuar el proceso y te ofrecemos alternativas o reembolso.
+            </p>
+        </div>
+
+        <div class="faq-item reveal reveal-up" style="transition-delay:.35s">
+            <h4>¿Cómo funciona un pedido personalizado?</h4>
+            <p>
+                Nos indicás el modelo que buscás y nosotros gestionamos la búsqueda, tiempos y entrega.
+            </p>
+        </div>
+
     </div>
+
 </section>
-<section class="home-cta">
-    <h2>Entrá al hub</h2>
-    <a asp-controller="Shop" asp-action="Index" class="btn-saint">
-        Shop now
-    </a>
+
+<!-- =========================
+     CUSTOM ORDERS – PREMIUM
+========================= -->
+<section class="home-custom">
+
+    <div class="custom-container">
+
+        <!-- TEXTO -->
+        <div class="custom-content reveal reveal-left">
+            <small>Servicio exclusivo</small>
+            <h2>Pedidos personalizados</h2>
+
+            <p class="custom-lead">
+                Algunas piezas no están en stock.
+                Otras simplemente no se consiguen.
+            </p>
+
+            <p class="custom-desc">
+                En Saint Hub gestionamos pedidos personalizados para quienes buscan algo específico.
+                Nos encargamos de la búsqueda, validación, tiempos y entrega.
+            </p>
+
+            <ul class="custom-list">
+                <li class="reveal reveal-up" style="transition-delay:.15s">Modelos específicos</li>
+                <li class="reveal reveal-up" style="transition-delay:.25s">Tallas difíciles</li>
+                <li class="reveal reveal-up" style="transition-delay:.35s">Piezas limitadas o descontinuadas</li>
+                <li class="reveal reveal-up" style="transition-delay:.45s">Asesoría directa durante todo el proceso</li>
+            </ul>
+
+            <a asp-controller="CustomOrder"
+               asp-action="Index"
+               class="btn-saint custom-btn reveal reveal-up"
+               style="transition-delay:.55s">
+                Solicitar pedido
+            </a>
+        </div>
+
+        <!-- VISUAL -->
+        <div class="custom-visual reveal reveal-right">
+            <img src="/img/branding/logo-white.png"
+                 alt="Saint Hub logo"
+                 class="custom-logo">
+        </div>
+
+    </div>
+
 </section>
+
+<section class="home-logos reveal">
+    <div class="logos-container">
+        <h2>Marcas</h2>
+
+        <div class="logos-grid">
+            <img src="/img/brands/adidas.png" alt="Adidas">
+            <img src="/img/brands/Asics.png" alt="Asics">
+            <img src="/img/brands/DrMartens.png" alt="Dr. Martens">
+            <img src="/img/brands/jordan.png" alt="Jordan">
+            <img src="/img/brands/newbalance.png" alt="New Balance">
+            <img src="/img/brands/nike.png" alt="Nike">
+            <img src="/img/brands/puma.png" alt="Puma">
+            <img src="/img/brands/Supreme.png" alt="Supreme">
+            <img src="/img/brands/Timberland.png" alt="Timberland">
+        </div>
+
+</section>
+
+
+<!-- =========================
+     CAROUSEL – SAINT HUB
+========================= -->
+<section class="home-carousel reveal">
+
+    <div class="carousel-track" id="carouselTrack">
+
+        <div class="carousel-slide">
+            <img src="/img/carousel/slide1.jpg" alt="Saint Hub 1">
+        </div>
+
+        <div class="carousel-slide">
+            <img src="/img/carousel/slide2.jpg" alt="Saint Hub 2">
+        </div>
+
+        <div class="carousel-slide">
+            <img src="/img/carousel/slide3.jpg" alt="Saint Hub 3">
+        </div>
+
+        <div class="carousel-slide">
+            <img src="/img/carousel/slide4.jpg" alt="Saint Hub 4">
+        </div>
+
+        <div class="carousel-slide">
+            <img src="/img/carousel/slide5.jpg" alt="Saint Hub 5">
+        </div>
+
+    </div>
+
+    <!-- DOTS -->
+    <div class="carousel-dots" id="carouselDots"></div>
+
+</section>
+
+
+
+
+    <script>
+        const track = document.getElementById("carouselTrack");
+        const slides = document.querySelectorAll(".carousel-slide");
+        const dotsContainer = document.getElementById("carouselDots");
+
+        let index = 0;
+        let interval;
+
+        slides.forEach((_, i) => {
+            const dot = document.createElement("button");
+            if (i === 0) dot.classList.add("active");
+
+            dot.addEventListener("click", () => {
+                index = i;
+                updateCarousel();
+                resetInterval();
+            });
+
+            dotsContainer.appendChild(dot);
+        });
+
+        const dots = dotsContainer.querySelectorAll("button");
+
+        function updateCarousel(){
+            track.style.transform = `translateX(-${index * 100}%)`;
+            dots.forEach(d => d.classList.remove("active"));
+            dots[index].classList.add("active");
+        }
+
+        function nextSlide(){
+            index = (index + 1) % slides.length;
+            updateCarousel();
+        }
+
+        function resetInterval(){
+            clearInterval(interval);
+            interval = setInterval(nextSlide, 4000);
+        }
+
+        interval = setInterval(nextSlide, 4000);
+    </script>
+<!-- =========================
+     TRUST BAR – SAINT HUB
+========================= -->
+<section class="home-trust">
+
+    <div class="trust-container">
+
+        <div class="trust-item reveal reveal-up" style="--d:0s">
+            <span class="trust-icon">
+                <i class="bi bi-shield-check"></i>
+            </span>
+            <h4>Pedido seguro</h4>
+            <p>
+                Procesos de compra protegidos para que compres con total confianza.
+            </p>
+        </div>
+
+        <div class="trust-item reveal reveal-up" style="--d:.12s">
+            <span class="trust-icon">
+                <i class="bi bi-credit-card-2-front"></i>
+            </span>
+            <h4>Pagos confiables</h4>
+            <p>
+                Transferencias, pagos locales y métodos verificados.
+            </p>
+        </div>
+
+        <div class="trust-item reveal reveal-up" style="--d:.24s">
+            <span class="trust-icon">
+                <i class="bi bi-box-seam"></i>
+            </span>
+            <h4>Entrega de 7 a 14 días hábiles</h4>
+            <p>
+                Tiempos estimados según proveedor.
+                <br />
+                <small>Sujetos a cambios imprevistos</small>
+            </p>
+        </div>
+
+        <div class="trust-item reveal reveal-up" style="--d:.36s">
+            <span class="trust-icon">
+                <i class="bi bi-person-check"></i>
+            </span>
+            <h4>Atención personalizada</h4>
+            <p>
+                Acompañamiento directo durante todo el proceso.
+            </p>
+        </div>
+
+    </div>
+
+
+
+
+    
+
+
+<script>
+    const observer = new IntersectionObserver(
+        entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                    observer.unobserve(entry.target);
+                }
+            });
+        },
+        {
+            threshold: 0.15
+        }
+    );
+
+    document.querySelectorAll('.reveal').forEach(el => {
+        observer.observe(el);
+    });
+</script>
+<script>
+    (() => {
+        const reveals = document.querySelectorAll('.reveal');
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        reveals.forEach(r => observer.observe(r));
+    })();
+</script>
+<script>
+    const logoObserver = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('show');
+                    }, index * 120); // delay elegante
+                }
+            });
+        },
+        {
+            threshold: 0.25
+        }
+    );
+
+    document
+        .querySelectorAll('.logos-grid img')
+        .forEach(img => logoObserver.observe(img));
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const reveals = document.querySelectorAll(".reveal");
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("is-visible");
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.2
+        });
+
+        reveals.forEach(el => observer.observe(el));
+    });
+</script>
+<script>
+    const steps = document.querySelectorAll('.how-step');
+    const lineFill = document.querySelector('.how-line-fill');
+
+    const stepObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('show');
+
+                const step = parseInt(entry.target.dataset.step);
+                const percent = ((step - 1) / (steps.length - 1)) * 100;
+                lineFill.style.width = `${percent}%`;
+
+                stepObserver.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.4
+    });
+
+    steps.forEach(step => stepObserver.observe(step));
+</script>

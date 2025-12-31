@@ -1,38 +1,64 @@
 ﻿@model List<SaintHub.Models.Order>
 
-<h1>Pedidos</h1>
+@section Styles {
+    <link rel="stylesheet" href="~/css/orders.css" asp-append-version="true" />
+}
 
-<table class="table-saint">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Cliente</th>
-            <th>Total</th>
-            <th>Estado</th>
-            <th>Fecha</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="orders-wrapper">
+
+    <!-- HEADER -->
+    <div class="orders-header">
+        <div>
+            <h1>Pedidos</h1>
+            <span class="orders-count">@Model.Count pedido(s)</span>
+        </div>
+    </div>
+
+    <!-- LIST -->
+    <section class="orders-card">
+
+        <div class="orders-table-head">
+            <span>ID</span>
+            <span>Cliente</span>
+            <span>Total</span>
+            <span>Estado</span>
+            <span>Fecha</span>
+            <span></span>
+        </div>
+
         @foreach (var o in Model)
         {
-            <tr>
-                <td>@o.Id</td>
-                <td>@o.Email</td>
-                <td>₡ @o.TotalCrc.ToString("N0")</td>
-                <td>@o.Status</td>
-                <td>@o.CreatedAt.ToString("dd/MM/yyyy")</td>
-                <td>
-                    <a asp-action="Edit"
-                       asp-route-id="@o.Id"
-                       class="btn-saint">
-                        Ver / Editar
-                    </a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+            <div class="orders-row">
 
+                <span class="order-id">#@o.Id</span>
+
+                <div class="order-client">
+                    <strong>@o.FullName</strong>
+                    <span>@o.Email</span>
+                </div>
+
+                <span class="order-total">
+                    ₡ @o.TotalCrc.ToString("N0")
+                </span>
+
+                <span class="order-status status-@o.Status.ToLower()">
+                    @o.Status
+                </span>
+
+                <span class="order-date">
+                    @o.CreatedAt.ToString("dd/MM/yyyy")
+                </span>
+
+                <a asp-action="Edit"
+                   asp-route-id="@o.Id"
+                   class="btn-view">
+                    Ver pedido
+                </a>
+
+            </div>
+        }
+    </section>
+
+</div>
 
 

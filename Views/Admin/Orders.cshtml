@@ -47,23 +47,32 @@
                     </td>
 
                     <td>
-                        <form asp-action="UpdateOrderStatus"
-                              method="post"
-                              style="display:flex; gap:.4rem;">
-                            <input type="hidden" name="id" value="@o.Id" />
+                        <div style="display:flex; gap:.4rem; flex-wrap:wrap;">
+                            <a asp-action="Details"
+                               asp-route-id="@o.Id"
+                               class="btn-saint-outline">
+                                Ver detalles
+                            </a>
 
-                            <select name="status" class="select-saint">
-                                <option selected="@("Pendiente" == o.Status)">Pendiente</option>
-                                <option selected="@("En proceso" == o.Status)">En proceso</option>
-                                <option selected="@("Entregado" == o.Status)">Entregado</option>
-                                <option selected="@("Cancelado" == o.Status)">Cancelado</option>
-                            </select>
+                            <form asp-action="UpdateOrderStatus"
+                                  method="post"
+                                  style="display:flex; gap:.4rem;">
+                                <input type="hidden" name="id" value="@o.Id" />
 
-                            <button class="btn-saint-outline">
-                                Actualizar
-                            </button>
-                        </form>
+                                <select name="status" class="select-saint">
+                                    <option selected="@("Pendiente" == o.Status)">Pendiente</option>
+                                    <option selected="@("En proceso" == o.Status)">En proceso</option>
+                                    <option selected="@("Entregado" == o.Status)">Entregado</option>
+                                    <option selected="@("Cancelado" == o.Status)">Cancelado</option>
+                                </select>
+
+                                <button class="btn-saint-outline">
+                                    Actualizar
+                                </button>
+                            </form>
+                        </div>
                     </td>
+
                 </tr>
             }
         </tbody>

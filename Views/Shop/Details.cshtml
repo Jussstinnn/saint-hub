@@ -1,87 +1,310 @@
 ﻿@model SaintHub.Models.Product
 
-<div class="product-details-grid">
+@{
+    var primaryImage = Model.Images.FirstOrDefault(i => i.IsPrimary)
+                   ?? Model.Images.FirstOrDefault();
 
-    <!-- IMÁGENES -->
-    <div class="product-images">
-        @if (Model.Images.Any())
+    var colors = Model.Variants
+        .Where(v => v.IsActive)
+        .Select(v => v.Color)
+        .Distinct()
+        .ToList();
+}
+
+<div class="product-details-grid premium">
+
+    <!-- =========================
+         IMÁGENES (COLUMNA IZQUIERDA)
+    ========================= -->
+    <div class="product-images premium-media">
+
+        <div class="media-frame">
+            @if (primaryImage != null)
+            {
+                <img src="@primaryImage.Url"
+                     alt="@Model.Name"
+                     class="product-main-img"
+                     id="mainProductImage" />
+            }
+            else
+            {
+                <img src="/img/no-image.png"
+                     alt="Sin imagen"
+                     class="product-main-img"
+                     id="mainProductImage" />
+            }
+        </div>
+
+        @if (Model.Images.Count > 1)
         {
-            <img src="@Model.Images.First().Url"
-                 alt="@Model.Name"
-                 class="product-main-img" />
-        }
-        else
-        {
-            <img src="/img/no-image.png" class="product-main-img" />
+            <div class="product-thumbs" id="thumbs">
+                @foreach (var img in Model.Images)
+                {
+                    <button type="button"
+                            class="thumb-btn @(img.Id == primaryImage?.Id ? "active" : "")"
+                            data-src="@img.Url">
+                        <img src="@img.Url" class="product-thumb" alt="" />
+                    </button>
+                }
+            </div>
         }
     </div>
 
-    <!-- INFO -->
-    <div class="product-info">
+    <!-- =========================
+         INFO (COLUMNA DERECHA)
+    ========================= -->
+    <div class="product-info premium-info">
 
-        <h1>@Model.Name</h1>
+        <!-- CABECERA -->
+        <div class="info-head">
+            <h1 class="product-title">@Model.Name</h1>
 
-        <h2 class="price">
-            ₡ @Model.PriceCrc.ToString("N0")
-        </h2>
+            <div class="price-row">
+                <div class="product-price" id="productPrice" data-state="empty">
+                    <span class="price-currency">₡</span>
+                    <span class="price-value">—</span>
+                </div>
 
-        @if (Model.Fulfillment == 1)
-        {
-            <span class="badge-stock">EN STOCK</span>
-        }
-        else
-        {
-            <span class="badge-encargo">POR ENCARGO</span>
-        }
-
-        <p class="description">
-            @Model.Description
-        </p>
-
-        <!-- FORM -->
-        <form asp-controller="Cart"
-              asp-action="Add"
-              method="post"
-              class="variant-form">
-
-            <h4>Talla / Variante</h4>
-
-            <select class="select-saint"
-                    name="variantId"
-                    required>
-                <option value="" selected disabled>
-                    Elegí una opción…
-                </option>
-
-                @foreach (var v in Model.Variants.Where(v => v.IsActive))
-                {
-                    if (Model.Fulfillment == 1 && v.Stock <= 0)
+                <div class="product-status">
+                    @if (Model.Fulfillment == 1)
                     {
-                        <option disabled>
-                            @v.Option (Sin stock)
-                        </option>
+                        <span class="status in-stock">Disponible</span>
                     }
                     else
                     {
-                        <option value="@v.Id">
-                            @v.Option
-                            @if (Model.Fulfillment == 1)
-                            {
-                                <text> (@v.Stock)</text>
-                            }
-                        </option>
+                        <span class="status preorder">Por encargo</span>
                     }
+                </div>
+            </div>
+
+            <div class="price-hint">
+                Seleccioná color y talla para ver el precio
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Description))
+            {
+                <p class="description">@Model.Description</p>
+            }
+        </div>
+
+        <!-- =========================
+             FORM COMPRA (MISMO LUGAR QUE ANTES)
+        ========================= -->
+        <form asp-controller="Cart"
+      asp-action="Add"
+      method="post"
+      class="variant-form premium-buy"
+      id="addToCartForm">
+
+
+            <label class="variant-title">Seleccionar color</label>
+            <select id="colorSelect"
+                    class="select-saint premium-select"
+                    required>
+                <option value="" disabled selected>Seleccionar color</option>
+                @foreach (var c in colors)
+                {
+                    <option value="@c">@c</option>
                 }
             </select>
 
-            <button class="btn-saint"
-                    style="margin-top:1rem;">
+            <label class="variant-title">Seleccionar talla</label>
+            <select id="sizeSelect"
+                    name="variantId"
+                    class="select-saint premium-select"
+                    required>
+                <option value="" disabled selected>Seleccionar talla</option>
+            </select>
+
+            <button class="btn-saint premium-cta" type="submit">
                 Agregar al carrito
             </button>
+
+            <div class="micro-note">
+                Pago seguro • Entrega coordinada • Soporte por WhatsApp
+            </div>
         </form>
 
     </div>
 </div>
+<script>
+    const COLOR_IMAGES = {
+        @foreach (var img in Model.Images.Where(i => !string.IsNullOrEmpty(i.Color)))
+        {
+            <text>
+            "@img.Color": "@img.Url",
+            </text>
+        }
+    };
+</script>
+
+<!-- =========================
+     VARIANTES → JS
+========================= -->
+<script>
+    const VARIANTS = @Html.Raw(
+        System.Text.Json.JsonSerializer.Serialize(
+            Model.Variants
+                .Where(v => v.IsActive)
+                .Select(v => new {
+                    id = v.Id,
+                    size = v.Option,
+                    color = v.Color,
+                    price = v.PriceCrc,
+                    stock = v.Stock
+                })
+        )
+    );
+</script>
+<script>
+    const COLOR_IMAGES = {
+        @foreach (var img in Model.Images)
+        {
+            var color = img.Color ?? "";
+            if (!string.IsNullOrEmpty(color))
+            {
+                <text>
+                "@color": "@img.Url",
+                </text>
+            }
+        }
+    };
+</script>
+
+<script>
+    (function () {
+        const colorSelect = document.getElementById('colorSelect');
+        const sizeSelect = document.getElementById('sizeSelect');
+        const priceBox = document.getElementById('productPrice');
+        const priceValue = priceBox.querySelector('.price-value');
+        const mainImage = document.getElementById('mainProductImage');
+
+        if (!colorSelect || !sizeSelect || !priceBox || !priceValue) return;
+
+        // Estado inicial
+        priceBox.dataset.state = 'empty';
+        priceValue.textContent = '—';
+
+        // =========================
+        // CAMBIO DE COLOR
+        // =========================
+        colorSelect.addEventListener('change', () => {
+            const color = colorSelect.value;
+
+            /* ===== Cambiar imagen según color ===== */
+            if (mainImage && typeof COLOR_IMAGES !== 'undefined' && COLOR_IMAGES[color]) {
+                const newSrc = COLOR_IMAGES[color];
+
+                if (!mainImage.src.endsWith(newSrc)) {
+                    mainImage.classList.add('fade-out');
+                    setTimeout(() => {
+                        mainImage.src = newSrc;
+                        mainImage.classList.remove('fade-out');
+                    }, 120);
+                }
+            }
+
+            /* ===== Reset tallas ===== */
+            sizeSelect.innerHTML =
+                '<option value="" disabled selected>Seleccionar talla</option>';
+
+            const variantsForColor = VARIANTS.filter(
+                v => v.color === color && v.stock > 0
+            );
+
+            variantsForColor.forEach(v => {
+                const opt = document.createElement('option');
+                opt.value = v.id;
+                opt.textContent = `${v.size} · ${v.stock} disponibles`;
+                opt.dataset.price = v.price;
+                sizeSelect.appendChild(opt);
+            });
+
+            /* ===== Reset precio ===== */
+            priceBox.dataset.state = 'empty';
+            priceValue.textContent = '—';
+        });
+
+        // =========================
+        // CAMBIO DE TALLA
+        // =========================
+        sizeSelect.addEventListener('change', () => {
+            const opt = sizeSelect.options[sizeSelect.selectedIndex];
+            const price = opt?.dataset?.price;
+
+            if (price) {
+                priceBox.dataset.state = 'filled';
+                priceValue.textContent = Number(price).toLocaleString();
+            } else {
+                priceBox.dataset.state = 'empty';
+                priceValue.textContent = '—';
+            }
+        });
+    })();
+</script>
 
 
+<!-- =========================
+     GALERÍA
+========================= -->
+<script>
+    (function () {
+        const main = document.getElementById('mainProductImage');
+        const thumbs = document.getElementById('thumbs');
+        if (!main || !thumbs) return;
 
+        thumbs.addEventListener('click', (e) => {
+            const btn = e.target.closest('.thumb-btn');
+            if (!btn) return;
+
+            const src = btn.getAttribute('data-src');
+            if (!src || main.src.endsWith(src)) return;
+
+            main.classList.add('fade-out');
+            setTimeout(() => {
+                main.src = src;
+                main.classList.remove('fade-out');
+            }, 120);
+
+            thumbs.querySelectorAll('.thumb-btn')
+                .forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        });
+    })();
+</script>
+<script>
+    (function () {
+        const form = document.getElementById('addToCartForm');
+        if (!form) return;
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault(); // ⛔ evita el redirect
+
+            const formData = new FormData(form);
+            const variantId = formData.get('variantId');
+
+            if (!variantId) return;
+
+            fetch('/Cart/Add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `variantId=${variantId}`
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    // 🔥 actualizar contador del navbar
+                    updateCartCount(data.count);
+
+                    // (opcional) feedback visual
+                    form.querySelector('button').textContent = '✔ Agregado';
+                    setTimeout(() => {
+                        form.querySelector('button').textContent = 'Agregar al carrito';
+                    }, 1200);
+                }
+            });
+        });
+    })();
+</script>

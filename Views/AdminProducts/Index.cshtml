@@ -1,43 +1,57 @@
 ﻿@model List<SaintHub.Models.Product>
-@{
-    Layout = "_Layout";
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/products-admin.css" asp-append-version="true" />
 }
 
-<h1>Productos</h1>
+<div class="products-wrapper">
 
-<div class="admin-header">
-    
+    <!-- HEADER -->
+    <div class="products-header">
+        <div>
+            <h1>Productos</h1>
+            <span class="products-count">@Model.Count producto(s)</span>
+        </div>
 
-    <a href="/Admin/CreateProduct" class="btn-saint">
-        + Agregar producto
-    </a>
+        <a href="/Admin/CreateProduct" class="btn-primary">
+            + Agregar producto
+        </a>
+    </div>
 
-</div>
+    <!-- LIST -->
+    <section class="products-card">
 
-<table class="table-saint">
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Precio</th>
-            <th>Activo</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+        <div class="products-table-head">
+            <span>Producto</span>
+            <span>Precio</span>
+            <span>Estado</span>
+            <span></span>
+        </div>
+
         @foreach (var p in Model)
         {
-            <tr>
-                <td>@p.Name</td>
-                <td>₡ @p.PriceCrc.ToString("N0")</td>
-                <td>@(p.IsActive ? "Sí" : "No")</td>
-                <td>
-                    <a href="/Admin/Products/Edit/@p.Id" class="btn-saint">
-                        Editar
-                    </a>
-                </td>
-            </tr>
+            <div class="products-row">
+
+                <div class="product-info">
+                    <strong>@p.Name</strong>
+                    <span>ID #@p.Id</span>
+                </div>
+
+                <span class="product-price">
+                    ₡ @p.PriceCrc.ToString("N0")
+                </span>
+
+                <span class="product-status @(p.IsActive ? "active" : "inactive")">
+                    @(p.IsActive ? "Activo" : "Inactivo")
+                </span>
+
+                <a href="/Admin/Products/Edit/@p.Id"
+                   class="btn-view">
+                    Editar
+                </a>
+
+            </div>
         }
-    </tbody>
-</table>
+    </section>
 
-
+</div>
