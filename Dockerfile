@@ -2,11 +2,15 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
+# Copiamos solo el csproj y restauramos
 COPY SaintHub.csproj ./
-RUN dotnet restore
+RUN dotnet restore SaintHub.csproj
 
+# Copiamos el resto del proyecto
 COPY . ./
-RUN dotnet publish -c Release -o out
+
+# 🔴 PUBLICAMOS EXPLÍCITAMENTE EL CSPROJ
+RUN dotnet publish SaintHub.csproj -c Release -o out
 
 # ---------- RUNTIME ----------
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
