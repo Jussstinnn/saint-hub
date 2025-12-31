@@ -4,6 +4,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 COPY . .
 
+# 🔴 ENTRAMOS A LA CARPETA DEL PROYECTO ANTES DEL RESTORE
 WORKDIR /app/SaintHub
 
 RUN dotnet restore SaintHub.csproj
