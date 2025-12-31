@@ -1,14 +1,12 @@
 ﻿# ---------- BUILD ----------
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-
 WORKDIR /app
-COPY . .
 
-# 🔴 ENTRAMOS A LA CARPETA DEL PROYECTO ANTES DEL RESTORE
-WORKDIR /app/SaintHub
+COPY SaintHub.csproj ./
+RUN dotnet restore
 
-RUN dotnet restore SaintHub.csproj
-RUN dotnet publish SaintHub.csproj -c Release -o /app/out
+COPY . ./
+RUN dotnet publish -c Release -o out
 
 # ---------- RUNTIME ----------
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
