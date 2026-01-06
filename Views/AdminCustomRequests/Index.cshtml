@@ -59,16 +59,17 @@
                     <!-- PEDIDO -->
                     <div class="custom-request">
                         <span>
-                            @(string.IsNullOrWhiteSpace(r.RequestType)
+                            @(string.IsNullOrWhiteSpace(r.ProductType)
                                                 ? "Pedido personalizado"
-                                                : r.RequestType)
+                                                : r.ProductType)
                 </span>
 
                         <span class="muted">
                             @(string.IsNullOrWhiteSpace(r.Brand) ? "Marca no indicada" : r.Brand)
-                            @(string.IsNullOrWhiteSpace(r.Model) ? "" : $" {r.Model}")
+                            @(string.IsNullOrWhiteSpace(r.ProductName) ? "" : $" {r.ProductName}")
                             · Talla: @(string.IsNullOrWhiteSpace(r.Size) ? "—" : r.Size)
                         </span>
+
                     </div>
 
                     <!-- ESTADO -->

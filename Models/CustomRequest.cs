@@ -1,6 +1,5 @@
-using System;
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.ComponentModel.DataAnnotations;
 
 namespace SaintHub.Models
 {
@@ -8,6 +7,9 @@ namespace SaintHub.Models
     {
         public int Id { get; set; }
 
+        // =========================
+        // DATOS DE CONTACTO
+        // =========================
         [Required]
         public string FullName { get; set; } = null!;
 
@@ -17,12 +19,23 @@ namespace SaintHub.Models
         [Required]
         public string Phone { get; set; } = null!;
 
-        public string? RequestType { get; set; }
-        public string? Brand { get; set; }
-        public string? Model { get; set; }
-        public string? Size { get; set; }
-        public string? Description { get; set; }
+        // =========================
+        // DATOS DEL PRODUCTO
+        // =========================
+        [Required]
+        public string ProductType { get; set; } = null!; // Tenis / Ropa / Accesorios / Música
 
+        public string? Brand { get; set; }
+        public string? ProductName { get; set; }
+        public string? Size { get; set; }
+        public string? GenderModel { get; set; }
+        public string? Color { get; set; }
+        public string? ReferenceLink { get; set; }
+        public string? Comments { get; set; }
+
+        // =========================
+        // SISTEMA
+        // =========================
         [BindNever]
         public string Status { get; set; } = "Nuevo";
 
@@ -30,7 +43,3 @@ namespace SaintHub.Models
         public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
 }
-
-
-
-

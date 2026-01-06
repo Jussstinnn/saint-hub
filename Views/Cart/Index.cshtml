@@ -78,6 +78,7 @@
             }
 
         </div>
+        
 
         <div class="cart-summary premium">
 
@@ -89,6 +90,7 @@
             </div>
 
             <div class="cart-actions">
+
                 <a class="btn-saint"
                    asp-controller="Home"
                    asp-action="Index">
@@ -100,8 +102,27 @@
                    asp-action="Index">
                     Proceder al pago
                 </a>
-            </div>
 
+            </div>
+          
+        </div>
+        <div class="cart-note">
+            <strong>Información importante</strong>
+            <p>
+                Los precios mostrados son <b>referenciales</b> y pueden variar según talla,
+                color y mercado internacional.
+            </p>
+            <p>
+                Ir al checkout <b>no implica ningún pago</b>. El pedido se registra en nuestro
+                sistema y nos pondremos en contacto para confirmar el precio final.
+            </p>
+
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <p class="muted">
+                    Iniciar sesión te permite ver el estado de tu pedido y recibir actualizaciones.
+                </p>
+            }
         </div>
     }
 

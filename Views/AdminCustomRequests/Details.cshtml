@@ -48,7 +48,7 @@
 
             <div>
                 <span>Tipo</span>
-                <strong>@Model.RequestType</strong>
+                <strong>@Model.ProductType</strong>
             </div>
 
             <div>
@@ -57,19 +57,48 @@
             </div>
 
             <div>
-                <span>Modelo</span>
-                <strong>@Model.Model</strong>
+                <span>Producto</span>
+                <strong>@Model.ProductName</strong>
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Size))
+            {
+                <div>
+                    <span>Talla</span>
+                    <strong>@Model.Size</strong>
+                </div>
+            }
+
+
+            <div>
+                <span>Color</span>
+                <strong>@Model.Color</strong>
             </div>
 
             <div>
-                <span>Talla</span>
-                <strong>@Model.Size</strong>
+                <span>Modelo</span>
+                <strong>@(Model.GenderModel ?? "—")</strong>
             </div>
+            @if (!string.IsNullOrWhiteSpace(Model.ReferenceLink))
+            {
+                <div class="span-2">
+                    <span>Link de referencia</span>
+                    <strong>
+                        <a href="@Model.ReferenceLink"
+                           target="_blank"
+                           rel="noopener"
+                           class="ref-link">
+                            Ver referencia
+                        </a>
+                    </strong>
+                </div>
+            }
 
             <div class="span-2">
-                <span>Detalles del cliente</span>
-                <strong>@Model.Description</strong>
+                <span>Comentarios</span>
+                <strong>@(Model.Comments ?? "Sin comentarios")</strong>
             </div>
+
 
         </div>
     </section>

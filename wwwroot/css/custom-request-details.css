@@ -216,3 +216,12 @@
         padding: 1rem 0;
     }
 }
+.ref-link {
+    color: #ffd166;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+    .ref-link:hover {
+        text-decoration: underline;
+    }

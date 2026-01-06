@@ -18,6 +18,27 @@
     else
     {
         <section class="product-grid">
+            <!-- CARD ESPECIAL – PEDIDO PERSONALIZADO -->
+            <div class="product-card special-request">
+
+                <span class="special-badge">PEDIDO ESPECIAL</span>
+
+                <div class="special-body">
+                    <h3>¿Buscas algo que no está en el catálogo?</h3>
+                    <p>Solicita cualquier producto que no veas aquí</p>
+                </div>
+
+                <div class="special-action">
+                    <a href="/CustomOrder"
+                       class="btn-saint highlight">
+                        Solicitar producto
+                    </a>
+
+                </div>
+
+            </div>
+
+
             @foreach (var p in Model)
             {
                 <article class="product-card">
@@ -34,7 +55,18 @@
                     <div class="product-info">
                         <h3>@p.Name</h3>
 
-                        <p class="price">₡ @p.PriceCrc.ToString("N0")</p>
+                        <div class="price-block">
+                            <p class="price-range">
+                                ₡ @((p.PriceCrc - 15000).ToString("N0"))
+                                –
+                                ₡ @((p.PriceCrc + 15000).ToString("N0"))
+                            </p>
+
+                            <span class="price-note">
+                                El precio final depende del proveedor y disponibilidad
+                            </span>
+                        </div>
+
 
                         <a asp-controller="Shop"
                            asp-action="Details"
@@ -43,6 +75,7 @@
                             Ver producto
                         </a>
                     </div>
+
 
                 </article>
             }

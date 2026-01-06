@@ -15,28 +15,13 @@ public class AdminCustomRequestsController : Controller
     public IActionResult Index()
     {
         var requests = _context.CustomRequests
-            .Select(r => new CustomRequest
-            {
-                Id = r.Id,
-                FullName = r.FullName,
-                Email = r.Email,
-                Phone = r.Phone,
-
-                RequestType = r.RequestType ?? "",
-                Brand = r.Brand ?? "",
-                Model = r.Model ?? "",
-                Size = r.Size ?? "",
-                Description = r.Description ?? "",
-
-                Status = r.Status ?? "Pendiente",
-                CreatedAt = r.CreatedAt
-            })
             .OrderByDescending(r => r.CreatedAt)
             .ToList();
 
-        return View("~/Views/AdminCustomRequests/Index.cshtml", requests);
-
+        return View(requests);
     }
+
+
 
 
     // DETALLE

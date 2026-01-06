@@ -96,34 +96,43 @@
       class="variant-form premium-buy"
       id="addToCartForm">
 
+    <label class="variant-title">Seleccionar color</label>
+    <select id="colorSelect"
+            class="select-saint premium-select"
+            required>
+        <option value="" disabled selected>Seleccionar color</option>
+        @foreach (var c in colors)
+        {
+            <option value="@c">@c</option>
+        }
+    </select>
 
-            <label class="variant-title">Seleccionar color</label>
-            <select id="colorSelect"
-                    class="select-saint premium-select"
-                    required>
-                <option value="" disabled selected>Seleccionar color</option>
-                @foreach (var c in colors)
-                {
-                    <option value="@c">@c</option>
-                }
-            </select>
+    <label class="variant-title">Seleccionar talla</label>
+    <select id="sizeSelect"
+            name="variantId"
+            class="select-saint premium-select"
+            required>
+        <option value="" disabled selected>Seleccionar talla</option>
+    </select>
 
-            <label class="variant-title">Seleccionar talla</label>
-            <select id="sizeSelect"
-                    name="variantId"
-                    class="select-saint premium-select"
-                    required>
-                <option value="" disabled selected>Seleccionar talla</option>
-            </select>
+    <!-- DISCLAIMER -->
+    <div class="price-disclaimer">
+        <strong>Importante</strong>
+        Los precios mostrados son aproximados y pueden variar según talla,
+        color y mercado internacional.
+        <br />
+        El precio final será confirmado al coordinar el pedido.
+    </div>
 
-            <button class="btn-saint premium-cta" type="submit">
-                Agregar al carrito
-            </button>
+    <button class="btn-saint premium-cta" type="submit">
+        Agregar al carrito
+    </button>
 
-            <div class="micro-note">
-                Pago seguro • Entrega coordinada • Soporte por WhatsApp
-            </div>
-        </form>
+    <div class="micro-note">
+        Pago seguro • Entrega coordinada • Soporte por WhatsApp
+    </div>
+</form>
+
 
     </div>
 </div>

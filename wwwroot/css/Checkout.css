@@ -632,3 +632,9 @@
     .btn-guest-link:active {
         opacity: .6;
     }
+.price-disclaimer {
+    margin-top: .5rem;
+    font-size: .75rem;
+    color: rgba(255,255,255,.55);
+    line-height: 1.4;
+}
