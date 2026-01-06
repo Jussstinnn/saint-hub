@@ -485,3 +485,9 @@ $RECYCLE.BIN/
 bin/
 obj/
 .vs/
+# Build artifacts
+bin/
+obj/
+
+# Visual Studio
+.vs/
