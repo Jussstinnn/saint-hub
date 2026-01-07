@@ -24,9 +24,11 @@
 </section>
 <section class="purchase-modes">
 
+    <!-- EN STOCK -->
     <a asp-controller="Shop"
        asp-action="Index"
        asp-route-fulfillment="1"
+       asp-route-showSpecial="true"
        class="mode-card reveal reveal-up"
        style="background-image:url('/img/home/stock.jpg');
               transition-delay:.05s">
@@ -34,14 +36,17 @@
         <div class="mode-overlay"></div>
 
         <div class="mode-content">
-            <h3>En stock</h3>
-            <p>Productos disponibles para entrega inmediata.</p>
+            <h3>En stock</h3> 
+            
+            <p>Productos disponibles para envío o retiro inmediato.</p>
         </div>
     </a>
 
+    <!-- POR ENCARGO -->
     <a asp-controller="Shop"
        asp-action="Index"
        asp-route-fulfillment="2"
+       asp-route-showSpecial="true"
        class="mode-card reveal reveal-up"
        style="background-image:url('/img/home/on-demand.jpg');
               transition-delay:.2s">
@@ -49,11 +54,13 @@
         <div class="mode-overlay"></div>
 
         <div class="mode-content">
-            <h3>Por encargo</h3>
+            <h3>Por encargo</h3> 
             <p>Traemos piezas exclusivas bajo pedido.</p>
+            
         </div>
     </a>
 
+    <!-- CUSTOM ORDER (NO SE TOCA) -->
     <a asp-controller="CustomOrder"
        asp-action="Index"
        class="mode-card reveal reveal-up"
@@ -65,10 +72,13 @@
         <div class="mode-content">
             <h3>Pedido personalizado</h3>
             <p>Buscamos lo que querés, a tu medida.</p>
+            
         </div>
     </a>
 
 </section>
+
+
 
 <section class="home-how">
 

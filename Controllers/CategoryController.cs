@@ -14,11 +14,19 @@ namespace SaintHub.Controllers
             _context = context;
         }
 
-        public IActionResult Index(int id)
+        public IActionResult Index(int id, int? fulfillment)
         {
-            var products = _context.Products
-                .Include(p => p.Images) // ? IMPORTANTE
-                .Where(p => p.Category == id && p.IsActive)
+            var query = _context.Products
+                .Include(p => p.Images)
+                .Where(p => p.Category == id && p.IsActive);
+
+            // ?? FILTRO EN STOCK / POR ENCARGO
+            if (fulfillment.HasValue)
+            {
+                query = query.Where(p => p.Fulfillment == fulfillment.Value);
+            }
+
+            var products = query
                 .Select(p => new CategoryProductVM
                 {
                     Id = p.Id,
@@ -31,9 +39,10 @@ namespace SaintHub.Controllers
                         .Select(i => i.Url)
                         .ToList()
                 })
-                .ToList(); // ? CLAVE
+                .ToList();
 
             ViewBag.CategoryId = id;
+            ViewBag.Fulfillment = fulfillment;
 
             return View(products);
         }

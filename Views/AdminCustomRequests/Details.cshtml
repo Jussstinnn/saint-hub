@@ -37,8 +37,14 @@
                 <span>Teléfono</span>
                 <strong>@Model.Phone</strong>
             </div>
+
+            <div class="span-2">
+                <span>Dirección</span>
+                <strong>@Model.Address</strong>
+            </div>
         </div>
     </section>
+
 
     <!-- SOLICITUD -->
     <section class="custom-card">
@@ -102,6 +108,88 @@
 
         </div>
     </section>
+    @if (Model.ProductType == "Música")
+    {
+        <section class="custom-card">
+            <h2>Detalles de música</h2>
+
+            <div class="custom-grid">
+
+                <div>
+                    <span>Artista / Banda</span>
+                    <strong>@Model.MusicArtist</strong>
+                </div>
+
+                <div>
+                    <span>Álbum</span>
+                    <strong>@Model.AlbumName</strong>
+                </div>
+
+                <div>
+                    <span>Edición / Versión</span>
+                    <strong>@Model.Edition</strong>
+                </div>
+
+                <div>
+                    <span>Formato</span>
+                    <strong>@Model.MusicFormat</strong>
+                </div>
+
+                <div>
+                    <span>Condición</span>
+                    <strong>@Model.Condition</strong>
+                </div>
+
+            </div>
+        </section>
+    }
+    @if (Model.ProductType == "Accesorios")
+    {
+        <section class="custom-card">
+            <h2>Detalles de accesorio</h2>
+
+            <div class="custom-grid">
+
+                <div>
+                    <span>Tipo de accesorio</span>
+                    <strong>@Model.AccessoryType</strong>
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(Model.AccessoryOther))
+                {
+                    <div>
+                        <span>Especificación</span>
+                        <strong>@Model.AccessoryOther</strong>
+                    </div>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(Model.Measurements))
+                {
+                    <div>
+                        <span>Medidas / Talla</span>
+                        <strong>@Model.Measurements</strong>
+                    </div>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(Model.Material))
+                {
+                    <div>
+                        <span>Material</span>
+                        <strong>@Model.Material</strong>
+                    </div>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(Model.Style))
+                {
+                    <div>
+                        <span>Estilo</span>
+                        <strong>@Model.Style</strong>
+                    </div>
+                }
+
+            </div>
+        </section>
+    }
 
     <!-- ESTADO -->
     <section class="custom-card">

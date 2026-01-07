@@ -32,6 +32,24 @@ namespace SaintHub.Models
         public string? Color { get; set; }
         public string? ReferenceLink { get; set; }
         public string? Comments { get; set; }
+        [Required]
+        public string Address { get; set; } = null!;
+        // =========================
+        // MÚSICA
+        // =========================
+        public string? MusicArtist { get; set; }
+        public string? AlbumName { get; set; }
+        public string? Edition { get; set; }        // Deluxe, Remastered, etc.
+        public string? MusicFormat { get; set; }    // LP / EP / CD
+        public string? Condition { get; set; }      // Nuevo / Usado (VG+, VG...)
+                                                    // =========================
+                                                    // ACCESORIOS
+                                                    // =========================
+        public string? AccessoryType { get; set; }      // Faja, Cadena, Gorra, Otro
+        public string? AccessoryOther { get; set; }     // Si elige "Otro"
+        public string? Measurements { get; set; }       // Talla / Largo / etc.
+        public string? Material { get; set; }
+        public string? Style { get; set; }
 
         // =========================
         // SISTEMA

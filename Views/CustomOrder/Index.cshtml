@@ -425,29 +425,43 @@
             <!-- =====================
                  DETALLES ACCESORIOS / MÚSICA
             ===================== -->
-            <div class="po-section" id="accessoryDetails" style="display:none;">
-                <h3>Detalles del producto</h3>
+            <div class="po-section" id="musicDetails" style="display:none;">
+                <h3>Pedido personalizado de música</h3>
 
                 <div class="po-grid">
 
                     <div class="po-field">
-                        <label>Marca *</label>
-                        <input asp-for="Brand" />
+                        <label>Artista / Banda *</label>
+                        <input asp-for="MusicArtist" id="MusicArtist" />
                     </div>
 
                     <div class="po-field">
-                        <label>Nombre del producto *</label>
-                        <input asp-for="ProductName" />
+                        <label>Nombre del álbum *</label>
+                        <input asp-for="AlbumName" id="AlbumName" />
                     </div>
 
                     <div class="po-field">
-                        <label>Variante / Edición</label>
-                        <input placeholder="Ej: Edición limitada, Vinilo 180g, Colorway" />
+                        <label>Edición o versión *</label>
+                        <input asp-for="Edition" id="Edition" />
                     </div>
 
                     <div class="po-field">
-                        <label>Color</label>
-                        <input asp-for="Color" />
+                        <label>Formato *</label>
+                        <select asp-for="MusicFormat" id="MusicFormat">
+                            <option value="">Seleccionar</option>
+                            <option>LP</option>
+                            <option>EP</option>
+                            <option>Audio CD</option>
+                        </select>
+                    </div>
+
+                    <div class="po-field">
+                        <label>Condición *</label>
+                        <select asp-for="Condition" id="Condition">
+                            <option value="">Seleccionar</option>
+                            <option>Nuevo / Sellado</option>
+                            <option>Usado (VG+, VG, etc.)</option>
+                        </select>
                     </div>
 
                     <div class="po-field po-span-2">
@@ -456,11 +470,175 @@
                     </div>
 
                     <div class="po-field po-span-2">
-                        <label>Comentarios</label>
+                        <label>Comentarios adicionales</label>
                         <textarea asp-for="Comments"></textarea>
                     </div>
 
                 </div>
+            </div>
+
+            <!-- =====================
+                 DETALLES ACCESORIOS
+            ===================== -->
+            <div class="po-section" id="accessoryDetails" style="display:none;">
+                <h3>Pedido de accesorios</h3>
+
+                <div class="po-grid">
+
+                    <!-- TIPO DE ACCESORIO -->
+                    <div class="po-field">
+                        <label>¿Qué accesorio deseas pedir? *</label>
+                        <select asp-for="AccessoryType" id="accessoryType">
+                            <option value="">Seleccionar</option>
+                            <option>Faja</option>
+                            <option>Cadena</option>
+                            <option>Gorra</option>
+                            <option>Pulsera</option>
+                            <option>Otro</option>
+                        </select>
+                    </div>
+                   
+                    <!-- OTRO -->
+                    <div class="po-field po-span-2 po-accent" id="accessoryOther" style="display:none;">
+                        <label>¿Qué accesorio tienes en mente?</label>
+                        <input asp-for="AccessoryOther"
+                               placeholder="Ej: Llavero, anillo, collar personalizado, brazalete…" />
+                        <small class="po-hint">
+                            Describe brevemente el accesorio para poder cotizarlo mejor.
+                        </small>
+                    </div>
+
+
+                    <!-- =====================
+                         FAJA
+                    ===================== -->
+                    <div id="fajaFields" class="po-span-2" style="display:none;">
+                        <div class="po-grid">
+
+                            <div class="po-field">
+                                <label>Talla</label>
+                                <select asp-for="Measurements">
+                                    <option>XS</option>
+                                    <option>S</option>
+                                    <option>M</option>
+                                    <option>L</option>
+                                    <option>XL</option>
+                                    <option>XXL</option>
+                                </select>
+                            </div>
+
+                            <div class="po-field">
+                                <label>Material</label>
+                                <select asp-for="Material">
+                                    <option>Cuero</option>
+                                    <option>Sintético</option>
+                                    <option>Indiferente</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- =====================
+                         CADENA
+                    ===================== -->
+                    <div id="chainFields" class="po-span-2" style="display:none;">
+                        <div class="po-grid">
+
+                            <div class="po-field">
+                                <label>Material</label>
+                                <select asp-for="Material">
+                                    <option>Acero inoxidable</option>
+                                    <option>Plata</option>
+                                    <option>Oro</option>
+                                    <option>Chapada</option>
+                                    <option>Indiferente</option>
+                                </select>
+                            </div>
+
+                            <div class="po-field">
+                                <label>Largo aproximado</label>
+                                <select asp-for="Measurements" id="chainLength">
+                                    <option value="">Seleccionar</option>
+                                    <option>45 cm</option>
+                                    <option>50 cm</option>
+                                    <option>55 cm</option>
+                                    <option>Otro</option>
+                                </select>
+                            </div>
+
+                            <div class="po-field" id="chainLengthOther" style="display:none;">
+                                <label>Indica el largo</label>
+                                <input asp-for="Measurements" placeholder="Ej: 60 cm" />
+                            </div>
+
+
+                            <div class="po-field">
+                                <label>Grosor</label>
+                                <select asp-for="Style">
+                                    <option>Delgado</option>
+                                    <option>Medio</option>
+                                    <option>Grueso</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- =====================
+                         GORRA
+                    ===================== -->
+                    <div id="capFields" class="po-span-2" style="display:none;">
+                        <div class="po-grid">
+
+                            <div class="po-field">
+                                <label>Talla</label>
+                                <select asp-for="Measurements" id="capSize">
+                                    <option value="">Seleccionar</option>
+                                    <option>Ajustable</option>
+                                    <option>S/M</option>
+                                    <option>L/XL</option>
+                                    <option>Talla específica</option>
+                                </select>
+                            </div>
+
+                            <div class="po-field" id="capSizeOther" style="display:none;">
+                                <label>Indica la talla</label>
+                                <input asp-for="Measurements" placeholder="Ej: 7 1/4" />
+                            </div>
+
+                            <div class="po-field">
+                                <label>Tipo</label>
+                                <select asp-for="Material">
+                                    <option>Snapback</option>
+                                    <option>Fitted</option>
+                                    <option>Dad hat</option>
+                                    <option>Trucker</option>
+                                </select>
+                            </div>
+
+                            <div class="po-field">
+                                <label>Estilo</label>
+                                <select asp-for="Style">
+                                    <option>Plano</option>
+                                    <option>Curvo</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="po-field po-span-2">
+                <label>Link de referencia</label>
+                <input asp-for="ReferenceLink" />
+            </div>
+
+            <div class="po-field po-span-2">
+                <label>Comentarios</label>
+                <textarea asp-for="Comments"></textarea>
             </div>
 
             <!-- =====================
@@ -485,6 +663,13 @@
                         <input asp-for="Phone" />
                     </div>
                 </div>
+                <div class="po-field po-span-2">
+                    <label>Dirección *</label>
+                    <textarea asp-for="Address"
+                              placeholder="Provincia, cantón, distrito, señas exactas"
+                              required></textarea>
+                </div>
+
             </div>
 
             <button type="submit" class="po-submit">
@@ -501,37 +686,96 @@
 <script>
     const productType = document.getElementById('productType');
 
-    const productDetails = document.getElementById('productDetails'); // Tenis/Ropa
+    const productDetails = document.getElementById('productDetails');
+    const musicDetails = document.getElementById('musicDetails');
     const accessoryDetails = document.getElementById('accessoryDetails');
 
     const sizeShoes = document.getElementById('sizeShoes');
     const sizeClothes = document.getElementById('sizeClothes');
 
-    function toggleForm() {
-        const value = productType.value;
+    const accessoryType = document.getElementById('accessoryType');
+    const accessoryOther = document.getElementById('accessoryOther');
 
-        // Reset total
-        productDetails.style.display = 'none';
-        accessoryDetails.style.display = 'none';
-        sizeShoes.style.display = 'none';
-        sizeClothes.style.display = 'none';
+    const fajaFields = document.getElementById('fajaFields');
+    const chainFields = document.getElementById('chainFields');
+    const capFields = document.getElementById('capFields');
+
+    const chainLength = document.getElementById('chainLength');
+    const chainLengthOther = document.getElementById('chainLengthOther');
+
+    const capSize = document.getElementById('capSize');
+    const capSizeOther = document.getElementById('capSizeOther');
+
+    function hide(el) { if (el) el.style.display = 'none'; }
+    function show(el, display = 'block') { if (el) el.style.display = display; }
+
+    function resetAccessoryExtras() {
+        hide(accessoryOther);
+        hide(fajaFields);
+        hide(chainFields);
+        hide(capFields);
+        hide(chainLengthOther);
+        hide(capSizeOther);
+    }
+
+    function toggleProductType() {
+        const value = productType?.value;
+
+        hide(productDetails);
+        hide(musicDetails);
+        hide(accessoryDetails);
+        hide(sizeShoes);
+        hide(sizeClothes);
+
+        if (value !== 'Accesorios') resetAccessoryExtras();
 
         if (value === 'Tenis') {
-            productDetails.style.display = 'block';
-            sizeShoes.style.display = 'flex';
+            show(productDetails);
+            show(sizeShoes, 'flex');
         }
-
-        if (value === 'Ropa') {
-            productDetails.style.display = 'block';
-            sizeClothes.style.display = 'flex';
+        else if (value === 'Ropa') {
+            show(productDetails);
+            show(sizeClothes, 'flex');
         }
-
-        if (value === 'Accesorios' || value === 'Música') {
-            accessoryDetails.style.display = 'block';
+        else if (value === 'Música') {
+            show(musicDetails);
+        }
+        else if (value === 'Accesorios') {
+            show(accessoryDetails);
+            toggleAccessoryFields();
         }
     }
 
-    productType.addEventListener('change', toggleForm);
-    toggleForm();
+    function toggleAccessoryFields() {
+        resetAccessoryExtras();
+
+        const val = accessoryType?.value;
+
+        if (val === 'Otro') show(accessoryOther);
+        if (val === 'Faja') show(fajaFields);
+        if (val === 'Cadena') show(chainFields);
+        if (val === 'Gorra') show(capFields);
+    }
+
+    function toggleChainLength() {
+        if (chainLength?.value === 'Otro') show(chainLengthOther);
+        else hide(chainLengthOther);
+    }
+
+    function toggleCapSize() {
+        if (capSize?.value === 'Talla específica') show(capSizeOther);
+        else hide(capSizeOther);
+    }
+
+    productType?.addEventListener('change', toggleProductType);
+    accessoryType?.addEventListener('change', toggleAccessoryFields);
+    chainLength?.addEventListener('change', toggleChainLength);
+    capSize?.addEventListener('change', toggleCapSize);
+
+    toggleProductType();
 </script>
+
+
+
+
 
