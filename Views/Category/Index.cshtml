@@ -1,6 +1,20 @@
 ﻿@model List<SaintHub.ViewModels.CategoryProductVM>
 
 <div class="category-wrapper">
+    @if (!string.IsNullOrWhiteSpace(ViewBag.SearchQuery))
+    {
+        <div class="category-hero">
+            <h1>Resultados para “@ViewBag.SearchQuery”</h1>
+            <p>Explorá los productos relacionados</p>
+        </div>
+    }
+    else
+    {
+        <div class="category-hero">
+            <h1>Catálogo</h1>
+            <p>Explorá nuestras piezas disponibles</p>
+        </div>
+    }
 
     @if (!Model.Any())
     {

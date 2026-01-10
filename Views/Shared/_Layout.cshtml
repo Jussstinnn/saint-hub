@@ -95,19 +95,21 @@
                         </a>
                     </div>
 
-                    <form asp-controller="Shop"
+                    <form asp-controller="Category"
                           asp-action="Index"
                           method="get"
                           class="saint-search-form desktop-search">
 
                         <div class="saint-search-wrapper">
                             <i class="bi bi-search saint-search-icon"></i>
-
                             <input class="saint-search"
                                    name="q"
                                    placeholder="Buscar sneakers, marcas, modelos…" />
+
+                            <div class="search-preview" id="searchPreview"></div>
                         </div>
                     </form>
+
 
                 </div>
 
@@ -517,7 +519,11 @@
                    type="search"
                    name="q"
                    placeholder="Buscar sneakers, marcas, modelos…" />
+
+            <!-- 🔽 PREVIEW MOBILE -->
+            <div class="search-preview mobile" id="searchPreviewMobile"></div>
         </form>
+
 
 
 
@@ -603,6 +609,119 @@
             });
         });
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const input = document.querySelector('.saint-search');
+            const preview = document.getElementById('searchPreview');
+
+            if (!input || !preview) return;
+
+            let timeout = null;
+
+            input.addEventListener('input', () => {
+                const q = input.value.trim();
+                clearTimeout(timeout);
+
+                if (q.length < 2) {
+                    preview.classList.remove('open');
+                    return;
+                }
+
+                timeout = setTimeout(async () => {
+                    const res = await fetch(`/Category/SearchPreview?q=${encodeURIComponent(q)}`);
+                    const data = await res.json();
+
+                    if (!data.length) {
+                        preview.classList.remove('open');
+                        return;
+                    }
+
+                    preview.innerHTML = `
+                        ${data.map(p => `
+                            <div class="search-preview-item"
+                                 onclick="window.location='/Shop/Details/${p.id}'">
+                                <img src="${p.image}" />
+                                <div class="search-preview-info">
+                                    <span>${p.name}</span>
+                                    <small>₡ ${p.priceCrc.toLocaleString()}</small>
+                                </div>
+                            </div>
+                        `).join('')}
+                        <div class="search-preview-footer">
+                            <a href="/Category?q=${encodeURIComponent(q)}">
+                                Ver todos los resultados
+                            </a>
+                        </div>
+                    `;
+
+                    preview.classList.add('open');
+
+                }, 300);
+            });
+
+            document.addEventListener('click', e => {
+                if (!e.target.closest('.saint-search-wrapper')) {
+                    preview.classList.remove('open');
+                }
+            });
+
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const input = document.querySelector('.mobile-search-input');
+            const preview = document.getElementById('searchPreviewMobile');
+
+            if (!input || !preview) return;
+
+            let timeout = null;
+
+            input.addEventListener('input', () => {
+                const q = input.value.trim();
+                clearTimeout(timeout);
+
+                if (q.length < 2) {
+                    preview.classList.remove('open');
+                    return;
+                }
+
+                timeout = setTimeout(async () => {
+                    const res = await fetch(`/Category/SearchPreview?q=${encodeURIComponent(q)}`);
+                    const data = await res.json();
+
+                    if (!data.length) {
+                        preview.classList.remove('open');
+                        return;
+                    }
+
+                    preview.innerHTML = `
+                        ${data.map(p => `
+                            <div class="search-preview-item"
+                                 onclick="window.location='/Shop/Details/${p.id}'">
+                                <img src="${p.image}" />
+                                <div>
+                                    <span>${p.name}</span><br/>
+                                    <small>₡ ${p.priceCrc.toLocaleString()}</small>
+                                </div>
+                            </div>
+                        `).join('')}
+                        <div class="search-preview-footer">
+                            <a href="/Category?q=${encodeURIComponent(q)}">
+                                Ver todos los resultados
+                            </a>
+                        </div>
+                    `;
+
+                    preview.classList.add('open');
+
+                }, 300);
+            });
+
+        });
+    </script>
+
 
 </body>
 </html>
