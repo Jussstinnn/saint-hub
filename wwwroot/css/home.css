@@ -33,6 +33,24 @@
         opacity: 1;
     }
 }
+/* =========================
+   LOGOS – LEGAL DISCLAIMER
+========================= */
+
+/* =========================
+   LOGOS – DISCLAIMER BELOW TITLE
+========================= */
+
+.logos-disclaimer {
+    margin: .6rem auto 1.6rem;
+    font-size: .75rem;
+    line-height: 1.5;
+    text-align: center;
+    color: rgba(255,255,255,.45);
+    max-width: 720px;
+}
+
+
 
 /* Contenido */
 .home-hero-content {
@@ -259,28 +277,39 @@
 
 .home-logos {
     max-width: 1200px;
-    margin: 4rem auto;
+    margin: 4rem auto; /* antes 4rem */
     padding: 0 1rem;
     text-align: center;
 }
 
     .home-logos h2 {
-        margin-bottom: 5.5rem;
+        margin-bottom: .6rem; /* ?? ESTE ERA EL PROBLEMA */
         font-size: 2rem;
     }
 
+/* Disclaimer debajo del título */
+.logos-disclaimer {
+    margin: 0 auto 2rem; /* separación controlada */
+    font-size: .75rem;
+    line-height: 1.45;
+    color: rgba(255,255,255,.45);
+    max-width: 720px;
+}
+
+/* Grid de logos */
 .logos-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 7rem;
+    gap: 4rem; /* antes 7rem (demasiado) */
     align-items: center;
 }
 
     .logos-grid img {
-        max-width: 240px;
+        max-width: 240px; /* un poco más compacto */
         margin: 0 auto;
         opacity: .85;
     }
+
 
 /* Responsive */
 @media (max-width: 768px) {

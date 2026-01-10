@@ -313,3 +313,170 @@
     .product-info .btn-saint {
         margin-top: auto;
     }
+
+@media (max-width: 480px) {
+
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: .75rem;
+    }
+
+    .product-card {
+        padding: .6rem;
+        border-radius: 14px;
+    }
+
+    .product-image {
+        margin-bottom: .45rem;
+        border-radius: 10px;
+    }
+
+    .product-info h3 {
+        font-size: .65rem;
+        line-height: 1.2;
+    }
+
+    .price-range {
+        font-size: .7rem;
+    }
+
+    .price-note {
+        display: none; /* ?? clave para que no se sature */
+    }
+
+    .product-card .btn-saint {
+        font-size: .65rem;
+        padding: .35rem 0;
+        margin-top: .4rem;
+    }
+
+    .product-badge {
+        font-size: .5rem;
+        padding: 4px 7px;
+        top: 6px;
+        left: 6px;
+    }
+}
+@media (max-width: 480px) {
+    .special-request {
+        grid-column: span 3;
+    }
+}
+@media (max-width: 480px) {
+
+    /* GRID MÁS ORDENADO */
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: .7rem;
+    }
+
+    /* CARD COMPACTA Y UNIFORME */
+    .product-card {
+        padding: .55rem;
+        border-radius: 14px;
+    }
+
+    /* BADGE MÁS DISCRETO */
+    .product-badge {
+        font-size: .48rem;
+        padding: 3px 6px;
+        top: 6px;
+        left: 6px;
+    }
+
+    /* IMAGEN LIMPIA */
+    .product-image {
+        border-radius: 10px;
+        margin-bottom: .35rem;
+        background: #fff;
+    }
+
+    /* INFO BIEN ORDENADA */
+    .product-info {
+        gap: .15rem;
+    }
+
+        /* NOMBRE: MÁX 2 LÍNEAS */
+        .product-info h3 {
+            font-size: .62rem;
+            line-height: 1.25;
+            font-weight: 500;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 1.6rem; /* iguala alturas */
+        }
+
+    /* PRECIO COMPACTO */
+    .price-range {
+        font-size: .65rem;
+        font-weight: 600;
+        margin: .15rem 0;
+    }
+
+    .price-note {
+        display: none;
+    }
+
+    /* BOTÓN NO DOMINANTE */
+    .product-card .btn-saint {
+        font-size: .6rem;
+        padding: .3rem 0;
+        margin-top: .35rem;
+        border-radius: 999px;
+    }
+
+    /* CARD ESPECIAL OCUPA FILA COMPLETA */
+    .special-request {
+        grid-column: span 3;
+        padding: 1rem;
+    }
+
+    .special-body h3 {
+        font-size: .9rem;
+    }
+
+    .special-body p {
+        font-size: .75rem;
+    }
+}
+/* =========================
+   MOBILE – PRICE & BUTTON FIX
+========================= */
+
+@media (max-width: 480px) {
+
+    /* ?? Quita el espacio artificial */
+    .product-info .price-block {
+        min-height: unset;
+        margin-bottom: .35rem;
+    }
+
+    /* ?? Precio en UNA sola línea */
+    .price-range {
+        font-size: .65rem;
+        font-weight: 600;
+        white-space: nowrap; /* CLAVE */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin: 0;
+    }
+
+    /* ?? Ocultamos notas en mobile */
+    .price-note {
+        display: none;
+    }
+
+    /* ?? Botón más pegado al precio */
+    .product-card .btn-saint {
+        margin-top: .25rem;
+        padding: .35rem 0;
+        font-size: .6rem;
+    }
+
+    /* ?? Ajuste fino del bloque info */
+    .product-info {
+        gap: .15rem;
+    }
+}

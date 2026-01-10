@@ -338,3 +338,90 @@
 .mobile-menu {
     z-index: 5000; /* siempre arriba */
 }
+/* =========================
+   MOBILE SUBMENU – ACCORDION
+========================= */
+
+.mobile-category {
+    display: flex;
+    flex-direction: column;
+}
+
+.mobile-category-toggle {
+    all: unset;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.05rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: #fff;
+    padding: .6rem 0;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    cursor: pointer;
+}
+
+    .mobile-category-toggle .chevron {
+        font-size: 1.2rem;
+        transition: transform .3s ease;
+        opacity: .6;
+    }
+
+.mobile-category.open .chevron {
+    transform: rotate(90deg);
+}
+
+.mobile-submenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .35s ease;
+    padding-left: .8rem;
+}
+
+.mobile-category.open .mobile-submenu {
+    max-height: 200px;
+}
+
+.mobile-submenu a {
+    font-size: .9rem;
+    letter-spacing: .12em;
+    color: rgba(255,255,255,.8);
+    padding: .45rem 0;
+    border-bottom: none;
+}
+/* =========================
+   MOBILE SUBMENU – VISUAL FIX
+========================= */
+
+.mobile-submenu {
+    display: flex;
+    flex-direction: column;
+    gap: .35rem;
+    padding: .5rem 0 .75rem 1rem;
+}
+
+    /* Cada opción */
+    .mobile-submenu a {
+        font-size: .9rem;
+        letter-spacing: .14em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,.85);
+        padding: .45rem .25rem;
+        text-decoration: none;
+        border-radius: 6px;
+        transition: background .2s ease, color .2s ease;
+    }
+
+        /* Hover / tap feedback */
+        .mobile-submenu a:hover,
+        .mobile-submenu a:focus {
+            background: rgba(255,255,255,.06);
+            color: #fff;
+        }
+        .mobile-submenu a:first-child {
+            color: #9be7b2; /* stock */
+        }
+
+        .mobile-submenu a:last-child {
+            color: #f5c451; /* encargo */
+        }

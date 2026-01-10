@@ -14,11 +14,17 @@ namespace SaintHub.Controllers
             _context = context;
         }
 
-        public IActionResult Index(int id, int? fulfillment)
+        public async Task<IActionResult> Index(int? id, int? fulfillment)
         {
             var query = _context.Products
                 .Include(p => p.Images)
-                .Where(p => p.Category == id && p.IsActive);
+                .Where(p => p.IsActive);
+
+            // ?? FILTRO POR CATEGORÍA (solo si viene)
+            if (id.HasValue)
+            {
+                query = query.Where(p => p.Category == id.Value);
+            }
 
             // ?? FILTRO EN STOCK / POR ENCARGO
             if (fulfillment.HasValue)
@@ -26,20 +32,21 @@ namespace SaintHub.Controllers
                 query = query.Where(p => p.Fulfillment == fulfillment.Value);
             }
 
-            var products = query
+            var products = await query
+                .OrderByDescending(p => p.IsFeatured)
+                .ThenByDescending(p => p.CreatedAt)
                 .Select(p => new CategoryProductVM
                 {
                     Id = p.Id,
                     Name = p.Name,
                     PriceCrc = p.PriceCrc,
                     Fulfillment = p.Fulfillment,
-
                     Images = p.Images
                         .OrderBy(i => i.SortOrder)
                         .Select(i => i.Url)
                         .ToList()
                 })
-                .ToList();
+                .ToListAsync();
 
             ViewBag.CategoryId = id;
             ViewBag.Fulfillment = fulfillment;

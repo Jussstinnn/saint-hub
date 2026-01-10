@@ -686,3 +686,148 @@
     pointer-events: auto;
     transform: translateX(-50%) translateY(6px);
 }
+
+
+
+
+
+
+
+
+/* =====================================================
+   DESKTOP NAVBAR – FIX LIMPIO (SOLO PC)
+   + MÁS PESO VISUAL + SEARCH MÁS LARGO
+===================================================== */
+
+@media (min-width: 992px) {
+
+    /* ?? TOPBAR MÁS GRUESO */
+    .saint-header .saint-topbar {
+        display: grid !important;
+        grid-template-columns: auto 3fr auto; /* ?? CLAVE */
+        align-items: center;
+        gap: 2rem;
+        padding: 1.4rem 2.5rem;
+        max-width: 1440px;
+        margin: 0 auto;
+    }
+
+    /* Fondo más sólido */
+    .saint-header {
+        background: linear-gradient(180deg, #0b0b0b, #050505);
+    }
+
+    /* ===== LOGO ===== */
+    .saint-logo {
+        margin: 0 !important;
+        display: flex;
+        align-items: center;
+        justify-self: start;
+    }
+
+        .saint-logo img {
+            height: 46px; /* ?? un poco más grande */
+        }
+
+    /* ===== CENTRO (REDES + SEARCH) ===== */
+    .nav-left {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.4rem;
+        margin: 0 !important;
+    }
+
+    /* Redes */
+    .saint-social {
+        display: flex;
+        gap: .8rem;
+    }
+
+        .saint-social .social-icon {
+            opacity: .65;
+            font-size: 1.05rem;
+            transition: opacity .2s ease;
+        }
+
+            .saint-social .social-icon:hover {
+                opacity: 1;
+            }
+
+    /* ===== SEARCH (MÁS LARGO + MÁS ALTO) ===== */
+    .saint-search-form {
+        width: 100%;
+        max-width: 680px; /* ?? MÁS LARGO */
+        margin: 0 !important;
+    }
+
+    .saint-search-wrapper {
+        width: 100%;
+        position: relative;
+    }
+
+    .saint-search {
+        width: 100%;
+        margin: 0 !important;
+        height: 48px; /* ?? MÁS ALTO */
+        padding-left: 3rem;
+        font-size: .95rem;
+        background: linear-gradient(180deg, #151515, #0e0e0e);
+        border: 1px solid rgba(255,255,255,.15);
+    }
+
+    .saint-search-icon {
+        left: 1.1rem;
+        font-size: 1rem;
+    }
+
+    /* ===== DERECHA (LOGIN / CART) ===== */
+    .top-right {
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+        justify-self: end;
+    }
+
+    .nav-btn {
+        background: rgba(255,255,255,.03);
+        border: 1px solid rgba(255,255,255,.25);
+        border-radius: 999px;
+        padding: .55rem 1rem; /* ?? botones más “pesados” */
+        font-size: .9rem;
+    }
+
+        .nav-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(245,196,81,.08);
+        }
+
+    /* Cart badge */
+    .cart-count {
+        margin-left: .35rem;
+    }
+}
+
+/* =====================================================
+   DESKTOP NAVBAR – MICRO AJUSTE DE ALINEACIÓN
+===================================================== */
+
+@media (min-width: 992px) {
+
+    /* Empuja ligeramente el centro hacia la derecha */
+    .nav-left {
+        justify-content: center;
+        padding-left: 4rem; /* ?? mueve el search al centro óptico */
+    }
+
+    /* Corre más a la derecha los botones */
+    .top-right {
+        padding-left: 0rem; /* ?? más aire respecto al search */
+    }
+
+    /* Opcional: search aún más protagonista */
+    .saint-search-form {
+        max-width: 890px; /* un poco más largo */
+    }
+}

@@ -17,48 +17,46 @@
         <h1>SAINT HUB</h1>
         <p>Sneakers & Culture</p>
 
-        <a asp-controller="Shop" asp-action="Index" class="btn-saint">
+        <a href="#purchase-modes" class="btn-saint scroll-soft">
             Explorar tienda
         </a>
+
+
     </div>
 </section>
-<section class="purchase-modes">
+<section class="purchase-modes" id="purchase-modes">
+
 
     <!-- EN STOCK -->
-    <a asp-controller="Shop"
+    <a asp-controller="Category"
        asp-action="Index"
        asp-route-fulfillment="1"
-       asp-route-showSpecial="true"
        class="mode-card reveal reveal-up"
-       style="background-image:url('/img/home/stock.jpg');
-              transition-delay:.05s">
+       style="background-image:url('/img/home/stock.jpg')">
 
         <div class="mode-overlay"></div>
 
         <div class="mode-content">
-            <h3>En stock</h3> 
-            
+            <h3>En stock</h3>
             <p>Productos disponibles para envío o retiro inmediato.</p>
         </div>
     </a>
 
     <!-- POR ENCARGO -->
-    <a asp-controller="Shop"
+    <a asp-controller="Category"
        asp-action="Index"
        asp-route-fulfillment="2"
-       asp-route-showSpecial="true"
        class="mode-card reveal reveal-up"
-       style="background-image:url('/img/home/on-demand.jpg');
-              transition-delay:.2s">
+       style="background-image:url('/img/home/on-demand.jpg')">
 
         <div class="mode-overlay"></div>
 
         <div class="mode-content">
-            <h3>Por encargo</h3> 
+            <h3>Por encargo</h3>
             <p>Traemos piezas exclusivas bajo pedido.</p>
-            
         </div>
     </a>
+
 
     <!-- CUSTOM ORDER (NO SE TOCA) -->
     <a asp-controller="CustomOrder"
@@ -246,7 +244,11 @@
 <section class="home-logos reveal">
     <div class="logos-container">
         <h2>Marcas</h2>
-
+        <!-- SUBTEXTO LEGAL -->
+        <p class="logos-disclaimer reveal">
+            Las marcas y logotipos mostrados son propiedad de sus respectivos dueños.
+            Saint Hub no está afiliado ni asociado oficialmente con dichas marcas.
+        </p>
         <div class="logos-grid">
             <img src="/img/brands/adidas.png" alt="Adidas">
             <img src="/img/brands/Asics.png" alt="Asics">
@@ -262,34 +264,7 @@
 </section>
 
 
-<!-- =========================
-     CAROUSEL – SAINT HUB
-========================= -->
-<section class="home-carousel reveal">
 
-    <div class="carousel-track" id="carouselTrack">
-
-        <div class="carousel-slide">
-            <img src="/img/carousel/slide1.jpg" alt="Saint Hub 1">
-        </div>
-
-        <div class="carousel-slide">
-            <img src="/img/carousel/slide2.jpg" alt="Saint Hub 2">
-        </div>
-
-        <div class="carousel-slide">
-            <img src="/img/carousel/slide3.jpg" alt="Saint Hub 3">
-        </div>
-
-        <div class="carousel-slide">
-            <img src="/img/carousel/slide4.jpg" alt="Saint Hub 4">
-        </div>
-
-        <div class="carousel-slide">
-            <img src="/img/carousel/slide5.jpg" alt="Saint Hub 5">
-        </div>
-
-    </div>
 
     <!-- DOTS -->
     <div class="carousel-dots" id="carouselDots"></div>
@@ -492,3 +467,57 @@
 
     steps.forEach(step => stepObserver.observe(step));
 </script>
+    <script>
+        document.querySelectorAll('a.scroll-btn').forEach(btn => {
+            btn.addEventListener('click', e => {
+                e.preventDefault();
+
+                const target = document.querySelector(btn.getAttribute('href'));
+                if (!target) return;
+
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        });
+    </script>
+    <script>
+        function easeInOutCubic(t) {
+            return t < 0.5
+                ? 4 * t * t * t
+                : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        }
+
+        function smoothScrollTo(target, duration = 900, offset = -60) {
+            const start = window.pageYOffset;
+            const end = target.getBoundingClientRect().top + window.pageYOffset + offset;
+            const distance = end - start;
+            let startTime = null;
+
+            function animation(currentTime) {
+                if (!startTime) startTime = currentTime;
+                const timeElapsed = currentTime - startTime;
+                const progress = Math.min(timeElapsed / duration, 1);
+                const ease = easeInOutCubic(progress);
+
+                window.scrollTo(0, start + distance * ease);
+
+                if (timeElapsed < duration) {
+                    requestAnimationFrame(animation);
+                }
+            }
+
+            requestAnimationFrame(animation);
+        }
+
+        document.querySelectorAll('.scroll-soft').forEach(btn => {
+            btn.addEventListener('click', e => {
+                e.preventDefault();
+                const target = document.querySelector(btn.getAttribute('href'));
+                if (!target) return;
+
+                smoothScrollTo(target);
+            });
+        });
+    </script>

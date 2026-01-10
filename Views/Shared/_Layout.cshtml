@@ -81,6 +81,8 @@
                     <span class="cart-count">@cartCount</span>
 
                 </a>
+               
+                
 
                 <!-- LEFT -->
                 <div class="nav-left">
@@ -323,12 +325,150 @@
 
                 <hr />
 
-                <a asp-controller="Category" asp-action="Index" asp-route-id="1">Zapatos</a>
-                <a asp-controller="Category" asp-action="Index" asp-route-id="2">Camisas</a>
-                <a asp-controller="Category" asp-action="Index" asp-route-id="3">Suetas</a>
-                <a asp-controller="Category" asp-action="Index" asp-route-id="4">Pantalones</a>
-                <a asp-controller="Category" asp-action="Index" asp-route-id="5">Accesorios</a>
-                <a asp-controller="Category" asp-action="Index" asp-route-id="6">Vinilos</a>
+                <!-- ZAPATOS -->
+                <div class="mobile-category">
+                    <button class="mobile-category-toggle">
+                        Zapatos
+                        <span class="chevron">›</span>
+                    </button>
+
+                    <div class="mobile-submenu">
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="1"
+                           asp-route-fulfillment="1">
+                            En stock
+                        </a>
+
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="1"
+                           asp-route-fulfillment="2">
+                            Por encargo
+                        </a>
+                    </div>
+                </div>
+
+                <!-- CAMISAS -->
+                <div class="mobile-category">
+                    <button class="mobile-category-toggle">
+                        Camisas
+                        <span class="chevron">›</span>
+                    </button>
+
+                    <div class="mobile-submenu">
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="2"
+                           asp-route-fulfillment="1">
+                            En stock
+                        </a>
+
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="2"
+                           asp-route-fulfillment="2">
+                            Por encargo
+                        </a>
+                    </div>
+                </div>
+
+                <!-- SUETAS -->
+                <div class="mobile-category">
+                    <button class="mobile-category-toggle">
+                        Suetas
+                        <span class="chevron">›</span>
+                    </button>
+
+                    <div class="mobile-submenu">
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="3"
+                           asp-route-fulfillment="1">
+                            En stock
+                        </a>
+
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="3"
+                           asp-route-fulfillment="2">
+                            Por encargo
+                        </a>
+                    </div>
+                </div>
+
+                <!-- PANTALONES -->
+                <div class="mobile-category">
+                    <button class="mobile-category-toggle">
+                        Pantalones
+                        <span class="chevron">›</span>
+                    </button>
+
+                    <div class="mobile-submenu">
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="4"
+                           asp-route-fulfillment="1">
+                            En stock
+                        </a>
+
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="4"
+                           asp-route-fulfillment="2">
+                            Por encargo
+                        </a>
+                    </div>
+                </div>
+
+                <!-- ACCESORIOS -->
+                <div class="mobile-category">
+                    <button class="mobile-category-toggle">
+                        Accesorios
+                        <span class="chevron">›</span>
+                    </button>
+
+                    <div class="mobile-submenu">
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="5"
+                           asp-route-fulfillment="1">
+                            En stock
+                        </a>
+
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="5"
+                           asp-route-fulfillment="2">
+                            Por encargo
+                        </a>
+                    </div>
+                </div>
+
+                <!-- VINILOS -->
+                <div class="mobile-category">
+                    <button class="mobile-category-toggle">
+                        Vinilos
+                        <span class="chevron">›</span>
+                    </button>
+
+                    <div class="mobile-submenu">
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="6"
+                           asp-route-fulfillment="1">
+                            En stock
+                        </a>
+
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="6"
+                           asp-route-fulfillment="2">
+                            Por encargo
+                        </a>
+                    </div>
+                </div>
+
             </nav>
 
         </header>
@@ -417,6 +557,20 @@
                 document.body.style.overflow = "";
             });
         }
+    </script>
+    <script>
+        document.querySelectorAll('.mobile-category-toggle').forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const parent = toggle.closest('.mobile-category');
+
+                // Cerrar otros (opcional pero recomendado)
+                document.querySelectorAll('.mobile-category').forEach(cat => {
+                    if (cat !== parent) cat.classList.remove('open');
+                });
+
+                parent.classList.toggle('open');
+            });
+        });
     </script>
 
 </body>
