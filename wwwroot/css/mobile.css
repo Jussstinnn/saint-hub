@@ -425,3 +425,73 @@
         .mobile-submenu a:last-child {
             color: #f5c451; /* encargo */
         }
+
+/* =========================
+   MOBILE CATEGORY MENU
+========================= */
+
+.mobile-category {
+    display: flex;
+    flex-direction: column;
+}
+
+.mobile-category-toggle {
+    background: none;
+    border: none;
+    color: #fff;
+    text-align: left;
+    font-size: 1.05rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    padding: .9rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.mobile-submenu {
+    display: none;
+    flex-direction: column;
+    padding-left: 1rem;
+    margin-bottom: .5rem;
+}
+
+    .mobile-submenu a {
+        font-size: .8rem;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,.7);
+        padding: .45rem 0;
+        text-decoration: none;
+    }
+
+.mobile-category.open .mobile-submenu {
+    display: flex;
+}
+
+.mobile-category.open .chevron {
+    transform: rotate(90deg);
+}
+.mobile-submenu a {
+    display: block;
+    font-size: .78rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    padding: .45rem 0;
+}
+
+.submenu-all {
+    color: #9ca3af;
+    font-weight: 600;
+}
+
+.submenu-stock {
+    color: #6ee7a8;
+    font-weight: 700;
+}
+
+.submenu-demand {
+    color: #f5c451;
+    font-weight: 700;
+}

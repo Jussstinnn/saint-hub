@@ -301,175 +301,206 @@
 
             <!-- MOBILE MENU -->
             <nav class="mobile-menu" id="mobileMenu">
+
                 <div class="mobile-menu-header">
                     <span>Menú</span>
                     <button id="closeMenu">&times;</button>
                 </div>
 
+                <!-- HOME -->
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="mobile-link home-link">
+                    Home
+                </a>
+
+                <hr />
+
                 @if (isLogged)
                 {
-                    <span style="padding:.6rem 1rem; color:var(--text-muted);">
-                        👤 @firstName
-                    </span>
-
                     <a asp-controller="Account" asp-action="Dashboard">Mi cuenta</a>
-
                     <a asp-controller="Account" asp-action="Logout">Cerrar sesión</a>
                 }
-
                 else
                 {
                     <a asp-controller="Account" asp-action="Login">Iniciar sesión</a>
                     <a asp-controller="Account" asp-action="Register">Crear cuenta</a>
                 }
 
-                <hr />
 
-                <!-- ZAPATOS -->
+
+                <!-- CATEGORÍAS -->
                 <div class="mobile-category">
                     <button class="mobile-category-toggle">
-                        Zapatos
-                        <span class="chevron">›</span>
+                        Zapatos <span class="chevron">›</span>
                     </button>
-
                     <div class="mobile-submenu">
                         <a asp-controller="Category"
                            asp-action="Index"
                            asp-route-id="1"
-                           asp-route-fulfillment="1">
-                            En stock
+                           class="submenu-all">
+                            Todo
                         </a>
-
                         <a asp-controller="Category"
                            asp-action="Index"
                            asp-route-id="1"
-                           asp-route-fulfillment="2">
+                           asp-route-fulfillment="1"
+                           class="submenu-stock">
+                            En stock
+                        </a>
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="1"
+                           asp-route-fulfillment="2"
+                           class="submenu-demand">
                             Por encargo
                         </a>
                     </div>
                 </div>
 
-                <!-- CAMISAS -->
                 <div class="mobile-category">
                     <button class="mobile-category-toggle">
-                        Camisas
-                        <span class="chevron">›</span>
+                        Camisas <span class="chevron">›</span>
                     </button>
-
                     <div class="mobile-submenu">
                         <a asp-controller="Category"
                            asp-action="Index"
                            asp-route-id="2"
-                           asp-route-fulfillment="1">
-                            En stock
+                           class="submenu-all">
+                            Todo
                         </a>
-
                         <a asp-controller="Category"
                            asp-action="Index"
                            asp-route-id="2"
-                           asp-route-fulfillment="2">
+                           asp-route-fulfillment="1"
+                           class="submenu-stock">
+                            En stock
+                        </a>
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="2"
+                           asp-route-fulfillment="2"
+                           class="submenu-demand">
                             Por encargo
                         </a>
                     </div>
                 </div>
 
-                <!-- SUETAS -->
                 <div class="mobile-category">
                     <button class="mobile-category-toggle">
-                        Suetas
-                        <span class="chevron">›</span>
+                        Suetas <span class="chevron">›</span>
                     </button>
-
                     <div class="mobile-submenu">
                         <a asp-controller="Category"
                            asp-action="Index"
                            asp-route-id="3"
-                           asp-route-fulfillment="1">
-                            En stock
+                           class="submenu-all">
+                            Todo
                         </a>
-
                         <a asp-controller="Category"
                            asp-action="Index"
                            asp-route-id="3"
-                           asp-route-fulfillment="2">
+                           asp-route-fulfillment="1"
+                           class="submenu-stock">
+                            En stock
+                        </a>
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="3"
+                           asp-route-fulfillment="2"
+                           class="submenu-demand">
                             Por encargo
                         </a>
                     </div>
                 </div>
 
-                <!-- PANTALONES -->
                 <div class="mobile-category">
                     <button class="mobile-category-toggle">
-                        Pantalones
-                        <span class="chevron">›</span>
+                        Pantalones <span class="chevron">›</span>
                     </button>
-
                     <div class="mobile-submenu">
                         <a asp-controller="Category"
                            asp-action="Index"
                            asp-route-id="4"
-                           asp-route-fulfillment="1">
-                            En stock
+                           class="submenu-all">
+                            Todo
                         </a>
-
                         <a asp-controller="Category"
                            asp-action="Index"
                            asp-route-id="4"
-                           asp-route-fulfillment="2">
+                           asp-route-fulfillment="1"
+                           class="submenu-stock">
+                            En stock
+                        </a>
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="4"
+                           asp-route-fulfillment="2"
+                           class="submenu-demand">
                             Por encargo
                         </a>
                     </div>
                 </div>
 
-                <!-- ACCESORIOS -->
                 <div class="mobile-category">
                     <button class="mobile-category-toggle">
-                        Accesorios
-                        <span class="chevron">›</span>
+                        Accesorios <span class="chevron">›</span>
                     </button>
-
                     <div class="mobile-submenu">
                         <a asp-controller="Category"
                            asp-action="Index"
                            asp-route-id="5"
-                           asp-route-fulfillment="1">
-                            En stock
+                           class="submenu-all">
+                            Todo
                         </a>
-
                         <a asp-controller="Category"
                            asp-action="Index"
                            asp-route-id="5"
-                           asp-route-fulfillment="2">
+                           asp-route-fulfillment="1"
+                           class="submenu-stock">
+                            En stock
+                        </a>
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="5"
+                           asp-route-fulfillment="2"
+                           class="submenu-demand">
                             Por encargo
                         </a>
                     </div>
                 </div>
 
-                <!-- VINILOS -->
                 <div class="mobile-category">
                     <button class="mobile-category-toggle">
-                        Vinilos
-                        <span class="chevron">›</span>
+                        Vinilos <span class="chevron">›</span>
                     </button>
-
                     <div class="mobile-submenu">
                         <a asp-controller="Category"
                            asp-action="Index"
                            asp-route-id="6"
-                           asp-route-fulfillment="1">
-                            En stock
+                           class="submenu-all">
+                            Todo
                         </a>
-
                         <a asp-controller="Category"
                            asp-action="Index"
                            asp-route-id="6"
-                           asp-route-fulfillment="2">
+                           asp-route-fulfillment="1"
+                           class="submenu-stock">
+                            En stock
+                        </a>
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="6"
+                           asp-route-fulfillment="2"
+                           class="submenu-demand">
                             Por encargo
                         </a>
                     </div>
                 </div>
+
 
             </nav>
+
 
         </header>
 
