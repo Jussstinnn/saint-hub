@@ -216,3 +216,65 @@
         transform: none;
     }
 }
+/* =========================
+   MODE CARDS – ANIMACIÓN LIMPIA
+========================= */
+
+.purchase-modes .mode-card {
+    opacity: 0;
+    transform: translateY(32px) scale(0.98);
+    transition: transform 0.9s cubic-bezier(.22,.61,.36,1), opacity 0.9s ease, box-shadow 0.45s ease;
+    will-change: transform;
+}
+
+    /* Aparece con scroll */
+    .purchase-modes .mode-card.card-visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+        /* Hover MUY sutil */
+        .purchase-modes .mode-card.card-visible:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 22px 48px rgba(0,0,0,.45);
+        }
+
+        /* Click */
+        .purchase-modes .mode-card.card-visible:active {
+            transform: scale(0.98);
+        }
+
+
+
+
+
+
+
+
+
+/* =========================
+   HOME HOW – CARACOL MODE
+========================= */
+
+/* Header */
+.home-how .how-header {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 2.4s ease, transform 2.4s cubic-bezier(.19,1,.22,1); /* easing MUY suave */
+}
+
+/* Steps */
+.home-how .how-step {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 2.2s ease, transform 2.2s cubic-bezier(.19,1,.22,1);
+}
+
+    /* Visible */
+    .home-how .how-header.how-visible,
+    .home-how .how-step.how-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+

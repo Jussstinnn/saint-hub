@@ -32,7 +32,7 @@
        asp-action="Index"
        asp-route-fulfillment="1"
        class="mode-card reveal reveal-up"
-       style="background-image:url('/img/home/stock.jpg')">
+       style="background-image:url('/img/home/stock.png')">
 
         <div class="mode-overlay"></div>
 
@@ -47,7 +47,7 @@
        asp-action="Index"
        asp-route-fulfillment="2"
        class="mode-card reveal reveal-up"
-       style="background-image:url('/img/home/on-demand.jpg')">
+       style="background-image:url('/img/home/delivery.jpg')">
 
         <div class="mode-overlay"></div>
 
@@ -62,7 +62,7 @@
     <a asp-controller="CustomOrder"
        asp-action="Index"
        class="mode-card reveal reveal-up"
-       style="background-image:url('/img/home/custom.jpg');
+       style="background-image:url('/img/home/accesorios.jpg');
               transition-delay:.35s">
 
         <div class="mode-overlay"></div>
@@ -368,155 +368,207 @@
 
 
 
-    
 
 
-<script>
-    const observer = new IntersectionObserver(
-        entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('show');
-                    observer.unobserve(entry.target);
-                }
-            });
-        },
-        {
-            threshold: 0.15
-        }
-    );
 
-    document.querySelectorAll('.reveal').forEach(el => {
-        observer.observe(el);
-    });
-</script>
-<script>
-    (() => {
-        const reveals = document.querySelectorAll('.reveal');
-
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.15 });
-
-        reveals.forEach(r => observer.observe(r));
-    })();
-</script>
-<script>
-    const logoObserver = new IntersectionObserver(
-        (entries) => {
-            entries.forEach((entry, index) => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        entry.target.classList.add('show');
-                    }, index * 120); // delay elegante
-                }
-            });
-        },
-        {
-            threshold: 0.25
-        }
-    );
-
-    document
-        .querySelectorAll('.logos-grid img')
-        .forEach(img => logoObserver.observe(img));
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const reveals = document.querySelectorAll(".reveal");
-
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("is-visible");
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.2
-        });
-
-        reveals.forEach(el => observer.observe(el));
-    });
-</script>
-<script>
-    const steps = document.querySelectorAll('.how-step');
-    const lineFill = document.querySelector('.how-line-fill');
-
-    const stepObserver = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('show');
-
-                const step = parseInt(entry.target.dataset.step);
-                const percent = ((step - 1) / (steps.length - 1)) * 100;
-                lineFill.style.width = `${percent}%`;
-
-                stepObserver.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.4
-    });
-
-    steps.forEach(step => stepObserver.observe(step));
-</script>
     <script>
-        document.querySelectorAll('a.scroll-btn').forEach(btn => {
-            btn.addEventListener('click', e => {
-                e.preventDefault();
+        /* =========================
+           REVEAL GENERAL (EXCEPTO MODE-CARD)
+        ========================= */
+        document.addEventListener("DOMContentLoaded", () => {
 
-                const target = document.querySelector(btn.getAttribute('href'));
-                if (!target) return;
+            const reveals = document.querySelectorAll('.reveal:not(.mode-card)');
 
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
+            const revealObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('show');
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.15
+            });
+
+            reveals.forEach(el => revealObserver.observe(el));
+
+        });
+    </script>
+
+    <script>
+        /* =========================
+           LOGOS – DELAY PROGRESIVO
+        ========================= */
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const logoObserver = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry, index) => {
+                        if (entry.isIntersecting) {
+                            setTimeout(() => {
+                                entry.target.classList.add('show');
+                            }, index * 120);
+                        }
+                    });
+                },
+                { threshold: 0.25 }
+            );
+
+            document
+                .querySelectorAll('.logos-grid img')
+                .forEach(img => logoObserver.observe(img));
+
+        });
+    </script>
+
+    <script>
+        /* =========================
+           HOW STEPS
+        ========================= */
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const steps = document.querySelectorAll('.how-step');
+            const lineFill = document.querySelector('.how-line-fill');
+
+            if (!steps.length) return;
+
+            const stepObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('show');
+
+                        if (lineFill && entry.target.dataset.step) {
+                            const step = parseInt(entry.target.dataset.step);
+                            const percent = ((step - 1) / (steps.length - 1)) * 100;
+                            lineFill.style.width = `${percent}%`;
+                        }
+
+                        stepObserver.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.4
+            });
+
+            steps.forEach(step => stepObserver.observe(step));
+
+        });
+    </script>
+
+    <script>
+        /* =========================
+           SCROLL SUAVE (BOTONES)
+        ========================= */
+        document.addEventListener("DOMContentLoaded", () => {
+
+            function easeInOutCubic(t) {
+                return t < 0.5
+                    ? 4 * t * t * t
+                    : 1 - Math.pow(-2 * t + 2, 3) / 2;
+            }
+
+            function smoothScrollTo(target, duration = 900, offset = -60) {
+                const start = window.pageYOffset;
+                const end = target.getBoundingClientRect().top + window.pageYOffset + offset;
+                const distance = end - start;
+                let startTime = null;
+
+                function animation(currentTime) {
+                    if (!startTime) startTime = currentTime;
+                    const timeElapsed = currentTime - startTime;
+                    const progress = Math.min(timeElapsed / duration, 1);
+                    const ease = easeInOutCubic(progress);
+
+                    window.scrollTo(0, start + distance * ease);
+
+                    if (timeElapsed < duration) {
+                        requestAnimationFrame(animation);
+                    }
+                }
+
+                requestAnimationFrame(animation);
+            }
+
+            document.querySelectorAll('.scroll-soft').forEach(btn => {
+                btn.addEventListener('click', e => {
+                    e.preventDefault();
+                    const target = document.querySelector(btn.getAttribute('href'));
+                    if (!target) return;
+                    smoothScrollTo(target);
                 });
             });
+
         });
     </script>
+
     <script>
-        function easeInOutCubic(t) {
-            return t < 0.5
-                ? 4 * t * t * t
-                : 1 - Math.pow(-2 * t + 2, 3) / 2;
-        }
+        document.addEventListener("DOMContentLoaded", () => {
 
-        function smoothScrollTo(target, duration = 900, offset = -60) {
-            const start = window.pageYOffset;
-            const end = target.getBoundingClientRect().top + window.pageYOffset + offset;
-            const distance = end - start;
-            let startTime = null;
+            const cards = document.querySelectorAll(".purchase-modes .mode-card");
+            if (!cards.length) return;
 
-            function animation(currentTime) {
-                if (!startTime) startTime = currentTime;
-                const timeElapsed = currentTime - startTime;
-                const progress = Math.min(timeElapsed / duration, 1);
-                const ease = easeInOutCubic(progress);
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
 
-                window.scrollTo(0, start + distance * ease);
+                        const index = [...cards].indexOf(entry.target);
 
-                if (timeElapsed < duration) {
-                    requestAnimationFrame(animation);
-                }
-            }
+                        setTimeout(() => {
+                            entry.target.classList.add("card-visible");
+                        }, index * 220); // delay visible
 
-            requestAnimationFrame(animation);
-        }
-
-        document.querySelectorAll('.scroll-soft').forEach(btn => {
-            btn.addEventListener('click', e => {
-                e.preventDefault();
-                const target = document.querySelector(btn.getAttribute('href'));
-                if (!target) return;
-
-                smoothScrollTo(target);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.15
             });
+
+            cards.forEach(card => observer.observe(card));
         });
     </script>
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const section = document.querySelector(".home-how");
+            const header = document.querySelector(".home-how .how-header");
+            const steps = document.querySelectorAll(".home-how .how-step");
+
+            if (!section || !steps.length) return;
+
+            const observer = new IntersectionObserver(
+                entries => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+
+                            // 1️⃣ Header entra MUY lento
+                            if (header) {
+                                header.classList.add("how-visible");
+                            }
+
+                            // 2️⃣ Steps caracol 🐌
+                            steps.forEach((step, index) => {
+                                setTimeout(() => {
+                                    step.classList.add("how-visible");
+                                }, 2800 + index * 1400);
+                                // ↑ pausa LARGA entre pasos
+                            });
+
+                            observer.unobserve(section);
+                        }
+                    });
+                },
+                {
+                    threshold: 0.2
+                }
+            );
+
+            observer.observe(section);
+        });
+    </script>
+
+
+

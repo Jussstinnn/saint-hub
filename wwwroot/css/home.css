@@ -36,6 +36,97 @@
 /* =========================
    LOGOS – LEGAL DISCLAIMER
 ========================= */
+/* =========================
+   MODE CARDS – SCROLL REVEAL
+========================= */
+
+.mode-card {
+    position: relative;
+    display: block;
+    border-radius: 22px;
+    overflow: hidden;
+    text-decoration: none;
+    cursor: pointer;
+    /* Estado inicial (antes del scroll) */
+    opacity: 0;
+    transform: translateY(40px) scale(0.96);
+    transition: opacity .8s cubic-bezier(.4,0,.2,1), transform .8s cubic-bezier(.4,0,.2,1), box-shadow .4s cubic-bezier(.4,0,.2,1);
+}
+
+    /* Cuando entra en pantalla */
+    .mode-card.is-visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    /* Hover – efecto botón premium */
+    .mode-card:hover {
+        transform: translateY(-10px) scale(1.015);
+        box-shadow: 0 35px 90px rgba(0,0,0,.55);
+    }
+
+        /* Oscurecimiento suave al hover */
+        .mode-card:hover .mode-overlay {
+            background: rgba(0,0,0,.55);
+        }
+
+/* Overlay base */
+.mode-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,.4);
+    transition: background .4s ease;
+}
+
+/* Contenido siempre arriba */
+.mode-content {
+    position: relative;
+    z-index: 2;
+}
+
+/* Pequeño feedback al click */
+.mode-card:active {
+    transform: scale(0.98);
+}
+/* =========================
+   FIX REVEAL + HOVER
+========================= */
+
+/* Reveal NO usa transform */
+.reveal {
+    opacity: 0;
+}
+
+    .reveal.is-visible {
+        opacity: 1;
+    }
+
+/* MODE CARD controla el movimiento */
+.mode-card {
+    position: relative;
+    display: block;
+    border-radius: 22px;
+    overflow: hidden;
+    cursor: pointer;
+    transform: translateY(40px) scale(0.96);
+    transition: transform .7s cubic-bezier(.4,0,.2,1), box-shadow .35s cubic-bezier(.4,0,.2,1), opacity .7s ease;
+}
+
+    /* Al aparecer */
+    .mode-card.is-visible {
+        transform: translateY(0) scale(1);
+    }
+
+    /* HOVER – AHORA SÍ FUNCIONA */
+    .mode-card:hover {
+        transform: translateY(-12px) scale(1.02);
+        box-shadow: 0 40px 90px rgba(0,0,0,.55);
+    }
+
+    /* Click feedback */
+    .mode-card:active {
+        transform: scale(0.97);
+    }
 
 /* =========================
    LOGOS – DISCLAIMER BELOW TITLE
@@ -1268,3 +1359,59 @@
         gap: 2rem;
     }
 }
+/* =========================
+   MODE CARDS – ANIMACIÓN LIMPIA
+========================= */
+
+.purchase-modes .mode-card {
+    opacity: 0;
+    transform: translateY(32px) scale(0.98);
+    transition: transform 0.9s cubic-bezier(.22,.61,.36,1), opacity 0.9s ease, box-shadow 0.45s ease;
+    will-change: transform;
+}
+
+    /* Aparece con scroll */
+    .purchase-modes .mode-card.card-visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+        /* Hover MUY sutil */
+        .purchase-modes .mode-card.card-visible:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 22px 48px rgba(0,0,0,.45);
+        }
+
+        /* Click */
+        .purchase-modes .mode-card.card-visible:active {
+            transform: scale(0.98);
+        }
+
+
+
+
+
+/* =========================
+   HOME HOW – CARACOL MODE
+========================= */
+
+/* Header */
+.home-how .how-header {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 2.4s ease, transform 2.4s cubic-bezier(.19,1,.22,1); /* easing MUY suave */
+}
+
+/* Steps */
+.home-how .how-step {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 2.2s ease, transform 2.2s cubic-bezier(.19,1,.22,1);
+}
+
+    /* Visible */
+    .home-how .how-header.how-visible,
+    .home-how .how-step.how-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
