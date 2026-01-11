@@ -281,6 +281,7 @@
         font-size: .7rem;
     }
 }
+
 @media (max-width: 420px) {
 
     /* =========================
@@ -733,6 +734,7 @@
             padding: .35rem .9rem;
         }
 }
+
 @media (max-width: 420px) {
 
     .account-dashboard {
@@ -929,6 +931,7 @@
     .dashboard-cta.danger:hover {
         background: rgba(255,80,80,.08);
     }
+
 @media (max-width: 480px) {
     .dashboard-actions-secondary {
         flex-direction: column;
@@ -992,6 +995,7 @@
     color: #ff6b6b;
     background: transparent;
 }
+
 @media (max-width: 480px) {
 
     .dashboard-actions {
@@ -1121,8 +1125,254 @@
         color: #fff;
         transform: translateX(-2px);
     }
+
 @media (max-width: 480px) {
     .dashboard-back {
         margin-bottom: 2.2rem;
     }
+}
+/* =========================
+   SIDEBAR – DESKTOP ONLY
+========================= */
+
+/* Mobile / Tablet */
+@media (max-width: 1023px) {
+    .account-sidebar {
+        display: none !important;
+    }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+    .account-sidebar {
+        display: flex;
+    }
+}
+
+/* =========================
+   SVG ICONS
+========================= */
+
+.icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.1rem;
+    height: 1.1rem;
+}
+
+    .icon svg {
+        width: 100%;
+        height: 100%;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+/* =========================
+   MOBILE CTA SPACING FIX
+========================= */
+
+@media (max-width: 768px) {
+
+    .dashboard-section {
+        margin-bottom: 2.2rem;
+    }
+
+    .dashboard-secondary-grid {
+        gap: 1.2rem; /* antes estaba muy pequeño */
+    }
+
+    .dashboard-danger {
+        margin-top: 3rem;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .dashboard-cta {
+        padding: 1.2rem 1.4rem;
+    }
+}
+
+.dashboard-cta .icon {
+    margin-right: .4rem;
+}
+
+.dashboard-cta {
+    gap: .75rem;
+}
+
+/* spacing */
+.dashboard-cta {
+    gap: .6rem;
+}
+
+
+/* =====================================================
+   ACCOUNT DASHBOARD – DESKTOP LAYOUT
+===================================================== */
+
+@media (min-width: 1024px) {
+
+    .account-layout {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        min-height: calc(100vh - 80px);
+        background: #050505;
+    }
+
+    /* ================= SIDEBAR ================= */
+
+    .account-sidebar {
+        background: linear-gradient(180deg, #0b0b0b, #050505);
+        padding: 2.5rem 1.8rem;
+        border-right: 1px solid rgba(255,255,255,.06);
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+    }
+
+    .sidebar-brand {
+        display: flex;
+        align-items: center;
+        gap: .7rem;
+        font-weight: 800;
+        letter-spacing: .5px;
+    }
+
+        .sidebar-brand .logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--accent);
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+        }
+
+    .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        gap: .4rem;
+    }
+
+        .sidebar-nav a {
+            padding: .75rem 1rem;
+            border-radius: 10px;
+            font-size: .85rem;
+            color: rgba(255,255,255,.65);
+            text-decoration: none;
+            transition: .2s;
+            cursor: pointer;
+        }
+
+            .sidebar-nav a:hover {
+                background: rgba(255,255,255,.06);
+                color: #fff;
+            }
+
+            .sidebar-nav a.active {
+                background: rgba(245,196,81,.15);
+                color: var(--accent);
+                font-weight: 700;
+            }
+
+    /* ================= MAIN ================= */
+
+    .account-main {
+        padding: 3.5rem 4rem;
+        background: #000;
+    }
+
+    .account-wrapper {
+        align-items: flex-start;
+        padding: 0;
+    }
+
+    .account-card.account-dashboard {
+        max-width: 100%;
+        padding: 0;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    /* ================= STATS ================= */
+
+    .dashboard-stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    .stat-card {
+        padding: 2rem;
+        border-radius: 22px;
+    }
+
+        .stat-card strong {
+            font-size: 1.8rem;
+        }
+
+    /* ================= LAST ORDER ================= */
+
+    .last-order-box {
+        padding: 1.6rem 1.8rem;
+        border-radius: 22px;
+    }
+
+    /* ================= CTA ================= */
+
+    .dashboard-cta.primary {
+        margin-top: 2rem;
+        font-size: 1rem;
+        padding: 1.25rem;
+    }
+
+    .dashboard-secondary-grid {
+        margin-top: 1.6rem;
+        gap: 1.4rem;
+    }
+
+    .dashboard-danger {
+        margin-top: 3.5rem;
+        padding-top: 2.5rem;
+        border-top: 1px solid rgba(255,255,255,.08);
+    }
+}
+/* =========================
+   VISIBILITY RULES
+========================= */
+
+/* Por defecto: mobile visible */
+.mobile-only {
+    display: block;
+}
+
+/* Desktop: ocultar CTAs */
+@media (min-width: 1024px) {
+    .mobile-only {
+        display: none !important;
+    }
+}
+/* =========================
+   FIX FINAL – MOBILE CTA STACK
+========================= */
+
+@media (max-width: 768px) {
+
+    .dashboard-secondary-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1.4rem !important;
+        height: auto !important;
+    }
+
+        .dashboard-secondary-grid > a {
+            width: 100%;
+        }
 }

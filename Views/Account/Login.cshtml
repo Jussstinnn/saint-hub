@@ -9,7 +9,7 @@
 @section Styles {
     <link rel="stylesheet" href="~/css/Account.css" asp-append-version="true" />
 }
-
+<div class="auth-freeze">
 <!-- =========================
      LOGIN – DESKTOP
 ========================== -->
@@ -158,3 +158,21 @@
         </div>
     </div>
 </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const root = document.querySelector('.auth-freeze');
+        if (!root) return;
+
+        // fuerza estado inicial
+        root.classList.add('auth-lock');
+
+        // libera animación en el siguiente frame
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                root.classList.remove('auth-lock');
+                root.classList.add('auth-play');
+            });
+        });
+    });
+</script>
