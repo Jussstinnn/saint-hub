@@ -15,8 +15,10 @@ namespace SaintHub.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var feature = _db.HomeFeatureSections.FirstOrDefault(x => x.IsActive);
+            return View(feature);
         }
+
 
         public IActionResult TestDb()
         {

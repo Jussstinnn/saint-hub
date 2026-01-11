@@ -15,6 +15,7 @@ namespace SaintHub.Data
         public DbSet<OrderItem> OrderItems => Set<OrderItem>();
         public DbSet<User> Users => Set<User>();
         public DbSet<CustomRequest> CustomRequests { get; set; }
+        public DbSet<HomeFeatureSection> HomeFeatureSections { get; set; }
 
 
     }

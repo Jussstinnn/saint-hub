@@ -120,30 +120,29 @@
 
 
 
-<section class="home-feature">
+@model HomeFeatureSection
 
-    <div class="feature-img reveal reveal-left">
-        <img src="/img/home/feature-1.jpg" alt="Featured sneaker">
-    </div>
+@if (Model != null)
+{
+    <section class="home-feature">
 
-    <div class="feature-content reveal reveal-right">
-        <small>Lo más pedido</small>
-        <h2>Timberland 6 Inch</h2>
-        <p>
-            Esta bota cuenta materiales impermeables / Waterproof y el rendimiento
-            de una parte superior de piel Timberland® de primera calidad.
-            Tus pies apreciarán aún más la plantilla extraíble antifatiga que te
-            ayudará a mantenerte cómodo sin importar el desafío que tengas por delante.
-        </p>
+        <div class="feature-img reveal reveal-left">
+            <img src="@Model.ImagePath" alt="@Model.Title">
+        </div>
 
-        <a asp-controller="Shop"
-           asp-action="Index"
-           class="btn-saint-outline">
-            Ver colección
-        </a>
-    </div>
+        <div class="feature-content reveal reveal-right">
+            <small>@Model.SmallTitle</small>
+            <h2>@Model.Title</h2>
+            <p>@Model.Description</p>
 
-</section>
+            <a href="@Model.ButtonUrl" class="btn-saint-outline">
+                @Model.ButtonText
+            </a>
+        </div>
+
+    </section>
+}
+
 
 
     
