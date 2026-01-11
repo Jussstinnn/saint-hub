@@ -52,9 +52,13 @@
 </head>
 
 <body class="@(isAdmin ? "admin-mode" : "")">
+    @{
+        var hideLayout = ViewData["HideLayout"] as bool? ?? false;
+    }
 
     @if (!isAdmin)
     {
+
         <!-- =========================
              HEADER (NAVBAR)
         ========================= -->
@@ -81,8 +85,8 @@
                     <span class="cart-count">@cartCount</span>
 
                 </a>
-               
-                
+
+
 
                 <!-- LEFT -->
                 <div class="nav-left">
@@ -158,148 +162,150 @@
 
             <!-- CATEGORIES -->
             <!-- CATEGORIES -->
-            <nav class="saint-categories">
+            @if (!hideLayout)
+            {
+                <nav class="saint-categories">
 
-                <!-- ZAPATOS -->
-                <div class="category-item">
-                    <a asp-controller="Category" asp-action="Index" asp-route-id="1">
-                        Zapatos
-                    </a>
-
-                    <div class="category-dropdown">
-                        <a asp-controller="Category"
-                           asp-action="Index"
-                           asp-route-id="1"
-                           asp-route-fulfillment="1">
-                            En stock
+                    <!-- ZAPATOS -->
+                    <div class="category-item">
+                        <a asp-controller="Category" asp-action="Index" asp-route-id="1">
+                            Zapatos
                         </a>
 
-                        <a asp-controller="Category"
-                           asp-action="Index"
-                           asp-route-id="1"
-                           asp-route-fulfillment="2">
-                            Por encargo
-                        </a>
+                        <div class="category-dropdown">
+                            <a asp-controller="Category"
+                               asp-action="Index"
+                               asp-route-id="1"
+                               asp-route-fulfillment="1">
+                                En stock
+                            </a>
+
+                            <a asp-controller="Category"
+                               asp-action="Index"
+                               asp-route-id="1"
+                               asp-route-fulfillment="2">
+                                Por encargo
+                            </a>
+                        </div>
                     </div>
-                </div>
 
-                <!-- CAMISAS -->
-                <div class="category-item">
-                    <a asp-controller="Category" asp-action="Index" asp-route-id="2">
-                        Camisas
-                    </a>
-
-                    <div class="category-dropdown">
-                        <a asp-controller="Category"
-                           asp-action="Index"
-                           asp-route-id="2"
-                           asp-route-fulfillment="1">
-                            En stock
+                    <!-- CAMISAS -->
+                    <div class="category-item">
+                        <a asp-controller="Category" asp-action="Index" asp-route-id="2">
+                            Camisas
                         </a>
 
-                        <a asp-controller="Category"
-                           asp-action="Index"
-                           asp-route-id="2"
-                           asp-route-fulfillment="2">
-                            Por encargo
-                        </a>
+                        <div class="category-dropdown">
+                            <a asp-controller="Category"
+                               asp-action="Index"
+                               asp-route-id="2"
+                               asp-route-fulfillment="1">
+                                En stock
+                            </a>
+
+                            <a asp-controller="Category"
+                               asp-action="Index"
+                               asp-route-id="2"
+                               asp-route-fulfillment="2">
+                                Por encargo
+                            </a>
+                        </div>
                     </div>
-                </div>
 
-                <!-- SUETAS -->
-                <div class="category-item">
-                    <a asp-controller="Category" asp-action="Index" asp-route-id="3">
-                        Suetas
-                    </a>
-
-                    <div class="category-dropdown">
-                        <a asp-controller="Category"
-                           asp-action="Index"
-                           asp-route-id="3"
-                           asp-route-fulfillment="1">
-                            En stock
+                    <!-- SUETAS -->
+                    <div class="category-item">
+                        <a asp-controller="Category" asp-action="Index" asp-route-id="3">
+                            Suetas
                         </a>
 
-                        <a asp-controller="Category"
-                           asp-action="Index"
-                           asp-route-id="3"
-                           asp-route-fulfillment="2">
-                            Por encargo
-                        </a>
+                        <div class="category-dropdown">
+                            <a asp-controller="Category"
+                               asp-action="Index"
+                               asp-route-id="3"
+                               asp-route-fulfillment="1">
+                                En stock
+                            </a>
+
+                            <a asp-controller="Category"
+                               asp-action="Index"
+                               asp-route-id="3"
+                               asp-route-fulfillment="2">
+                                Por encargo
+                            </a>
+                        </div>
                     </div>
-                </div>
 
-                <!-- PANTALONES -->
-                <div class="category-item">
-                    <a asp-controller="Category" asp-action="Index" asp-route-id="4">
-                        Pantalones
-                    </a>
-
-                    <div class="category-dropdown">
-                        <a asp-controller="Category"
-                           asp-action="Index"
-                           asp-route-id="4"
-                           asp-route-fulfillment="1">
-                            En stock
+                    <!-- PANTALONES -->
+                    <div class="category-item">
+                        <a asp-controller="Category" asp-action="Index" asp-route-id="4">
+                            Pantalones
                         </a>
 
-                        <a asp-controller="Category"
-                           asp-action="Index"
-                           asp-route-id="4"
-                           asp-route-fulfillment="2">
-                            Por encargo
-                        </a>
+                        <div class="category-dropdown">
+                            <a asp-controller="Category"
+                               asp-action="Index"
+                               asp-route-id="4"
+                               asp-route-fulfillment="1">
+                                En stock
+                            </a>
+
+                            <a asp-controller="Category"
+                               asp-action="Index"
+                               asp-route-id="4"
+                               asp-route-fulfillment="2">
+                                Por encargo
+                            </a>
+                        </div>
                     </div>
-                </div>
 
-                <!-- ACCESORIOS -->
-                <div class="category-item">
-                    <a asp-controller="Category" asp-action="Index" asp-route-id="5">
-                        Accesorios
-                    </a>
-
-                    <div class="category-dropdown">
-                        <a asp-controller="Category"
-                           asp-action="Index"
-                           asp-route-id="5"
-                           asp-route-fulfillment="1">
-                            En stock
+                    <!-- ACCESORIOS -->
+                    <div class="category-item">
+                        <a asp-controller="Category" asp-action="Index" asp-route-id="5">
+                            Accesorios
                         </a>
 
-                        <a asp-controller="Category"
-                           asp-action="Index"
-                           asp-route-id="5"
-                           asp-route-fulfillment="2">
-                            Por encargo
-                        </a>
+                        <div class="category-dropdown">
+                            <a asp-controller="Category"
+                               asp-action="Index"
+                               asp-route-id="5"
+                               asp-route-fulfillment="1">
+                                En stock
+                            </a>
+
+                            <a asp-controller="Category"
+                               asp-action="Index"
+                               asp-route-id="5"
+                               asp-route-fulfillment="2">
+                                Por encargo
+                            </a>
+                        </div>
                     </div>
-                </div>
 
-                <!-- VINILOS -->
-                <div class="category-item">
-                    <a asp-controller="Category" asp-action="Index" asp-route-id="6">
-                        Vinilos
-                    </a>
-
-                    <div class="category-dropdown">
-                        <a asp-controller="Category"
-                           asp-action="Index"
-                           asp-route-id="6"
-                           asp-route-fulfillment="1">
-                            En stock
+                    <!-- VINILOS -->
+                    <div class="category-item">
+                        <a asp-controller="Category" asp-action="Index" asp-route-id="6">
+                            Vinilos
                         </a>
 
-                        <a asp-controller="Category"
-                           asp-action="Index"
-                           asp-route-id="6"
-                           asp-route-fulfillment="2">
-                            Por encargo
-                        </a>
+                        <div class="category-dropdown">
+                            <a asp-controller="Category"
+                               asp-action="Index"
+                               asp-route-id="6"
+                               asp-route-fulfillment="1">
+                                En stock
+                            </a>
+
+                            <a asp-controller="Category"
+                               asp-action="Index"
+                               asp-route-id="6"
+                               asp-route-fulfillment="2">
+                                Por encargo
+                            </a>
+                        </div>
                     </div>
-                </div>
 
-            </nav>
-
+                </nav>
+            }
 
             <!-- MOBILE MENU -->
             <nav class="mobile-menu" id="mobileMenu">
@@ -558,12 +564,13 @@
         </main>
     }
 
-    @if (!isAdmin)
+    @if (!isAdmin && !hideLayout)
     {
         <footer>
             © @DateTime.Now.Year · Saint Hub · Sneakers & Culture
         </footer>
     }
+
     <script>
         function updateCartCount(count) {
             document.querySelectorAll('.cart-count').forEach(el => {
