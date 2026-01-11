@@ -1,7 +1,9 @@
-using Microsoft.EntityFrameworkCore;
-using SaintHub.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.EntityFrameworkCore;
+using SaintHub.Data;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +37,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 );
 
 var app = builder.Build();
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedProto
+});
 
 // =========================
 // PIPELINE
