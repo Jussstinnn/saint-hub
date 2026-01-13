@@ -571,8 +571,13 @@
 
     @if (!isAdmin && !hideLayout)
     {
-        <footer>
-            © @DateTime.Now.Year · Saint Hub · Sneakers & Culture
+        <footer class="site-footer">
+            © @DateTime.Now.Year · Saint Hub · Sneakers & Culture ·
+            <a asp-controller="Dev"
+               asp-action="Index"
+               class="dev-credit-link">
+                Desarrollado por Justin Montoya
+            </a>
         </footer>
     }
 
