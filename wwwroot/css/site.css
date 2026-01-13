@@ -1200,3 +1200,72 @@ input[type="number"] {
         width: 100% !important;
     }
 }
+:root {
+    /* Ajustá este dorado si ya tienes uno en SaintHub */
+    --saint-gold: #d7b56d;
+    --saint-gold-2: #f3d48a;
+}
+
+/* Link premium Saint */
+.saint-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    color: var(--saint-gold);
+    font-weight: 650;
+    letter-spacing: .01em;
+    text-decoration: none;
+    padding: .15rem .2rem;
+    border-radius: 10px;
+    transition: color .25s ease, transform .25s cubic-bezier(.4,0,.2,1), background .25s ease, text-shadow .25s ease;
+}
+
+    /* underline animado */
+    .saint-link::after {
+        content: "";
+        position: absolute;
+        left: .2rem;
+        right: .2rem;
+        bottom: -2px;
+        height: 2px;
+        background: linear-gradient(90deg, rgba(215,181,109,0), rgba(215,181,109,.95), rgba(243,212,138,.95), rgba(215,181,109,.95), rgba(215,181,109,0));
+        transform: scaleX(.25);
+        transform-origin: center;
+        opacity: .55;
+        transition: transform .28s cubic-bezier(.4,0,.2,1), opacity .28s ease;
+    }
+
+    /* hover premium */
+    .saint-link:hover {
+        color: var(--saint-gold-2);
+        transform: translateY(-1px);
+        text-shadow: 0 0 18px rgba(215,181,109,.25);
+    }
+
+        .saint-link:hover::after {
+            transform: scaleX(1);
+            opacity: 1;
+        }
+
+    /* active */
+    .saint-link:active {
+        transform: translateY(0) scale(.99);
+    }
+
+    /* focus accesible */
+    .saint-link:focus-visible {
+        outline: 2px solid rgba(215,181,109,.35);
+        outline-offset: 4px;
+    }
+
+    /* opcional: glow suave detrás */
+    .saint-link:hover {
+        background: radial-gradient(80px 24px at 50% 60%, rgba(215,181,109,.12), transparent 70%);
+    }
+    .saint-link::before {
+        content: "?";
+        font-size: .9em;
+        opacity: .75;
+        transform: translateY(-.5px);
+    }
