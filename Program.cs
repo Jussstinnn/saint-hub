@@ -111,6 +111,9 @@ app.Use(async (context, next) =>
 
     await next();
 });
+var uploadsRoot = Path.Combine(app.Environment.WebRootPath, "uploads");
+Directory.CreateDirectory(uploadsRoot);
+Directory.CreateDirectory(Path.Combine(uploadsRoot, "products"));
 
 // =========================
 // ROUTES
@@ -128,3 +131,5 @@ app.MapControllerRoute(
 );
 
 app.Run();
+
+// disk-test: redeploy should not delete uploads
