@@ -1,0 +1,91 @@
+﻿@model SaintHub.Models.Order
+
+
+<h1>Pedido #@Model.Id</h1>
+
+<div class="admin-order-grid">
+
+    <!-- =========================
+         DATOS DEL CLIENTE
+    ========================= -->
+    <div class="card-saint">
+        <h3>Datos del cliente</h3>
+
+        <div class="order-data">
+            <div><strong>Nombre:</strong> @Model.FullName</div>
+            <div><strong>Teléfono:</strong> @Model.Phone</div>
+            <div><strong>Correo:</strong> @Model.Email</div>
+            <div><strong>Dirección:</strong> @Model.Address</div>
+            <div><strong>Método de pago:</strong> @Model.PaymentMethod</div>
+
+            @if (!string.IsNullOrEmpty(Model.Notes))
+            {
+                <div><strong>Notas:</strong> @Model.Notes</div>
+            }
+        </div>
+    </div>
+
+    <!-- =========================
+         PRODUCTOS
+    ========================= -->
+    <div class="card-saint">
+        <h3>Productos</h3>
+
+        <table class="table-saint">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Talla</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var i in Model.Items)
+                {
+                    <tr>
+                        <td>@i.ProductName</td>
+                        <td>@i.Option</td>
+                        <td>@i.Quantity</td>
+                        <td>₡ @i.PriceCrc.ToString("N0")</td>
+                        <td>₡ @i.SubtotalCrc.ToString("N0")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- =========================
+         RESUMEN
+    ========================= -->
+    <div class="card-saint">
+        <h3>Resumen</h3>
+
+        <div class="order-summary-row">
+            <span>Total</span>
+            <strong>₡ @Model.TotalCrc.ToString("N0")</strong>
+        </div>
+
+        <div class="order-summary-row">
+            <span>Estado</span>
+            <strong>@Model.Status</strong>
+        </div>
+
+        <div class="order-summary-row">
+            <span>Fecha</span>
+            <strong>@Model.CreatedAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</strong>
+        </div>
+
+        <a asp-action="Orders"
+           class="btn-saint-outline"
+           style="margin-top:1rem;">
+            Volver a pedidos
+        </a>
+    </div>
+
+</div>
+
+
+
+

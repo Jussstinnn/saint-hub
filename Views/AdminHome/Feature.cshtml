@@ -1,0 +1,138 @@
+﻿@model HomeFeatureSection
+@{
+    ViewData["Title"] = "Home – Sección destacada";
+}
+
+@section Styles {
+    <link rel="stylesheet"
+          href="~/css/admin/home-feature.css"
+          asp-append-version="true" />
+}
+
+
+<div class="feature-wrapper">
+
+    <div class="feature-header">
+        <h1>Home · Sección destacada</h1>
+        <span>Contenido principal visible en la página de inicio</span>
+    </div>
+
+    <div class="feature-card">
+
+        <form method="post" enctype="multipart/form-data" class="feature-form">
+
+            <!-- COLUMNA IZQUIERDA -->
+            <div>
+
+                <div class="form-grid">
+
+                    <div class="field">
+                        <label>Etiqueta pequeña</label>
+                        <input asp-for="SmallTitle" />
+                    </div>
+
+                    <div class="field">
+                        <label>Título principal</label>
+                        <input asp-for="Title" />
+                    </div>
+
+                    <div class="field full">
+                        <label>Descripción</label>
+                        <textarea asp-for="Description"></textarea>
+                    </div>
+
+                    <div class="field">
+                        <label>Texto del botón</label>
+                        <input asp-for="ButtonText" />
+                    </div>
+
+                    <div class="field">
+                        <label>URL del botón</label>
+                        <input asp-for="ButtonUrl" />
+                    </div>
+
+                </div>
+
+                <label class="toggle">
+                    <input asp-for="IsActive" />
+                    <span></span>
+                    Mostrar sección en el Home
+                </label>
+
+                <button class="btn-primary">Guardar cambios</button>
+
+            </div>
+
+            <!-- COLUMNA DERECHA -->
+            <div class="feature-preview">
+
+                <label>Imagen destacada</label>
+
+                <div class="drop-zone" id="dropZone">
+                    <strong>Arrastra la imagen aquí</strong>
+                    <span>o haz clic para seleccionarla</span>
+                    <input type="file" name="image" id="imageInput" accept="image/jpeg,image/png,image/gif,image/webp,image/avif,.webp,.avif" hidden />
+                </div>
+
+                <div class="image-preview" id="imagePreview"
+                     @(string.IsNullOrEmpty(Model.ImagePath) ? "style=display:none" : "")>
+                    <img src="@Model.ImagePath" />
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const dropZone = document.getElementById("dropZone");
+            const input = document.getElementById("imageInput");
+            const preview = document.getElementById("imagePreview");
+            const previewImg = preview?.querySelector("img");
+
+            if (!dropZone || !input || !previewImg) return;
+
+            dropZone.addEventListener("click", () => input.click());
+
+            ["dragenter","dragover"].forEach(e =>
+                dropZone.addEventListener(e, ev => {
+                    ev.preventDefault();
+                    dropZone.classList.add("dragover");
+                })
+            );
+
+            ["dragleave","drop"].forEach(e =>
+                dropZone.addEventListener(e, ev => {
+                    ev.preventDefault();
+                    dropZone.classList.remove("dragover");
+                })
+            );
+
+            dropZone.addEventListener("drop", e => {
+                const file = e.dataTransfer.files[0];
+                if (!file || !file.type.startsWith("image/")) return;
+                input.files = e.dataTransfer.files;
+                showPreview(file);
+            });
+
+            input.addEventListener("change", () => {
+                const file = input.files[0];
+                if (file) showPreview(file);
+            });
+
+            function showPreview(file) {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    previewImg.src = e.target.result;
+                    preview.style.display = "block";
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+}

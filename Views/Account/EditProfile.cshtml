@@ -1,0 +1,74 @@
+﻿@model SaintHub.ViewModels.EditProfileVM
+
+@{
+    ViewData["Title"] = "Editar perfil";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Account.css" asp-append-version="true" />
+}
+
+<div class="account-wrapper">
+    <div class="account-card">
+
+        <!-- HEADER -->
+        <div class="account-head">
+            <h1>Editar perfil</h1>
+            <p>Actualizá tus datos o cambiá tu contraseña</p>
+        </div>
+
+        <form asp-action="EditProfile"
+              method="post"
+              class="account-form">
+
+            @Html.AntiForgeryToken()
+
+            <!-- DATOS -->
+            <div class="field">
+                <label>Nombre completo</label>
+                <input asp-for="FullName" />
+            </div>
+
+            <div class="field">
+                <label>Correo electrónico</label>
+                <input asp-for="Email" />
+            </div>
+
+            <div class="account-divider">Cambiar contraseña</div>
+
+            <!-- PASSWORD -->
+            <div class="field">
+                <label>Contraseña actual</label>
+                <input asp-for="CurrentPassword" />
+            </div>
+
+            <div class="field">
+                <label>Nueva contraseña</label>
+                <input asp-for="NewPassword" />
+            </div>
+
+            <div class="field">
+                <label>Confirmar nueva contraseña</label>
+                <input asp-for="ConfirmNewPassword" />
+            </div>
+
+            <button type="submit" class="btn-account-primary">
+                Guardar cambios
+            </button>
+
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="account-error">
+                    @Html.ValidationSummary()
+                </div>
+            }
+        </form>
+
+        <div class="account-actions">
+            <a asp-action="Dashboard" class="btn-account-outline">
+                Volver a mi cuenta
+            </a>
+        </div>
+
+    </div>
+</div>

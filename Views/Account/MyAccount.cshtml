@@ -1,0 +1,53 @@
+﻿@model SaintHub.Models.User
+
+@{
+    ViewData["Title"] = "Mi cuenta";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Account.css" asp-append-version="true" />
+}
+
+<div class="account-wrapper">
+
+    <div class="account-card">
+
+        <!-- HEADER -->
+        <div class="account-head">
+            <h1>Mi cuenta</h1>
+            <p>Administrá tu información y pedidos en Saint Hub</p>
+        </div>
+
+        <!-- INFO -->
+        <div class="account-info">
+
+            <div class="info-row">
+                <span>Nombre</span>
+                <strong>@Model.FullName</strong>
+            </div>
+
+            <div class="info-row">
+                <span>Correo electrónico</span>
+                <strong>@Model.Email</strong>
+            </div>
+
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="account-actions">
+
+            <a class="btn-account-primary"
+               asp-action="MyOrders">
+                Ver mis pedidos
+            </a>
+
+            <a class="btn-account-outline danger"
+               asp-action="Logout">
+                Cerrar sesión
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

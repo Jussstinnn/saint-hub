@@ -1,0 +1,180 @@
+@model List<SaintHub.ViewModels.CartItemVM>
+
+@{
+    ViewData["Title"] = "Checkout";
+
+    var totalMin = Model?.Sum(x => x.SubtotalMinCrc) ?? 0m;
+    var totalMax = Model?.Sum(x => x.SubtotalMaxCrc) ?? 0m;
+    var hasRange = totalMin != totalMax;
+}
+
+<div class="checkout-page">
+
+    <div class="checkout-header">
+        <h1>Checkout</h1>
+        <p>Completá tus datos para finalizar la compra.</p>
+    </div>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="checkout-alert">
+            @TempData["Error"]
+        </div>
+    }
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="card-saint" style="max-width:720px;">
+            <h3 style="margin-bottom:.5rem;">Tu carrito está vacío</h3>
+            <p style="color:var(--text-muted); margin:0 0 1rem;">
+                Agregá productos antes de continuar al checkout.
+            </p>
+
+            <a class="btn-saint" asp-controller="Home" asp-action="Index">
+                Ir a la tienda
+            </a>
+        </div>
+    }
+    else
+    {
+        <form asp-controller="Checkout"
+              asp-action="PreConfirm"
+              method="post"
+              class="checkout-layout">
+
+            @Html.AntiForgeryToken()
+
+            <!-- =========================
+                 IZQUIERDA
+            ========================= -->
+            <div class="checkout-left">
+
+                <!-- DATOS DE ENVÍO -->
+                <section class="checkout-card">
+                    <div class="checkout-card-head">
+                        <h3>Datos de envío</h3>
+                        <span class="pill">Obligatorio</span>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group span-2">
+                            <label>Nombre completo</label>
+                            <input name="FullName" class="input-saint" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Teléfono</label>
+                            <input name="Phone" class="input-saint" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input name="Email" class="input-saint" type="email" required />
+                        </div>
+
+                        <div class="form-group span-2">
+                            <label>Dirección / Ubicación</label>
+                            <input name="Address" class="input-saint" required />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGO -->
+                <section class="checkout-card">
+                    <div class="checkout-card-head">
+                        <h3>Método de pago</h3>
+                        <span class="pill">Elegí uno</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Seleccioná</label>
+                        <select name="PaymentMethod" class="input-saint" required>
+                            <option value="">— Seleccionar —</option>
+                            <option value="SINPE">SINPE Móvil</option>
+                            <option value="Transferencia">Transferencia</option>
+                            <option value="Efectivo">Efectivo</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Notas (opcional)</label>
+                        <textarea name="Notes" class="input-saint" rows="3" placeholder="Ej: Entrega, referencias, detalles..."></textarea>
+                    </div>
+                </section>
+
+                <!-- ACCIÓN -->
+                <div class="checkout-actions">
+                    <button class="btn-saint" type="submit">Confirmar pedido</button>
+                    <a class="btn-saint btn-outline" asp-controller="Cart" asp-action="Index">Volver al carrito</a>
+                </div>
+
+            </div>
+
+            <!-- =========================
+                 DERECHA
+            ========================= -->
+            <aside class="checkout-right">
+
+                <section class="checkout-summary">
+                    <h3>Resumen</h3>
+
+                    <div class="summary-items">
+                        @foreach (var item in Model)
+                        {
+                            <div class="summary-item">
+                                <img src="@item.ImageUrl" alt="@item.ProductName" />
+
+                                <div class="summary-item-info">
+                                    <strong class="item-title">@item.ProductName</strong>
+
+                                    <div class="item-meta">
+                                        @if (!string.IsNullOrWhiteSpace(item.OptionValue))
+                                        {
+                                            <span>@item.OptionLabel: <b>@item.OptionValue</b></span>
+                                        }
+                                        <span>Cantidad: <b>@item.Quantity</b></span>
+                                    </div>
+
+                                    <div class="item-price">
+                                        @if (item.IsPriceRange)
+                                        {
+                                            <text>₡ @item.SubtotalMinCrc.ToString("N0") – ₡ @item.SubtotalMaxCrc.ToString("N0")</text>
+                                        }
+                                        else
+                                        {
+                                            <text>₡ @item.SubtotalMaxCrc.ToString("N0")</text>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="summary-total">
+                        <span>Total</span>
+                        <strong>
+                            @if (hasRange)
+                            {
+                                <text>₡ @totalMin.ToString("N0") – ₡ @totalMax.ToString("N0")</text>
+                            }
+                            else
+                            {
+                                <text>₡ @totalMax.ToString("N0")</text>
+                            }
+                        </strong>
+                    </div>
+
+                    @if (hasRange)
+                    {
+                        <div class="checkout-alert" style="margin-top:1rem;">
+                            Este pedido incluye un <b>rango estimado</b>. El precio final se confirma al coordinar por WhatsApp.
+                        </div>
+                    }
+                </section>
+
+            </aside>
+
+        </form>
+    }
+
+</div>

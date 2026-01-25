@@ -1,0 +1,439 @@
+@model SaintHub.Models.Product
+@using SaintHub.Services
+@using System.Text.Json
+
+@{
+    ViewData["Title"] = Model?.Name ?? "Producto";
+
+    string FixUrl(string? url)
+    {
+        if (string.IsNullOrWhiteSpace(url)) return "/img/no-image.png";
+        url = url.Trim();
+        if (url.StartsWith("~/")) url = url.Substring(1); // "~/" -> "/"
+        if (!url.StartsWith("/")) url = "/" + url;
+        return url;
+    }
+
+    var images = (Model.Images ?? new List<SaintHub.Models.ProductImage>())
+        .Select(i => new
+        {
+            i.Id,
+            Url = FixUrl(i.Url),
+            i.IsPrimary,
+            Color = (i.Color ?? "").Trim()
+        })
+        .ToList();
+
+    var primaryImage = images.FirstOrDefault(i => i.IsPrimary) ?? images.FirstOrDefault();
+
+    var activeVariants = (Model.Variants ?? new List<SaintHub.Models.ProductVariant>())
+        .Where(v => v.IsActive)
+        .Select(v => new
+        {
+            id = v.Id,
+            size = v.Option ?? "",
+            color = (v.Color ?? "").Trim(),
+            price = v.PriceCrc,
+            stock = v.Stock
+        })
+        .ToList();
+
+    var colors = activeVariants
+        .Select(v => v.color)
+        .Where(c => !string.IsNullOrWhiteSpace(c))
+        .Distinct()
+        .ToList();
+
+    var priceInfo = ProductRules.GetDisplayPrice(Model);
+    var optionLabel = ProductRules.OptionLabel(Model.Category);
+    var isVinyl = ProductRules.IsVinyl(Model.Category);
+    var isOnDemand = Model.Fulfillment == ProductRules.PorEncargo;
+    var requireStock = Model.Fulfillment == ProductRules.EnStock;
+
+    // Color -> Image mapping (toma la primera por color)
+    var colorImages = images
+        .Where(i => !string.IsNullOrWhiteSpace(i.Color))
+        .GroupBy(i => i.Color)
+        .ToDictionary(g => g.Key, g => g.First().Url);
+}
+
+<div class="product-details-grid premium">
+
+    <!-- =========================
+         IMÁGENES
+    ========================= -->
+    <div class="product-images premium-media">
+        <div class="media-frame">
+            <img src="@(primaryImage?.Url ?? "/img/no-image.png")"
+                 alt="@Model.Name"
+                 class="product-main-img"
+                 id="mainProductImage" />
+        </div>
+
+        @if (images.Count > 1)
+        {
+            <div class="product-thumbs" id="thumbs">
+                @foreach (var img in images)
+                {
+                    <button type="button"
+                            class="thumb-btn @(img.Id == primaryImage?.Id ? "active" : "")"
+                            data-src="@img.Url">
+                        <img src="@img.Url" class="product-thumb" alt="" />
+                    </button>
+                }
+            </div>
+        }
+    </div>
+
+    <!-- =========================
+         INFO
+    ========================= -->
+    <div class="product-info premium-info">
+        <div class="info-head">
+            <h1 class="product-title">@Model.Name</h1>
+
+            <div class="price-row">
+                <div class="product-price" id="productPrice" data-state="base">
+                    <span class="price-currency">₡</span>
+                    <span class="price-value">
+                        @(
+                                                priceInfo.isRange
+                                                ? (priceInfo.fromCrc.ToString("N0") + " – " + priceInfo.toCrc.ToString("N0"))
+                                                : priceInfo.fromCrc.ToString("N0")
+                                                )
+                    </span>
+                </div>
+
+                <div class="product-status">
+                    @if (Model.Fulfillment == ProductRules.EnStock)
+                    {
+                        <span class="status in-stock">Disponible</span>
+                    }
+                    else
+                    {
+                        <span class="status preorder">Por encargo</span>
+                    }
+                </div>
+            </div>
+
+            <div class="price-hint">
+                @if (isVinyl)
+                {
+                    <text>Listo para agregar al carrito</text>
+                }
+                else if (isOnDemand)
+                {
+                    <text>Precio sujeto a confirmación al coordinar</text>
+                }
+                else
+                {
+                    <text>Seleccioná color y @optionLabel.ToLower() para agregar al carrito</text>
+                }
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Description))
+            {
+                <p class="description">@Model.Description</p>
+            }
+        </div>
+
+        <!-- =========================
+             FORM COMPRA
+        ========================= -->
+        <form asp-controller="Cart"
+              asp-action="Add"
+              method="post"
+              class="variant-form premium-buy"
+              id="addToCartForm">
+
+            <!-- ✅ ESTE hidden es la clave: SIEMPRE se postea variantId -->
+            <input type="hidden" id="variantIdInput" name="variantId" value="" />
+
+            <label class="variant-title" style="@(isVinyl ? "display:none" : "")">Seleccionar color</label>
+            <select id="colorSelect"
+                    class="select-saint premium-select"
+                    style="@(isVinyl ? "display:none" : "")"
+                    @(isVinyl ? "" : "required")>
+                <option value="" disabled selected>Seleccionar color</option>
+                @foreach (var c in colors)
+                {
+                    <option value="@c">@c</option>
+                }
+            </select>
+
+            <label class="variant-title" style="@(isVinyl ? "display:none" : "")">Seleccionar @optionLabel</label>
+
+            <!-- ❗ OJO: este select YA NO lleva name="variantId".
+                 El name va en el hidden para que vinilos funcione siempre. -->
+            <select id="sizeSelect"
+                    class="select-saint premium-select"
+                    style="@(isVinyl ? "display:none" : "")"
+                    @(isVinyl ? "" : "required")>
+                <option value="" disabled selected>Seleccionar @optionLabel</option>
+            </select>
+
+            @if (isOnDemand)
+            {
+                <div class="price-disclaimer">
+                    <strong>Importante</strong>
+                    El precio puede variar según disponibilidad, versión y mercado.
+                    <br />
+                    El precio final será confirmado al coordinar el pedido.
+                </div>
+            }
+
+            <button class="btn-saint premium-cta" type="submit">
+                Agregar al carrito
+            </button>
+
+            <div class="micro-note">
+                Pago seguro • Entrega coordinada • Soporte por WhatsApp
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- =========================
+     VARIANTES → JS
+========================= -->
+<script>
+    const VARIANTS = @Html.Raw(JsonSerializer.Serialize(activeVariants));
+    const COLOR_IMAGES = @Html.Raw(JsonSerializer.Serialize(colorImages));
+</script>
+
+<script>
+    (function () {
+        const IS_VINYL = @isVinyl.ToString().ToLower();
+        const IS_ON_DEMAND = @isOnDemand.ToString().ToLower();
+        const REQUIRE_STOCK = @requireStock.ToString().ToLower();
+
+        const PRICE_FROM = @priceInfo.fromCrc;
+        const PRICE_TO = @priceInfo.toCrc;
+        const IS_RANGE = @priceInfo.isRange.ToString().ToLower();
+        const OPTION_LABEL = "@optionLabel";
+
+        const colorSelect = document.getElementById('colorSelect');
+        const sizeSelect = document.getElementById('sizeSelect');
+        const hiddenVariant = document.getElementById('variantIdInput');
+
+        const priceBox = document.getElementById('productPrice');
+        const priceValue = priceBox?.querySelector('.price-value');
+        const mainImage = document.getElementById('mainProductImage');
+        const cta = document.querySelector('#addToCartForm button[type="submit"]');
+
+        const fmt = (n) => {
+            const num = Number(n ?? 0);
+            return (isFinite(num) ? num : 0).toLocaleString('es-CR');
+        };
+
+        const renderBasePrice = () => {
+            if (!priceValue) return;
+            priceValue.textContent = IS_RANGE
+                ? `${fmt(PRICE_FROM)} – ${fmt(PRICE_TO)}`
+                : fmt(PRICE_FROM);
+            priceBox.dataset.state = 'base';
+        };
+
+        const findVariantById = (id) => VARIANTS.find(v => String(v.id) === String(id)) || null;
+
+        const renderVariantPrice = (variantId) => {
+            const v = findVariantById(variantId);
+            if (v && Number(v.price) > 0) {
+                priceValue.textContent = fmt(v.price);
+                priceBox.dataset.state = 'variant';
+                return;
+            }
+            renderBasePrice();
+        };
+
+        const setCTAEnabled = (enabled) => {
+            if (!cta) return;
+            cta.disabled = !enabled;
+            cta.style.opacity = enabled ? '' : '.55';
+            cta.style.pointerEvents = enabled ? '' : 'none';
+        };
+
+        const setVariantId = (id) => {
+            if (!hiddenVariant) return;
+            hiddenVariant.value = id ? String(id) : "";
+        };
+
+        const pickFirstValidVariant = () => {
+            if (!Array.isArray(VARIANTS) || !VARIANTS.length) return null;
+            if (!REQUIRE_STOCK) return VARIANTS[0];
+            return VARIANTS.find(v => Number(v.stock) > 0) || null;
+        };
+
+        const updateImage = (color) => {
+            if (!mainImage) return;
+            if (!COLOR_IMAGES || !COLOR_IMAGES[color]) return;
+
+            const newSrc = COLOR_IMAGES[color];
+            if (mainImage.getAttribute('src') === newSrc) return;
+
+            mainImage.classList.add('fade-out');
+            setTimeout(() => {
+                mainImage.src = newSrc;
+                mainImage.classList.remove('fade-out');
+            }, 120);
+        };
+
+        // Init price
+        renderBasePrice();
+
+        // ===== VINYL: auto pick and enable =====
+        if (IS_VINYL) {
+            const v = pickFirstValidVariant();
+            if (v) {
+                setVariantId(v.id);
+                setCTAEnabled(true);
+                renderVariantPrice(v.id);
+            } else {
+                setVariantId("");
+                setCTAEnabled(false);
+            }
+            return; // nada más que hacer
+        }
+
+        // ===== NON-VINYL: populate by color =====
+        const populateOptions = (color) => {
+            const list = VARIANTS
+                .filter(v => v.color === color)
+                .filter(v => !REQUIRE_STOCK || Number(v.stock) > 0);
+
+            sizeSelect.innerHTML = `<option value="" disabled selected>Seleccionar ${OPTION_LABEL}</option>`;
+
+            for (const v of list) {
+                const opt = document.createElement('option');
+                opt.value = v.id;
+
+                const stockTxt = IS_ON_DEMAND ? '' : ` · ${v.stock} disponibles`;
+                const priceTxt = (Number(v.price) > 0) ? ` · ₡${fmt(v.price)}` : '';
+                opt.textContent = `${v.size}${priceTxt}${stockTxt}`;
+
+                sizeSelect.appendChild(opt);
+            }
+
+            // reset selection + hidden
+            setVariantId("");
+            setCTAEnabled(false);
+            renderBasePrice();
+
+            // auto-select if only one
+            if (list.length === 1) {
+                sizeSelect.value = String(list[0].id);
+                setVariantId(list[0].id);
+                setCTAEnabled(true);
+                renderVariantPrice(list[0].id);
+            }
+        };
+
+        colorSelect?.addEventListener('change', () => {
+            const color = colorSelect.value;
+            updateImage(color);
+            populateOptions(color);
+        });
+
+        sizeSelect?.addEventListener('change', () => {
+            const id = sizeSelect.value;
+            const ok = Boolean(id);
+            setVariantId(ok ? id : "");
+            setCTAEnabled(ok);
+            if (ok) renderVariantPrice(id);
+        });
+
+        // Preselect first color
+        const firstColor = colorSelect?.querySelector('option:not([disabled])')?.value;
+        if (firstColor) {
+            colorSelect.value = firstColor;
+            updateImage(firstColor);
+            populateOptions(firstColor);
+        }
+    })();
+</script>
+
+<!-- =========================
+     GALERÍA THUMBS
+========================= -->
+<script>
+    (function () {
+        const main = document.getElementById('mainProductImage');
+        const thumbs = document.getElementById('thumbs');
+        if (!main || !thumbs) return;
+
+        thumbs.addEventListener('click', (e) => {
+            const btn = e.target.closest('.thumb-btn');
+            if (!btn) return;
+
+            const src = btn.getAttribute('data-src');
+            if (!src || main.getAttribute('src') === src) return;
+
+            main.classList.add('fade-out');
+            setTimeout(() => {
+                main.src = src;
+                main.classList.remove('fade-out');
+            }, 120);
+
+            thumbs.querySelectorAll('.thumb-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        });
+    })();
+</script>
+
+<!-- =========================
+     ADD TO CART (AJAX) – usa CartController.Add JSON
+========================= -->
+<script>
+    (function () {
+        const form = document.getElementById('addToCartForm');
+        if (!form) return;
+
+        const btn = form.querySelector('button[type="submit"]');
+        const hidden = document.getElementById('variantIdInput');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const variantId = hidden?.value;
+            if (!variantId) return;
+
+            if (btn) btn.disabled = true;
+
+            fetch('/Cart/Add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+                body: `variantId=${encodeURIComponent(variantId)}`
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (!data) return;
+
+                if (!data.success) {
+                    // feedback simple si el backend responde error (sin stock, etc.)
+                    if (btn) {
+                        const old = btn.textContent;
+                        btn.textContent = data.message || 'No se pudo agregar';
+                        setTimeout(() => btn.textContent = old, 1400);
+                    }
+                    return;
+                }
+
+                // actualizar contador si existe
+                if (typeof window.updateCartCount === 'function') {
+                    window.updateCartCount(data.cartCount ?? data.count ?? 0);
+                }
+
+                // feedback visual
+                if (btn) {
+                    const old = btn.textContent;
+                    btn.textContent = '✔ Agregado';
+                    setTimeout(() => btn.textContent = old, 1200);
+                }
+            })
+            .catch(console.error)
+            .finally(() => {
+                if (btn) btn.disabled = false;
+            });
+        });
+    })();
+</script>

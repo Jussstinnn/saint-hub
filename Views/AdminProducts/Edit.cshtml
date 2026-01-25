@@ -1,0 +1,720 @@
+@using SaintHub.Services
+@model SaintHub.ViewModels.AdminProductVariantsByColorVM
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/editproduct.css" />
+}
+
+@{
+    ViewData["Title"] = "Editar producto";
+
+    var isOnDemand = Model.Fulfillment == ProductRules.PorEncargo;
+
+    var mode = "fixed";
+    if (isOnDemand)
+    {
+        if (Model.OnDemandFixedPriceCrc.HasValue && Model.OnDemandFixedPriceCrc.Value > 0)
+            mode = "fixed";
+        else if (Model.OnDemandMinPriceCrc.HasValue || Model.OnDemandMaxPriceCrc.HasValue)
+            mode = "range";
+        else
+            mode = "fixed";
+    }
+
+    var images = (Model.Images ?? new()).OrderBy(i => i.SortOrder).ThenByDescending(i => i.IsPrimary).ToList();
+}
+
+<div class="editproduct-wrapper">
+
+    <div class="editproduct-header">
+        <div>
+            <h1>@Model.Name</h1>
+            <div class="editproduct-id">ID: @Model.Id</div>
+        </div>
+        <div style="display:flex; gap: .8rem; align-items:center;">
+            <div class="editproduct-status @(Model.IsActive ? "active" : "inactive")">
+                @(Model.IsActive ? "Activo" : "Inactivo")
+            </div>
+            <a class="btn-secondary" asp-action="Index">Volver</a>
+        </div>
+    </div>
+
+    <!-- =========================
+         INFO GENERAL (AJAX)
+    ========================= -->
+    <section class="editproduct-card">
+        <h2>Información</h2>
+
+        <div class="editproduct-form" id="productForm">
+
+            <div class="field full">
+                <label>Nombre</label>
+                <input id="Name" value="@Model.Name" />
+            </div>
+
+            <div class="field full">
+                <label>Descripción</label>
+                <textarea id="Description">@Model.Description</textarea>
+            </div>
+
+            <div class="field small">
+                <label>Precio base (CRC)</label>
+                <input id="PriceCrc" type="number" value="@Model.PriceCrc" />
+                <small style="opacity:.6; font-size:.75rem; margin-top:.45rem;">
+                    En stock: precio fijo. Por encargo: base de referencia.
+                </small>
+            </div>
+
+            <div class="field small">
+                <label>Categoría</label>
+                <select id="Category" class="input-saint" style="background:#0c0c0c; border:1px solid rgba(255,255,255,.12); border-radius:14px; padding:.9rem 1.1rem; color:#fff;">
+                    <option value="@ProductRules.Zapatos" selected="@(Model.Category==ProductRules.Zapatos)">Zapatos</option>
+                    <option value="@ProductRules.Camisas" selected="@(Model.Category==ProductRules.Camisas)">Camisas</option>
+                    <option value="@ProductRules.Suetas" selected="@(Model.Category==ProductRules.Suetas)">Suetas</option>
+                    <option value="@ProductRules.Pantalones" selected="@(Model.Category==ProductRules.Pantalones)">Pantalones</option>
+                    <option value="@ProductRules.Accesorios" selected="@(Model.Category==ProductRules.Accesorios)">Accesorios</option>
+                    <option value="@ProductRules.Vinilos" selected="@(Model.Category==ProductRules.Vinilos)">Vinilos</option>
+                </select>
+            </div>
+
+            <div class="field small">
+                <label>Entrega</label>
+                <select id="Fulfillment" class="input-saint" style="background:#0c0c0c; border:1px solid rgba(255,255,255,.12); border-radius:14px; padding:.9rem 1.1rem; color:#fff;">
+                    <option value="@ProductRules.EnStock" selected="@(Model.Fulfillment==ProductRules.EnStock)">En stock</option>
+                    <option value="@ProductRules.PorEncargo" selected="@(Model.Fulfillment==ProductRules.PorEncargo)">Por encargo</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Activo</label>
+                <label class="toggle" style="margin-top:.25rem;">
+                    <input id="IsActive" type="checkbox" @(Model.IsActive ? "checked" : "") style="display:none;" />
+                    <span></span>
+                    <div style="opacity:.75;">Visible para clientes</div>
+                </label>
+            </div>
+
+            <!-- Por encargo: precio fijo / rango -->
+            <div class="field full" id="onDemandBlock" style="display:@(isOnDemand ? "block" : "none")">
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap;">
+                    <div>
+                        <label style="display:block; margin-bottom:.6rem;">Precio por encargo</label>
+                        <div class="segmented" id="priceMode" data-mode="@mode" style="position:relative; display:inline-flex; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:999px; padding:.35rem;">
+                            <button type="button" class="seg-btn" data-mode="fixed" style="position:relative; z-index:2; padding:.55rem 1rem; border-radius:999px; background:transparent; border:0; color:#fff; font-weight:800; font-size:.78rem; letter-spacing:.12em; text-transform:uppercase; opacity:.75; cursor:pointer;">Precio fijo</button>
+                            <button type="button" class="seg-btn" data-mode="range" style="position:relative; z-index:2; padding:.55rem 1rem; border-radius:999px; background:transparent; border:0; color:#fff; font-weight:800; font-size:.78rem; letter-spacing:.12em; text-transform:uppercase; opacity:.75; cursor:pointer;">Rango</button>
+                            <span class="seg-indicator" id="segIndicator" style="position:absolute; inset:.35rem auto .35rem .35rem; width:calc(50% - .35rem); border-radius:999px; background:rgba(245,196,81,.18); box-shadow:inset 0 0 0 1px rgba(245,196,81,.25); transition:transform .25s ease; z-index:1;"></span>
+                        </div>
+                        <small style="display:block; opacity:.6; font-size:.75rem; margin-top:.5rem;">Definí el precio desde admin (sin sumas automáticas).</small>
+                    </div>
+
+                    <div style="display:flex; gap:.7rem; align-items:center;">
+                        <button type="button" class="btn-primary" id="saveBtn" style="margin-top:0;">Guardar cambios</button>
+                        <span id="saveState" style="font-size:.8rem; opacity:.65;"></span>
+                    </div>
+                </div>
+
+                <input type="hidden" id="OnDemandMode" value="@mode" />
+
+                <div style="display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap:1rem; margin-top:1.2rem;">
+                    <div id="fixedField" style="display:@(mode=="fixed" ? "block" : "none")">
+                        <label>Precio fijo (CRC)</label>
+                        <input id="OnDemandFixed" type="number" value="@(Model.OnDemandFixedPriceCrc ?? Model.PriceCrc)" />
+                    </div>
+
+                    <div id="minField" style="display:@(mode=="range" ? "block" : "none")">
+                        <label>Precio mínimo (CRC)</label>
+                        <input id="OnDemandMin" type="number" value="@(Model.OnDemandMinPriceCrc ?? Model.PriceCrc)" />
+                    </div>
+
+                    <div id="maxField" style="display:@(mode=="range" ? "block" : "none")">
+                        <label>Precio máximo (CRC)</label>
+                        <input id="OnDemandMax" type="number" value="@(Model.OnDemandMaxPriceCrc ?? Model.PriceCrc)" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stock: guardar botón también (para que siempre esté) -->
+            <div class="field full" id="stockSaveRow" style="display:@(isOnDemand ? "none" : "block")">
+                <div style="display:flex; justify-content:flex-end; gap:.7rem; align-items:center;">
+                    <button type="button" class="btn-primary" id="saveBtnStock" style="margin-top:0;">Guardar cambios</button>
+                    <span id="saveStateStock" style="font-size:.8rem; opacity:.65;"></span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- =========================
+         GALERÍA (MULTI UPLOAD + DRAG REORDER)
+    ========================= -->
+    <section class="editproduct-card">
+        <h2>Galería</h2>
+
+        <div class="image-upload" style="gap: .9rem;">
+            <input type="file" id="uploadInput" multiple accept="image/jpeg,image/png,image/gif,image/webp,image/avif,.webp,.avif" hidden />
+            <button type="button" class="file-trigger" id="chooseBtn">Seleccionar imágenes</button>
+            <div class="file-name" id="fileInfo">Arrastrá y soltá o seleccioná</div>
+            <button type="button" class="btn-secondary" id="uploadBtn" disabled>Subir</button>
+        </div>
+
+        <div id="dropZone" style="margin-top:1rem; border:1px dashed rgba(255,255,255,.18); border-radius:18px; padding:1.2rem; background:rgba(255,255,255,.03); cursor:pointer;">
+            <div style="opacity:.75;">Arrastrá imágenes aquí para subirlas (multi-upload). Luego podés ordenar arrastrando.</div>
+        </div>
+
+        <div id="newPreview" style="margin-top:1rem; display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:1rem;"></div>
+
+        <div style="margin-top:2.2rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap;">
+                <div style="opacity:.75; font-size:.9rem;">Arrastrá las tarjetas para ordenar. La primera queda como <b>principal</b>.</div>
+                <span id="orderState" style="font-size:.8rem; opacity:.65;"></span>
+            </div>
+
+            <div class="image-grid" id="imageGrid" style="margin-top:1.2rem;">
+                @if (!images.Any())
+                {
+                    <div style="opacity:.65;">Todavía no hay imágenes. Subí varias de una vez para empezar.</div>
+                }
+                else
+                {
+                    foreach (var img in images)
+                    {
+                        <div class="image-card @(img.IsPrimary ? "primary" : "")" draggable="true" data-id="@img.Id">
+                            <div class="image-preview">
+                                <img src="@img.Url" alt="Imagen @img.Id" />
+                                <div class="image-actions">
+                                    <button type="button" class="btn-overlay" data-action="primary">Principal</button>
+                                    <button type="button" class="btn-overlay danger" data-action="delete">Eliminar</button>
+                                </div>
+                            </div>
+                            <div class="image-meta">
+                                <label>Color (opcional)</label>
+                                <input type="text" value="@(img.Color ?? "")" placeholder="Ej: Red / Black" data-action="color" />
+                                <small style="opacity:.55; font-size:.72rem; margin-top:.45rem;">Drag & drop para ordenar</small>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </section>
+
+    <!-- =========================
+         VARIANTES
+    ========================= -->
+    <section class="editproduct-card">
+        <h2>Variantes</h2>
+
+        <div style="opacity:.7; margin-bottom:1.2rem;">
+            <b>En stock</b>: el precio es único por producto (se sincroniza a todas las variantes).
+            <br />
+            <b>Por encargo</b>: el cliente selecciona opción, y el precio lo define el bloque de arriba.
+        </div>
+
+        @foreach (var colorGroup in Model.Colors)
+        {
+            <div class="color-block">
+                <div class="color-header">
+                    <strong>@colorGroup.Color</strong>
+                    <span style="opacity:.6; font-size:.85rem;">@colorGroup.Variants.Count variante(s)</span>
+                </div>
+
+                <div class="color-variants">
+                    @foreach (var v in colorGroup.Variants)
+                    {
+                        <div class="variant-row" data-variant="@v.Id">
+                            <input class="v-option" value="@v.Option" data-id="@v.Id" style="flex:1" />
+                            <input class="v-stock" type="number" value="@v.Stock" data-id="@v.Id" style="width:110px" />
+                            <input class="v-price" type="number" value="@v.PriceCrc" data-id="@v.Id" style="width:140px" />
+
+                            <label style="display:flex; align-items:center; gap:.5rem; opacity:.85;">
+                                <input class="v-active" type="checkbox" data-id="@v.Id" @(v.IsActive ? "checked" : "") />
+                                Activa
+                            </label>
+                        </div>
+                    }
+
+                    <form asp-action="AddVariant" method="post" class="variant-add-inline">
+                        <input type="hidden" name="productId" value="@Model.Id" />
+                        <input name="color" value="@colorGroup.Color" readonly />
+                        <input name="option" placeholder="Opción" />
+                        <input name="stock" type="number" value="0" placeholder="Stock" />
+                        <input name="priceCrc" type="number" value="@Model.PriceCrc" placeholder="Precio" />
+                        <button class="btn-secondary" type="submit">+ Agregar</button>
+                    </form>
+                </div>
+            </div>
+        }
+
+        <div class="variant-add-new">
+            <h3>Nueva variante</h3>
+            <form asp-action="AddVariant" method="post" class="variant-add-inline">
+                <input type="hidden" name="productId" value="@Model.Id" />
+                <input name="color" placeholder="Color" value="Default" />
+                <input name="option" placeholder="Opción" required />
+                <input name="stock" type="number" value="0" placeholder="Stock" />
+                <input name="priceCrc" type="number" value="@Model.PriceCrc" placeholder="Precio" />
+                <button class="btn-secondary" type="submit">+ Agregar</button>
+            </form>
+        </div>
+    </section>
+
+
+    <section class="admin-card danger-zone">
+        <div class="card-head">
+            <div>
+                <h2>Zona de peligro</h2>
+                <p class="sub">Eliminar el producto lo quita del catálogo y borra sus imágenes y variantes.</p>
+            </div>
+        </div>
+
+        <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="danger-form" onsubmit="return confirm('¿Eliminar este producto? Esta acción no se puede deshacer.');">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn-danger">Eliminar producto</button>
+        </form>
+    </section>
+
+</div>
+
+@section Scripts {
+<script>
+(function(){
+    const productId = @Model.Id;
+    const EN_STOCK = @ProductRules.EnStock;
+    const POR_ENCARGO = @ProductRules.PorEncargo;
+
+    const $ = (s, r=document) => r.querySelector(s);
+    const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+
+    const saveBtn = $('#saveBtn');
+    const saveBtnStock = $('#saveBtnStock');
+    const saveState = $('#saveState');
+    const saveStateStock = $('#saveStateStock');
+
+    const name = $('#Name');
+    const desc = $('#Description');
+    const price = $('#PriceCrc');
+    const cat = $('#Category');
+    const full = $('#Fulfillment');
+    const active = $('#IsActive');
+
+    const onDemandBlock = $('#onDemandBlock');
+    const stockSaveRow = $('#stockSaveRow');
+
+    const modeInput = $('#OnDemandMode');
+    const fixedField = $('#fixedField');
+    const minField = $('#minField');
+    const maxField = $('#maxField');
+
+    const fixed = $('#OnDemandFixed');
+    const min = $('#OnDemandMin');
+    const max = $('#OnDemandMax');
+
+    const seg = $('#priceMode');
+    const indicator = $('#segIndicator');
+
+    function setMode(m){
+        modeInput.value = m;
+        const left = (m === 'fixed') ? 0 : 1;
+        indicator.style.transform = `translateX(${left*100}%)`;
+        $$('.seg-btn', seg).forEach(btn => btn.style.opacity = (btn.dataset.mode === m ? '1' : '.65'));
+        fixedField.style.display = (m === 'fixed') ? 'block' : 'none';
+        minField.style.display = (m === 'range') ? 'block' : 'none';
+        maxField.style.display = (m === 'range') ? 'block' : 'none';
+    }
+
+    // init segmented
+    setMode(modeInput.value || (seg?.dataset.mode || 'fixed'));
+
+    $$('.seg-btn', seg).forEach(btn => {
+        btn.addEventListener('click', () => setMode(btn.dataset.mode));
+    });
+
+    function showSaved(el, msg){
+        if(!el) return;
+        el.textContent = msg;
+        el.style.opacity = '1';
+        setTimeout(() => { el.textContent = ''; }, 1600);
+    }
+
+    async function saveInfo(stateEl){
+        const fulfillment = parseInt(full.value, 10) || EN_STOCK;
+        const isOnDemand = fulfillment === POR_ENCARGO;
+
+        const payload = {
+            id: productId,
+            name: name.value,
+            description: desc.value,
+            priceCrc: parseInt(price.value||'0',10) || 0,
+            category: parseInt(cat.value||'1',10) || 1,
+            fulfillment: fulfillment,
+            isActive: !!active.checked,
+            onDemandMode: isOnDemand ? (modeInput.value || 'fixed') : null,
+            onDemandFixedPriceCrc: isOnDemand ? (parseInt(fixed?.value||'0',10) || null) : null,
+            onDemandMinPriceCrc: isOnDemand ? (parseInt(min?.value||'0',10) || null) : null,
+            onDemandMaxPriceCrc: isOnDemand ? (parseInt(max?.value||'0',10) || null) : null,
+        };
+
+        stateEl && (stateEl.textContent = 'Guardando…');
+
+        const res = await fetch('/Admin/Products/UpdateInfo', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if(!res.ok){
+            stateEl && (stateEl.textContent = 'Error');
+            return;
+        }
+
+        showSaved(stateEl, 'Guardado ✓');
+        // If stock, disable variant price edits
+        applyVariantPriceRules();
+    }
+
+    if(saveBtn) saveBtn.addEventListener('click', () => saveInfo(saveState));
+    if(saveBtnStock) saveBtnStock.addEventListener('click', () => saveInfo(saveStateStock));
+
+    function onFulfillmentChange(){
+        const fulfillment = parseInt(full.value, 10) || EN_STOCK;
+        const isOnDemand = fulfillment === POR_ENCARGO;
+        onDemandBlock.style.display = isOnDemand ? 'block' : 'none';
+        stockSaveRow.style.display = isOnDemand ? 'none' : 'block';
+        if(isOnDemand){
+            // ensure fields are visible properly
+            setMode(modeInput.value || 'fixed');
+        }
+        applyVariantPriceRules();
+    }
+
+    full.addEventListener('change', onFulfillmentChange);
+
+    function applyVariantPriceRules(){
+        const fulfillment = parseInt(full.value, 10) || EN_STOCK;
+        const isStock = fulfillment === EN_STOCK;
+        $$('.v-price').forEach(inp => {
+            inp.disabled = isStock;
+            inp.style.opacity = isStock ? '.55' : '1';
+            inp.title = isStock ? 'Precio unificado (se edita arriba)' : '';
+        });
+    }
+
+    onFulfillmentChange();
+
+    // =========================
+    // Variants inline updates (AJAX)
+    // =========================
+    async function postJson(url, obj){
+        const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(obj)
+        });
+        return res.ok;
+    }
+
+    // option
+    $$('.v-option').forEach(inp => {
+        inp.addEventListener('change', async () => {
+            await postJson('/Admin/Products/UpdateVariantOption', { variantId: parseInt(inp.dataset.id,10), option: inp.value });
+        });
+    });
+
+    // stock
+    $$('.v-stock').forEach(inp => {
+        inp.addEventListener('change', async () => {
+            await postJson('/Admin/Products/UpdateVariantStock', { variantId: parseInt(inp.dataset.id,10), stock: parseInt(inp.value||'0',10) || 0 });
+        });
+    });
+
+    // price
+    $$('.v-price').forEach(inp => {
+        inp.addEventListener('change', async () => {
+            const ok = await postJson('/Admin/Products/UpdateVariantPrice', { variantId: parseInt(inp.dataset.id,10), priceCrc: parseInt(inp.value||'0',10) || 0 });
+            if(ok && (parseInt(full.value,10) === EN_STOCK)){
+                // if stock, sync base price field too for UX
+                price.value = inp.value;
+            }
+        });
+    });
+
+    // active toggle
+    $$('.v-active').forEach(inp => {
+        inp.addEventListener('change', async () => {
+            await postJson('/Admin/Products/ToggleVariantStatus', { variantId: parseInt(inp.dataset.id,10), isActive: !!inp.checked });
+        });
+    });
+
+    // =========================
+    // Images: upload + preview + reorder
+    // =========================
+    const uploadInput = $('#uploadInput');
+    const chooseBtn = $('#chooseBtn');
+    const uploadBtn = $('#uploadBtn');
+    const fileInfo = $('#fileInfo');
+    const dropZone = $('#dropZone');
+    const newPreview = $('#newPreview');
+    const imageGrid = $('#imageGrid');
+    const orderState = $('#orderState');
+
+    let pendingFiles = [];
+
+    function renderPending(){
+        newPreview.innerHTML = '';
+        const count = pendingFiles.length;
+        fileInfo.textContent = count ? `${count} imagen(es) lista(s)` : 'Arrastrá y soltá o seleccioná';
+        uploadBtn.disabled = count === 0;
+
+        pendingFiles.forEach((f, idx) => {
+            const card = document.createElement('div');
+            card.style.border = '1px solid rgba(255,255,255,.12)';
+            card.style.borderRadius = '16px';
+            card.style.overflow = 'hidden';
+            card.style.background = 'rgba(0,0,0,.35)';
+
+            const img = document.createElement('img');
+            img.style.width = '100%';
+            img.style.display = 'block';
+
+            const reader = new FileReader();
+            reader.onload = e => img.src = e.target.result;
+            reader.readAsDataURL(f);
+
+            const meta = document.createElement('div');
+            meta.style.display = 'flex';
+            meta.style.justifyContent = 'space-between';
+            meta.style.alignItems = 'center';
+            meta.style.gap = '.5rem';
+            meta.style.padding = '.55rem .7rem';
+            meta.style.fontSize = '.8rem';
+            meta.style.opacity = '.8';
+
+            const name = document.createElement('div');
+            name.textContent = f.name.length > 16 ? f.name.slice(0,16)+'…' : f.name;
+
+            const remove = document.createElement('button');
+            remove.type = 'button';
+            remove.textContent = 'Quitar';
+            remove.style.background = 'transparent';
+            remove.style.border = '1px solid rgba(255,255,255,.14)';
+            remove.style.color = '#fff';
+            remove.style.padding = '.25rem .6rem';
+            remove.style.borderRadius = '999px';
+            remove.style.cursor = 'pointer';
+            remove.addEventListener('click', () => {
+                pendingFiles.splice(idx, 1);
+                renderPending();
+            });
+
+            meta.appendChild(name);
+            meta.appendChild(remove);
+
+            card.appendChild(img);
+            card.appendChild(meta);
+
+            newPreview.appendChild(card);
+        });
+    }
+
+    function addFiles(fileList){
+        const list = Array.from(fileList || []);
+        const imgs = list.filter(f => f && f.type && f.type.startsWith('image/'));
+        pendingFiles = pendingFiles.concat(imgs);
+        renderPending();
+    }
+
+    chooseBtn.addEventListener('click', () => uploadInput.click());
+    uploadInput.addEventListener('change', () => addFiles(uploadInput.files));
+
+    dropZone.addEventListener('click', () => uploadInput.click());
+    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.style.borderColor = 'rgba(245,196,81,.6)'; });
+    dropZone.addEventListener('dragleave', () => { dropZone.style.borderColor = 'rgba(255,255,255,.18)'; });
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.style.borderColor = 'rgba(255,255,255,.18)';
+        addFiles(e.dataTransfer.files);
+    });
+
+    async function refreshPrimaryUi(){
+        const cards = $$('.image-card', imageGrid);
+        cards.forEach((c, idx) => {
+            if(idx === 0) c.classList.add('primary');
+            else c.classList.remove('primary');
+        });
+    }
+
+    async function saveOrder(){
+        const ids = $$('.image-card', imageGrid).map(c => parseInt(c.dataset.id,10));
+        orderState.textContent = 'Guardando orden…';
+        const ok = await postJson('/Admin/Products/ReorderImages', { productId, imageIds: ids });
+        orderState.textContent = ok ? 'Orden guardado ✓' : 'Error al guardar';
+        setTimeout(()=> orderState.textContent = '', 1400);
+        refreshPrimaryUi();
+    }
+
+    uploadBtn.addEventListener('click', async () => {
+        if(!pendingFiles.length) return;
+
+        uploadBtn.disabled = true;
+        fileInfo.textContent = 'Subiendo…';
+
+        const fd = new FormData();
+        fd.append('productId', productId);
+        pendingFiles.forEach(f => fd.append('images', f));
+
+        const res = await fetch(`/Admin/Products/UploadImages?productId=${productId}`, { method: 'POST', body: fd });
+        if(!res.ok){
+            fileInfo.textContent = 'Error al subir';
+            renderPending();
+            return;
+        }
+
+        const data = await res.json();
+        pendingFiles = [];
+        renderPending();
+
+        // append new cards
+        if(data && data.images && Array.isArray(data.images)){
+            const frag = document.createDocumentFragment();
+            data.images.forEach(img => {
+                const card = document.createElement('div');
+                card.className = 'image-card';
+                card.draggable = true;
+                card.dataset.id = img.id;
+                card.innerHTML = `
+                    <div class="image-preview">
+                        <img src="${img.url}" alt="Imagen ${img.id}" />
+                        <div class="image-actions">
+                            <button type="button" class="btn-overlay" data-action="primary">Principal</button>
+                            <button type="button" class="btn-overlay danger" data-action="delete">Eliminar</button>
+                        </div>
+                    </div>
+                    <div class="image-meta">
+                        <label>Color (opcional)</label>
+                        <input type="text" value="" placeholder="Ej: Red / Black" data-action="color" />
+                        <small style="opacity:.55; font-size:.72rem; margin-top:.45rem;">Drag & drop para ordenar</small>
+                    </div>
+                `;
+                frag.appendChild(card);
+            });
+            imageGrid.appendChild(frag);
+            bindImageGrid();
+            await saveOrder();
+        }
+
+        fileInfo.textContent = 'Subido ✓';
+        setTimeout(()=> fileInfo.textContent = 'Arrastrá y soltá o seleccioná', 1200);
+    });
+
+    // Drag reorder implementation
+    let dragEl = null;
+
+    function handleDragStart(e){
+        dragEl = this;
+        this.style.opacity = '.6';
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', this.dataset.id);
+    }
+
+    function handleDragEnd(){
+        this.style.opacity = '1';
+        $$('.image-card', imageGrid).forEach(c => c.classList.remove('drag-over'));
+        dragEl = null;
+    }
+
+    function handleDragOver(e){
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+    }
+
+    function handleDragEnter(){
+        if(this !== dragEl) this.classList.add('drag-over');
+    }
+
+    function handleDragLeave(){
+        this.classList.remove('drag-over');
+    }
+
+    async function handleDrop(e){
+        e.preventDefault();
+        this.classList.remove('drag-over');
+        if(!dragEl || this === dragEl) return;
+
+        const cards = $$('.image-card', imageGrid);
+        const from = cards.indexOf(dragEl);
+        const to = cards.indexOf(this);
+        if(from < 0 || to < 0) return;
+
+        if(from < to) imageGrid.insertBefore(dragEl, this.nextSibling);
+        else imageGrid.insertBefore(dragEl, this);
+
+        await saveOrder();
+    }
+
+    async function deleteImage(card){
+        const imageId = parseInt(card.dataset.id,10);
+        if(!confirm('¿Eliminar esta imagen?')) return;
+
+        const body = new URLSearchParams({ imageId: String(imageId), productId: String(productId) });
+        const res = await fetch('/Admin/Products/DeleteImage', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body });
+        if(!res.ok) return;
+        const data = await res.json().catch(()=>null);
+        if(data && data.success === false) return;
+
+        card.remove();
+        await saveOrder();
+    }
+
+    async function setPrimary(card){
+        if(!card) return;
+        imageGrid.insertBefore(card, imageGrid.firstChild);
+        await saveOrder();
+    }
+
+    let colorDebounce = null;
+    async function updateImageColor(card, val){
+        const imageId = parseInt(card.dataset.id,10);
+        const payload = { productId, imageId, color: val };
+        await postJson('/Admin/Products/UpdateImageColor', payload);
+    }
+
+    function bindImageGrid(){
+        $$('.image-card', imageGrid).forEach(card => {
+            card.removeEventListener('dragstart', handleDragStart);
+            card.removeEventListener('dragend', handleDragEnd);
+            card.removeEventListener('dragover', handleDragOver);
+            card.removeEventListener('dragenter', handleDragEnter);
+            card.removeEventListener('dragleave', handleDragLeave);
+            card.removeEventListener('drop', handleDrop);
+
+            card.addEventListener('dragstart', handleDragStart);
+            card.addEventListener('dragend', handleDragEnd);
+            card.addEventListener('dragover', handleDragOver);
+            card.addEventListener('dragenter', handleDragEnter);
+            card.addEventListener('dragleave', handleDragLeave);
+            card.addEventListener('drop', handleDrop);
+
+            card.querySelectorAll('[data-action="delete"]').forEach(btn => {
+                btn.onclick = () => deleteImage(card);
+            });
+
+            card.querySelectorAll('[data-action="primary"]').forEach(btn => {
+                btn.onclick = () => setPrimary(card);
+            });
+
+            const colorInput = card.querySelector('[data-action="color"]');
+            if(colorInput){
+                colorInput.oninput = () => {
+                    clearTimeout(colorDebounce);
+                    const v = colorInput.value;
+                    colorDebounce = setTimeout(() => updateImageColor(card, v), 350);
+                };
+            }
+        });
+    }
+
+    bindImageGrid();
+    refreshPrimaryUi();
+})();
+</script>
+}

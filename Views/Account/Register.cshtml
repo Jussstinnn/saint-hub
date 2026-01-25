@@ -1,0 +1,188 @@
+﻿
+@{
+    ViewData["Title"] = "Crear cuenta";
+}
+@{
+    ViewData["HideLayout"] = true;
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/Account.css" asp-append-version="true" />
+}
+<div class="auth-freeze">
+<!-- =========================
+     REGISTER – DESKTOP
+========================== -->
+<div class="login-desktop">
+
+    <!-- LEFT -->
+    <div class="login-visual register-visual">
+
+        <div class="login-visual-content">
+
+            <div class="login-brand">
+                <!-- mismo branding que login (si luego lo activás) -->
+            </div>
+
+            <div class="login-claim">
+                <h2>DEFINE TU <span>ESTILO.</span></h2>
+                <h1>Unete a <span>SaintHub</span></h1>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- RIGHT / FORM -->
+    <div class="login-panel">
+
+        <div class="account-head">
+            <h1>Crear cuenta</h1>
+            <p>Ingresa tus datos para empezar tu experiencia.</p>
+        </div>
+
+        <form asp-controller="Account"
+              asp-action="Register"
+              method="post"
+              class="account-form">
+
+            @Html.AntiForgeryToken()
+
+            <div class="field">
+                <label>Nombre completo</label>
+                <input type="text"
+                       name="FullName"
+                       placeholder="John Doe"
+                       required />
+            </div>
+
+            <div class="field">
+                <label>Correo electrónico</label>
+                <input type="email"
+                       name="Email"
+                       placeholder="email@ejemplo.com"
+                       required />
+            </div>
+
+            <div class="field">
+                <label>Contraseña</label>
+                <input type="password"
+                       name="password"
+                       placeholder="••••••••"
+                       required />
+            </div>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="account-error">@ViewBag.Error</div>
+            }
+
+            <button type="submit" class="btn-account-primary">
+                Crear cuenta
+            </button>
+        </form>
+
+        <div class="account-divider">
+            <span>o</span>
+        </div>
+
+        <a asp-controller="Account"
+           asp-action="GoogleLogin"
+           class="btn-google">
+            <span class="google-icon">
+                <!-- MISMO SVG DEL LOGIN -->
+                <svg viewBox="0 0 533.5 544.3">
+                    <path fill="#4285F4" d="M533.5 278.4c0-17.4-1.4-34.1-4.1-50.4H272v95.3h146.9c-6.3 34-25 62.8-53.3 82v68h86.2c50.5-46.5 81.7-115.1 81.7-194.9z" />
+                    <path fill="#34A853" d="M272 544.3c72.6 0 133.6-24 178.1-65.2l-86.2-68c-24 16.1-54.7 25.7-91.9 25.7-70.6 0-130.5-47.7-151.9-111.8h-89.9v70.4C73.8 475.2 166.9 544.3 272 544.3z" />
+                    <path fill="#FBBC04" d="M120.1 325c-10.4-30.8-10.4-64.1 0-94.9V159.7h-89.9C7.4 211.4 0 241.7 0 272s7.4 60.6 30.2 112.3l89.9-59.3z" />
+                    <path fill="#EA4335" d="M272 107.7c39.5-.6 77.5 14.3 106.5 41.6l79.6-79.6C411.6 24.7 344.6-1 272 0 166.9 0 73.8 69.1 30.2 159.7l89.9 70.4C141.5 155.4 201.4 107.7 272 107.7z" />
+                </svg>
+            </span>
+            <span>Continuar con Google</span>
+        </a>
+
+        <div class="account-foot">
+            <span>¿Ya tenés cuenta?</span>
+            <a asp-action="Login">Iniciar sesión</a>
+        </div>
+
+    </div>
+</div>
+
+<!-- =========================
+     REGISTER – MOBILE
+========================== -->
+<div class="login-mobile">
+
+    <div class="account-wrapper">
+        <div class="account-card">
+
+            <div class="account-head">
+                <h1>Crear cuenta</h1>
+                <p>Ingresa tus datos para empezar tu experiencia.</p>
+            </div>
+
+            <form asp-controller="Account"
+                  asp-action="Register"
+                  method="post"
+                  class="account-form">
+
+                @Html.AntiForgeryToken()
+
+                <div class="field">
+                    <label>Nombre completo</label>
+                    <input type="text" name="FullName" required />
+                </div>
+
+                <div class="field">
+                    <label>Correo electrónico</label>
+                    <input type="email" name="Email" required />
+                </div>
+
+                <div class="field">
+                    <label>Contraseña</label>
+                    <input type="password" name="password" required />
+                </div>
+
+                <button type="submit" class="btn-account-primary">
+                    Crear cuenta
+                </button>
+            </form>
+
+            <div class="account-divider">
+                <span>o</span>
+            </div>
+
+            <a asp-controller="Account"
+               asp-action="GoogleLogin"
+               class="btn-google">
+                <span class="google-icon">
+                    <!-- mismo SVG -->
+                </span>
+                <span>Continuar con Google</span>
+            </a>
+
+            <div class="account-foot">
+                <span>¿Ya tenés cuenta?</span>
+                <a asp-action="Login">Iniciar sesión</a>
+            </div>
+
+        </div>
+    </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const root = document.querySelector('.auth-freeze');
+        if (!root) return;
+
+        // fuerza estado inicial
+        root.classList.add('auth-lock');
+
+        // libera animación en el siguiente frame
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                root.classList.remove('auth-lock');
+                root.classList.add('auth-play');
+            });
+        });
+    });
+</script>

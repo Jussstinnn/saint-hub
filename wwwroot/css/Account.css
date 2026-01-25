@@ -1,0 +1,1378 @@
+/* =====================================================
+   ACCOUNT PAGES – SAINT HUB
+   Estilos compartidos para:
+   - Login
+   - Register
+   - Forgot Password
+   - Reset Password
+   - Profile
+===================================================== */
+
+:root {
+    --accent: #f5c451;
+    --danger: #ff7b7b;
+    --text-muted: rgba(255,255,255,.55);
+}
+
+/* =========================
+   LAYOUT GENERAL
+========================= */
+
+.account-wrapper {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem 1.5rem;
+}
+
+/* =========================
+   CARD PRINCIPAL
+========================= */
+
+.account-card {
+    width: 100%;
+    max-width: 420px;
+    background: radial-gradient( 120% 120% at 0% 0%, #121212 0%, #070707 65% );
+    border-radius: 28px;
+    padding: 3rem;
+    box-shadow: 0 50px 100px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.account-head {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+    .account-head h1 {
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: .6rem;
+    }
+
+    .account-head p {
+        font-size: .9rem;
+        line-height: 1.5;
+        color: var(--text-muted);
+    }
+
+/* =========================
+   FORM
+========================= */
+
+.account-form {
+    display: flex;
+    flex-direction: column;
+}
+
+    .account-form .field {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1.5rem;
+    }
+
+    .account-form label {
+        font-size: .75rem;
+        opacity: .6;
+        margin-bottom: .5rem;
+    }
+
+    .account-form input {
+        background: #0c0c0c;
+        border: 1px solid rgba(255,255,255,.15);
+        border-radius: 16px;
+        padding: .9rem 1.2rem;
+        color: #fff;
+        font-size: .95rem;
+    }
+
+        .account-form input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(245,196,81,.15);
+        }
+
+/* =========================
+   BOTÓN PRINCIPAL
+========================= */
+
+.btn-account-primary {
+    margin-top: .5rem;
+    width: 100%;
+    background: linear-gradient(135deg, #f5c451, #e1ac2f);
+    color: #000;
+    border: none;
+    padding: 1rem;
+    border-radius: 999px;
+    font-weight: 900;
+    font-size: .85rem;
+    cursor: pointer;
+    transition: .25s;
+}
+
+    .btn-account-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 12px 30px rgba(245,196,81,.35);
+    }
+
+/* =========================
+   MENSAJES (INFO / ERROR)
+========================= */
+
+.account-message {
+    margin-top: 1.5rem;
+    padding: .9rem 1rem;
+    border-radius: 14px;
+    background: rgba(245,196,81,.12);
+    color: var(--accent);
+    font-size: .8rem;
+    text-align: center;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.account-foot {
+    margin-top: 2.5rem;
+    text-align: center;
+    font-size: .75rem;
+    color: var(--text-muted);
+}
+
+    .account-foot a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+        .account-foot a:hover {
+            text-decoration: underline;
+        }
+
+/* =========================
+   LOGIN / AUTH EXTRAS
+========================= */
+
+/* ERROR MESSAGE */
+.account-error {
+    margin-top: 1rem;
+    padding: .9rem 1rem;
+    border-radius: 14px;
+    background: rgba(255,120,120,.12);
+    color: var(--danger);
+    font-size: .8rem;
+    text-align: center;
+}
+
+/* DIVIDER */
+.account-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem 0;
+    opacity: .4;
+    font-size: .75rem;
+}
+
+    .account-divider::before,
+    .account-divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: rgba(255,255,255,.15);
+    }
+
+/* OUTLINE BUTTON (GOOGLE) */
+.btn-account-outline {
+    display: block;
+    text-align: center;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,.18);
+    color: #fff;
+    padding: .9rem;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: .8rem;
+    text-decoration: none;
+    transition: .25s;
+}
+
+    .btn-account-outline:hover {
+        background: rgba(255,255,255,.06);
+        border-color: rgba(255,255,255,.35);
+    }
+
+/* FOOT VARIANT */
+.account-foot.secondary {
+    margin-top: .6rem;
+    font-size: .7rem;
+}
+
+/* =====================================================
+   RESPONSIVE – ACCOUNT PAGES
+   Mobile & Tablet adjustments
+===================================================== */
+
+@media (max-width: 768px) {
+
+    /* =========================
+       WRAPPER
+    ========================= */
+
+    .account-wrapper {
+        padding: 2rem 1.2rem;
+        align-items: flex-start;
+    }
+
+    /* =========================
+       CARD
+    ========================= */
+
+    .account-card {
+        padding: 2.2rem 1.8rem;
+        border-radius: 22px;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    .account-head h1 {
+        font-size: 1.7rem;
+    }
+
+    .account-head p {
+        font-size: .85rem;
+    }
+
+    /* =========================
+       FORM
+    ========================= */
+
+    .account-form .field {
+        margin-bottom: 1.3rem;
+    }
+
+    .account-form input {
+        font-size: 1rem;
+        padding: 1rem 1.2rem;
+    }
+
+    /* =========================
+       BUTTONS
+    ========================= */
+
+    .btn-account-primary,
+    .btn-account-outline {
+        padding: 1rem;
+        font-size: .9rem;
+    }
+
+    /* =========================
+       FOOT
+    ========================= */
+
+    .account-foot {
+        font-size: .7rem;
+    }
+}
+
+@media (max-width: 420px) {
+
+    /* =========================
+       CARD
+    ========================= */
+
+    .account-card {
+        padding: 2rem 1.4rem;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    .account-head h1 {
+        font-size: 1.5rem;
+    }
+
+    /* =========================
+       INPUTS
+    ========================= */
+
+    .account-form input {
+        font-size: .95rem;
+    }
+
+    /* =========================
+       DIVIDER
+    ========================= */
+
+    .account-divider {
+        margin: 1.6rem 0;
+        font-size: .7rem;
+    }
+}
+/* =========================
+   TOUCH IMPROVEMENTS
+========================= */
+
+@media (hover: none) {
+
+    .btn-account-primary:hover,
+    .btn-account-outline:hover {
+        transform: none;
+        box-shadow: none;
+    }
+
+    .account-foot a {
+        padding: .3rem .2rem;
+        display: inline-block;
+    }
+}
+/* =====================================================
+   MY ACCOUNT – PROFILE
+===================================================== */
+
+/* INFO BLOCK */
+.account-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+    margin-bottom: 2.5rem;
+}
+
+.info-row span {
+    font-size: .7rem;
+    opacity: .6;
+}
+
+.info-row strong {
+    display: block;
+    margin-top: .4rem;
+    font-size: .95rem;
+}
+
+/* ACTIONS */
+.account-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* DANGER OUTLINE (LOGOUT) */
+.btn-account-outline.danger {
+    border-color: rgba(255,120,120,.4);
+    color: #ff7b7b;
+}
+
+    .btn-account-outline.danger:hover {
+        background: rgba(255,120,120,.08);
+    }
+/* =========================
+   MY ACCOUNT – MOBILE
+========================= */
+
+@media (max-width: 768px) {
+
+    .account-info {
+        gap: 1.2rem;
+    }
+
+    .info-row strong {
+        font-size: 1rem;
+    }
+
+    .account-actions {
+        gap: .9rem;
+    }
+}
+/* =====================================================
+   MY ORDERS – CUSTOMER
+===================================================== */
+
+/* EMPTY STATE */
+.account-empty {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+    .account-empty p {
+        color: var(--text-muted);
+        margin-bottom: 1.5rem;
+    }
+
+/* ORDERS LIST */
+.orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+/* ORDER ITEM */
+.order-item {
+    background: rgba(255,255,255,.03);
+    border-radius: 18px;
+    padding: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+}
+
+/* MAIN */
+.order-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .order-main strong {
+        font-size: .95rem;
+    }
+
+    .order-main span {
+        font-size: .75rem;
+        opacity: .6;
+    }
+
+/* META */
+.order-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: .8rem;
+}
+
+/* STATUS (REUSO DE ESTADOS) */
+.order-status {
+    padding: .3rem .8rem;
+    border-radius: 999px;
+    font-size: .7rem;
+    font-weight: 700;
+}
+
+    .order-status.status-pendiente {
+        background: rgba(255,255,255,.08);
+        color: #ccc;
+    }
+
+    .order-status.status-pagado {
+        background: rgba(245,196,81,.18);
+        color: var(--accent);
+    }
+
+    .order-status.status-enviado {
+        background: rgba(120,200,255,.18);
+        color: #78c8ff;
+    }
+
+    .order-status.status-cancelado {
+        background: rgba(255,120,120,.18);
+        color: #ff7b7b;
+    }
+/* =========================
+   MY ORDERS – MOBILE
+========================= */
+
+@media (max-width: 480px) {
+
+    .order-main {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: .2rem;
+    }
+
+    .order-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: .4rem;
+    }
+
+    .order-item {
+        padding: 1.2rem;
+    }
+}
+/* =====================================================
+   ORDER DETAILS – CUSTOMER
+===================================================== */
+
+/* STATUS */
+.order-status-client {
+    margin: 1.2rem 0 2rem;
+    padding: .45rem 1.2rem;
+    border-radius: 999px;
+    font-size: .75rem;
+    font-weight: 700;
+    width: fit-content;
+}
+
+    /* STATUS COLORS */
+    .order-status-client.status-pendiente {
+        background: rgba(255,255,255,.08);
+        color: #ccc;
+    }
+
+    .order-status-client.status-pagado {
+        background: rgba(245,196,81,.18);
+        color: var(--accent);
+    }
+
+    .order-status-client.status-enviado {
+        background: rgba(120,200,255,.18);
+        color: #78c8ff;
+    }
+
+    .order-status-client.status-cancelado {
+        background: rgba(255,120,120,.18);
+        color: #ff7b7b;
+    }
+
+/* ITEMS LIST */
+.order-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.order-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: rgba(255,255,255,.03);
+    border-radius: 16px;
+}
+
+.item-info strong {
+    display: block;
+    font-size: .9rem;
+}
+
+.item-info span {
+    font-size: .75rem;
+    opacity: .6;
+}
+
+.item-price {
+    font-weight: 700;
+    font-size: .9rem;
+}
+
+/* SUMMARY */
+.order-summary-client {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 0;
+    border-top: 1px solid rgba(255,255,255,.1);
+    margin-bottom: 2rem;
+}
+
+    .order-summary-client span {
+        font-size: .75rem;
+        opacity: .6;
+    }
+
+    .order-summary-client strong {
+        font-size: 1.1rem;
+    }
+
+/* DELIVERY */
+.order-delivery span {
+    display: block;
+    font-size: .75rem;
+    opacity: .6;
+    margin-bottom: .4rem;
+}
+
+.order-delivery p {
+    font-size: .9rem;
+    line-height: 1.4;
+    color: var(--text-muted);
+}
+/* =========================
+   ORDER DETAILS – MOBILE
+========================= */
+
+@media (max-width: 480px) {
+
+    .order-item-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: .4rem;
+    }
+
+    .item-price {
+        align-self: flex-end;
+    }
+}
+/* =========================
+   DASHBOARD – ACCOUNT
+========================= */
+
+.account-dashboard {
+    max-width: 460px;
+}
+
+/* STATS */
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2.2rem;
+}
+
+.stat-card {
+    background: rgba(255,255,255,.04);
+    border-radius: 18px;
+    padding: 1.2rem;
+    text-align: center;
+}
+
+    .stat-card span {
+        display: block;
+        font-size: .7rem;
+        opacity: .6;
+        margin-bottom: .4rem;
+    }
+
+    .stat-card strong {
+        font-size: 1.3rem;
+    }
+
+/* LAST ORDER */
+.dashboard-last-order {
+    margin-bottom: 2.5rem;
+}
+
+    .dashboard-last-order > span {
+        font-size: .75rem;
+        opacity: .6;
+    }
+
+.last-order-box {
+    margin: .8rem 0 1.2rem;
+    padding: 1rem;
+    background: rgba(255,255,255,.04);
+    border-radius: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .last-order-box p {
+        font-size: .75rem;
+        opacity: .6;
+        margin-top: .3rem;
+    }
+/* =========================
+   DASHBOARD – ACCOUNT (MOBILE)
+========================= */
+
+@media (max-width: 768px) {
+
+    .account-dashboard {
+        max-width: 100%;
+        padding: 2.2rem 1.6rem;
+    }
+
+    /* STATS ? UNA COLUMNA */
+    .dashboard-stats {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .stat-card {
+        padding: 1.3rem 1.2rem;
+        border-radius: 16px;
+    }
+
+        .stat-card span {
+            font-size: .75rem;
+        }
+
+        .stat-card strong {
+            font-size: 1.45rem;
+        }
+
+    /* LAST ORDER */
+    .dashboard-last-order {
+        margin-bottom: 2.2rem;
+    }
+
+        .dashboard-last-order > span {
+            font-size: .8rem;
+            margin-bottom: .6rem;
+            display: block;
+        }
+
+    .last-order-box {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: .7rem;
+        padding: 1.1rem;
+        border-radius: 14px;
+    }
+
+        .last-order-box strong {
+            font-size: .95rem;
+        }
+
+        .last-order-box p {
+            font-size: .8rem;
+        }
+
+        .last-order-box .order-status {
+            align-self: flex-end;
+            font-size: .75rem;
+            padding: .35rem .9rem;
+        }
+}
+
+@media (max-width: 420px) {
+
+    .account-dashboard {
+        padding: 2rem 1.3rem;
+    }
+
+    .stat-card strong {
+        font-size: 1.35rem;
+    }
+
+    .last-order-box {
+        padding: 1rem;
+    }
+}
+/* =========================
+   ORDER STATUS TIMELINE
+========================= */
+
+.order-timeline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 3rem 0 2.5rem;
+    width: 100%;
+}
+
+.timeline-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    position: relative;
+    text-align: center;
+}
+
+    .timeline-step .dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: rgba(255,255,255,.2);
+        border: 2px solid rgba(255,255,255,.25);
+        z-index: 2;
+    }
+
+    .timeline-step.active .dot {
+        background: var(--accent);
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px rgba(245,196,81,.15);
+    }
+
+    .timeline-step .label {
+        margin-top: .6rem;
+        font-size: .7rem;
+        opacity: .55;
+    }
+
+    .timeline-step.active .label {
+        opacity: 1;
+        font-weight: 700;
+    }
+
+    .timeline-step::after {
+        content: "";
+        position: absolute;
+        top: 6px;
+        right: -50%;
+        width: 100%;
+        height: 2px;
+        background: rgba(255,255,255,.15);
+        z-index: 1;
+    }
+
+    .timeline-step.active::after {
+        background: linear-gradient( to right, var(--accent), rgba(245,196,81,.4) );
+    }
+
+    .timeline-step:last-child::after {
+        display: none;
+    }
+
+/* =========================
+   ORDER STATUS TIMELINE – MOBILE
+========================= */
+
+@media (max-width: 768px) {
+
+    .order-desktop-wide {
+        padding: 2.5rem 1.8rem;
+    }
+
+    .order-timeline {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        margin: 2.2rem 0;
+    }
+
+    .timeline-step {
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        gap: .8rem;
+        padding: .8rem 0;
+    }
+
+        .timeline-step .label {
+            margin: 0;
+            font-size: .85rem;
+            text-align: left;
+        }
+
+        .timeline-step::after {
+            top: 100%;
+            left: 6px;
+            right: auto;
+            width: 2px;
+            height: 100%;
+            background: rgba(255,255,255,.15);
+        }
+
+        .timeline-step.active::after {
+            background: linear-gradient( to bottom, var(--accent), rgba(245,196,81,.4) );
+        }
+
+        .timeline-step:last-child::after {
+            display: none;
+        }
+}
+
+.order-current-status {
+    text-align: center;
+    font-size: .85rem;
+    opacity: .7;
+    margin-top: 1.5rem;
+}
+/* =========================
+   DASHBOARD – ACTIONS (FIX)
+========================= */
+
+.dashboard-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+    margin-top: 2.5rem;
+}
+
+/* CTA BASE */
+.dashboard-cta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.1rem;
+    border-radius: 999px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: .25s;
+    font-size: .9rem;
+}
+
+    /* PRIMARY */
+    .dashboard-cta.primary {
+        background: var(--accent);
+        color: #000;
+    }
+
+        .dashboard-cta.primary:hover {
+            filter: brightness(1.05);
+        }
+
+/* SECONDARY GROUP */
+.dashboard-actions-secondary {
+    display: flex;
+    gap: .8rem;
+}
+
+.dashboard-cta.outline {
+    flex: 1;
+    border: 1px solid rgba(255,255,255,.25);
+    color: #fff;
+    background: transparent;
+}
+
+    .dashboard-cta.outline:hover {
+        background: rgba(255,255,255,.06);
+    }
+
+/* DANGER */
+.dashboard-cta.danger {
+    border: 1px solid rgba(255,80,80,.5);
+    color: #ff6b6b;
+    background: transparent;
+}
+
+    .dashboard-cta.danger:hover {
+        background: rgba(255,80,80,.08);
+    }
+
+@media (max-width: 480px) {
+    .dashboard-actions-secondary {
+        flex-direction: column;
+    }
+}
+/* =========================
+   DASHBOARD – LAYOUT FIX
+========================= */
+
+.dashboard-actions {
+    display: flex;
+    flex-direction: column;
+    margin-top: 3rem;
+}
+
+/* SECCIONES */
+.dashboard-section {
+    margin-bottom: 2.2rem;
+}
+
+/* CTA BASE */
+.dashboard-cta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.15rem;
+    border-radius: 999px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: .25s;
+    font-size: .9rem;
+}
+
+    /* PRIMARY */
+    .dashboard-cta.primary {
+        background: var(--accent);
+        color: #000;
+    }
+
+/* SECONDARY GRID */
+.dashboard-secondary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+}
+
+/* OUTLINE */
+.dashboard-cta.outline {
+    border: 1px solid rgba(255,255,255,.25);
+    color: #fff;
+    background: transparent;
+}
+
+/* DANGER */
+.dashboard-danger {
+    margin-top: 3rem; /* ?? separación fuerte */
+}
+
+.dashboard-cta.danger {
+    border: 1px solid rgba(255,80,80,.5);
+    color: #ff6b6b;
+    background: transparent;
+}
+
+@media (max-width: 480px) {
+
+    .dashboard-actions {
+        margin-top: 2.5rem;
+    }
+
+    .dashboard-secondary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-section {
+        margin-bottom: 2.6rem;
+    }
+
+    .dashboard-danger {
+        margin-top: 3.5rem;
+    }
+}
+/* =========================
+   ORDERS – LIST (PREMIUM)
+========================= */
+
+.orders-card {
+    max-width: 720px;
+}
+
+/* EMPTY */
+.orders-empty {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+/* GRID */
+.orders-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.6rem;
+    margin-top: 2.5rem;
+}
+
+/* ORDER ITEM */
+.order-card-item {
+    background: rgba(255,255,255,.04);
+    border-radius: 20px;
+    padding: 1.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+}
+
+/* HEAD */
+.order-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .order-card-head strong {
+        font-size: .95rem;
+    }
+
+.order-date {
+    display: block;
+    font-size: .75rem;
+    opacity: .6;
+    margin-top: .3rem;
+}
+
+/* META */
+.order-card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: .85rem;
+}
+
+    .order-card-meta span {
+        opacity: .6;
+    }
+
+/* ACTION */
+.order-card-item .dashboard-cta {
+    margin-top: .5rem;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 480px) {
+
+    .orders-card {
+        max-width: 100%;
+    }
+
+    .order-card-item {
+        padding: 1.5rem;
+    }
+
+    .order-card-head {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: .6rem;
+    }
+
+    .order-card-meta {
+        font-size: .9rem;
+    }
+}
+/* =========================
+   DASHBOARD – BACK BUTTON
+========================= */
+
+.dashboard-back {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    font-size: .8rem;
+    font-weight: 600;
+    color: rgba(255,255,255,.75);
+    text-decoration: none;
+    margin-bottom: 1.8rem;
+    transition: .2s;
+}
+
+    .dashboard-back:hover {
+        color: #fff;
+        transform: translateX(-2px);
+    }
+
+@media (max-width: 480px) {
+    .dashboard-back {
+        margin-bottom: 2.2rem;
+    }
+}
+/* =========================
+   SIDEBAR – DESKTOP ONLY
+========================= */
+
+/* Mobile / Tablet */
+@media (max-width: 1023px) {
+    .account-sidebar {
+        display: none !important;
+    }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+    .account-sidebar {
+        display: flex;
+    }
+}
+
+/* =========================
+   SVG ICONS
+========================= */
+
+.icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.1rem;
+    height: 1.1rem;
+}
+
+    .icon svg {
+        width: 100%;
+        height: 100%;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+/* =========================
+   MOBILE CTA SPACING FIX
+========================= */
+
+@media (max-width: 768px) {
+
+    .dashboard-section {
+        margin-bottom: 2.2rem;
+    }
+
+    .dashboard-secondary-grid {
+        gap: 1.2rem; /* antes estaba muy pequeño */
+    }
+
+    .dashboard-danger {
+        margin-top: 3rem;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .dashboard-cta {
+        padding: 1.2rem 1.4rem;
+    }
+}
+
+.dashboard-cta .icon {
+    margin-right: .4rem;
+}
+
+.dashboard-cta {
+    gap: .75rem;
+}
+
+/* spacing */
+.dashboard-cta {
+    gap: .6rem;
+}
+
+
+/* =====================================================
+   ACCOUNT DASHBOARD – DESKTOP LAYOUT
+===================================================== */
+
+@media (min-width: 1024px) {
+
+    .account-layout {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        min-height: calc(100vh - 80px);
+        background: #050505;
+    }
+
+    /* ================= SIDEBAR ================= */
+
+    .account-sidebar {
+        background: linear-gradient(180deg, #0b0b0b, #050505);
+        padding: 2.5rem 1.8rem;
+        border-right: 1px solid rgba(255,255,255,.06);
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+    }
+
+    .sidebar-brand {
+        display: flex;
+        align-items: center;
+        gap: .7rem;
+        font-weight: 800;
+        letter-spacing: .5px;
+    }
+
+        .sidebar-brand .logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--accent);
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+        }
+
+    .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        gap: .4rem;
+    }
+
+        .sidebar-nav a {
+            padding: .75rem 1rem;
+            border-radius: 10px;
+            font-size: .85rem;
+            color: rgba(255,255,255,.65);
+            text-decoration: none;
+            transition: .2s;
+            cursor: pointer;
+        }
+
+            .sidebar-nav a:hover {
+                background: rgba(255,255,255,.06);
+                color: #fff;
+            }
+
+            .sidebar-nav a.active {
+                background: rgba(245,196,81,.15);
+                color: var(--accent);
+                font-weight: 700;
+            }
+
+    /* ================= MAIN ================= */
+
+    .account-main {
+        padding: 3.5rem 4rem;
+        background: #000;
+    }
+
+    .account-wrapper {
+        align-items: flex-start;
+        padding: 0;
+    }
+
+    .account-card.account-dashboard {
+        max-width: 100%;
+        padding: 0;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    /* ================= STATS ================= */
+
+    .dashboard-stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    .stat-card {
+        padding: 2rem;
+        border-radius: 22px;
+    }
+
+        .stat-card strong {
+            font-size: 1.8rem;
+        }
+
+    /* ================= LAST ORDER ================= */
+
+    .last-order-box {
+        padding: 1.6rem 1.8rem;
+        border-radius: 22px;
+    }
+
+    /* ================= CTA ================= */
+
+    .dashboard-cta.primary {
+        margin-top: 2rem;
+        font-size: 1rem;
+        padding: 1.25rem;
+    }
+
+    .dashboard-secondary-grid {
+        margin-top: 1.6rem;
+        gap: 1.4rem;
+    }
+
+    .dashboard-danger {
+        margin-top: 3.5rem;
+        padding-top: 2.5rem;
+        border-top: 1px solid rgba(255,255,255,.08);
+    }
+}
+/* =========================
+   VISIBILITY RULES
+========================= */
+
+/* Por defecto: mobile visible */
+.mobile-only {
+    display: block;
+}
+
+/* Desktop: ocultar CTAs */
+@media (min-width: 1024px) {
+    .mobile-only {
+        display: none !important;
+    }
+}
+/* =========================
+   FIX FINAL – MOBILE CTA STACK
+========================= */
+
+@media (max-width: 768px) {
+
+    .dashboard-secondary-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1.4rem !important;
+        height: auto !important;
+    }
+
+        .dashboard-secondary-grid > a {
+            width: 100%;
+        }
+}

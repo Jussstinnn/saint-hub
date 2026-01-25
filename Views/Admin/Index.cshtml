@@ -1,0 +1,73 @@
+﻿
+
+<h1>Panel de administración</h1>
+<p class="text-muted admin-subtitle">
+    Centro de control de Saint Hub
+</p>
+
+<div class="admin-header-actions">
+    <a class="btn-saint" asp-action="Dashboard">
+        Ver dashboard
+    </a>
+</div>
+
+<!-- =========================
+     MÓDULOS ADMIN
+========================= -->
+<div class="admin-grid">
+
+    <!-- PRODUCTOS -->
+    <div class="card-saint admin-module">
+        <h3>Productos</h3>
+
+        <div class="admin-metric">
+            @ViewBag.Products
+        </div>
+
+        <p class="admin-description">
+            Crear, editar productos, imágenes y variantes de stock.
+        </p>
+
+        <a class="btn-saint-outline" asp-action="Products">
+            Gestionar productos
+        </a>
+    </div>
+
+    <!-- PEDIDOS -->
+    <div class="card-saint admin-module">
+        <h3>Pedidos</h3>
+
+        <div class="admin-metric">
+            @ViewBag.Orders
+        </div>
+
+        <p class="admin-description">
+            Ver pedidos realizados, estados y detalles de compra.
+        </p>
+
+        <a class="btn-saint-outline" asp-action="Orders">
+            Gestionar pedidos
+        </a>
+    </div>
+
+    <!-- PEDIDOS PERSONALIZADOS -->
+    <div class="card-saint admin-module highlight">
+        <h3>Pedidos personalizados</h3>
+
+        <div class="admin-metric">
+            @ViewBag.CustomRequests
+        </div>
+
+        <p class="admin-description">
+            Solicitudes especiales, cotizaciones y pedidos por encargo.
+        </p>
+
+        <a class="btn-saint" asp-controller="AdminCustomRequests" asp-action="Index">
+            Ver solicitudes
+        </a>
+    </div>
+
+</div>
+
+
+

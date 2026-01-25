@@ -1,0 +1,280 @@
+.home-hero {
+    overflow: hidden;
+}
+
+.home-hero-content {
+    opacity: 0;
+    transform: translateY(24px);
+    animation: heroReveal 1.1s cubic-bezier(.4,0,.2,1) forwards;
+    animation-delay: .2s;
+}
+
+@keyframes heroReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.btn-saint,
+.btn-saint-outline {
+    transition: transform 0.35s cubic-bezier(.4,0,.2,1), box-shadow 0.35s cubic-bezier(.4,0,.2,1);
+}
+
+    .btn-saint:hover,
+    .btn-saint-outline:hover {
+        transform: translateY(-3px);
+    }
+
+    .btn-saint:active,
+    .btn-saint-outline:active {
+        transform: scale(0.97);
+    }
+
+.mode-card {
+    will-change: transform;
+}
+
+    .mode-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient( 400px 200px at 50% 100%, rgba(245,196,81,0.12), transparent 70% );
+        opacity: 0;
+        transition: opacity .35s ease;
+        pointer-events: none;
+    }
+
+    .mode-card:hover::after {
+        opacity: 1;
+    }
+
+.mode-content {
+    transition: transform .35s cubic-bezier(.4,0,.2,1);
+}
+
+.mode-card:hover .mode-content {
+    transform: translateY(-4px);
+}
+.how-step {
+    opacity: 0;
+    transform: translateY(18px);
+    animation: stepReveal .7s cubic-bezier(.4,0,.2,1) forwards;
+}
+
+    .how-step:nth-child(1) {
+        animation-delay: .05s
+    }
+
+    .how-step:nth-child(2) {
+        animation-delay: .15s
+    }
+
+    .how-step:nth-child(3) {
+        animation-delay: .25s
+    }
+
+@keyframes stepReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.feature-img img {
+    transition: transform .9s cubic-bezier(.4,0,.2,1);
+}
+
+.home-feature:hover .feature-img img {
+    transform: scale(1.04);
+}
+.faq-item {
+    transition: transform .35s cubic-bezier(.4,0,.2,1), opacity .3s ease;
+}
+
+    .faq-item:hover {
+        transform: translateY(-4px);
+    }
+.custom-visual {
+    transition: border-color .4s ease, box-shadow .4s ease;
+}
+
+    .custom-visual:hover {
+        box-shadow: 0 40px 80px rgba(0,0,0,.45);
+    }
+
+.custom-logo {
+    animation: floatMark 6s ease-in-out infinite;
+}
+
+@keyframes floatMark {
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+.logos-grid img {
+    transition: transform .35s cubic-bezier(.4,0,.2,1), opacity .35s ease, filter .35s ease;
+}
+
+    .logos-grid img:hover {
+        transform: scale(1.06);
+        opacity: 1;
+        filter: grayscale(0%);
+    }
+.trust-item {
+    will-change: transform;
+}
+
+    .trust-item:hover {
+        transform: translateY(-6px);
+    }
+
+
+@media (max-width: 768px) {
+
+    .home-hero-content {
+        animation-duration: .8s;
+        animation-delay: .1s;
+        transform: translateY(16px);
+    }
+}
+@media (max-width: 768px) {
+
+    .btn-saint:hover,
+    .btn-saint-outline:hover {
+        transform: none;
+    }
+
+    .btn-saint:active,
+    .btn-saint-outline:active {
+        transform: scale(0.96);
+    }
+}
+@media (max-width: 768px) {
+
+    .mode-card::after {
+        opacity: .6;
+    }
+
+    .mode-card:hover::after {
+        opacity: .6;
+    }
+
+    .mode-content {
+        transform: none !important;
+    }
+}
+@media (max-width: 768px) {
+
+    .how-step {
+        animation-duration: .6s;
+        transform: translateY(12px);
+    }
+}
+@media (max-width: 900px) {
+
+    .home-feature:hover .feature-img img {
+        transform: none;
+    }
+}
+@media (max-width: 768px) {
+
+    .faq-item:hover {
+        transform: none;
+    }
+}
+@media (max-width: 768px) {
+
+    .custom-visual {
+        box-shadow: 0 30px 60px rgba(0,0,0,.35);
+    }
+
+        .custom-visual:hover {
+            box-shadow: 0 30px 60px rgba(0,0,0,.35);
+        }
+}
+@media (max-width: 768px) {
+
+    .custom-logo {
+        animation-duration: 8s;
+    }
+}
+@media (max-width: 768px) {
+
+    .logos-grid img:hover {
+        transform: none;
+        filter: grayscale(0%);
+        opacity: .9;
+    }
+}
+@media (max-width: 768px) {
+
+    .trust-item:hover {
+        transform: none;
+    }
+}
+/* =========================
+   MODE CARDS – ANIMACIÓN LIMPIA
+========================= */
+
+.purchase-modes .mode-card {
+    opacity: 0;
+    transform: translateY(32px) scale(0.98);
+    transition: transform 0.9s cubic-bezier(.22,.61,.36,1), opacity 0.9s ease, box-shadow 0.45s ease;
+    will-change: transform;
+}
+
+    /* Aparece con scroll */
+    .purchase-modes .mode-card.card-visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+        /* Hover MUY sutil */
+        .purchase-modes .mode-card.card-visible:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 22px 48px rgba(0,0,0,.45);
+        }
+
+        /* Click */
+        .purchase-modes .mode-card.card-visible:active {
+            transform: scale(0.98);
+        }
+
+
+
+
+
+
+
+
+
+/* =========================
+   HOME HOW – CARACOL MODE
+========================= */
+
+/* Header */
+.home-how .how-header {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 2.4s ease, transform 2.4s cubic-bezier(.19,1,.22,1); /* easing MUY suave */
+}
+
+/* Steps */
+.home-how .how-step {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 2.2s ease, transform 2.2s cubic-bezier(.19,1,.22,1);
+}
+
+    /* Visible */
+    .home-how .how-header.how-visible,
+    .home-how .how-step.how-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+

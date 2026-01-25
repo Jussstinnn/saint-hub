@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "Pedido recibido";
+
+    var whatsappText = TempData["WhatsappText"] as string;
+    var whatsappUrl = string.IsNullOrEmpty(whatsappText)
+        ? "#"
+        : "https://wa.me/50671270397?text=" + whatsappText;
+}
+
+
+<div class="success-wrapper">
+    <div class="success-card">
+
+        <!-- ICONO -->
+        <div class="success-icon">✔</div>
+
+        <!-- TITULO -->
+        <h1>¡Pedido recibido!</h1>
+
+        <!-- MENSAJE -->
+        <p class="success-subtitle">
+            Gracias por comprar en <strong>Saint Hub</strong>.
+            Tu pedido fue registrado correctamente.
+        </p>
+
+        <!-- INFO -->
+        <div class="order-info">
+            <div>
+                <span>Pedido</span>
+                <strong>#@ViewBag.OrderId</strong>
+            </div>
+
+            <div>
+                <span>Estado</span>
+                <span class="badge badge-pending">Pendiente</span>
+            </div>
+        </div>
+
+        <hr />
+
+        <!-- WHATSAPP -->
+        <a class="btn-whatsapp"
+           href="@whatsappUrl"
+           target="_blank"
+           rel="noopener">
+            📲 Enviar pedido por WhatsApp
+        </a>
+
+        <!-- FOOT -->
+        <p class="success-foot">
+            Te contactaremos para coordinar pago y entrega.
+        </p>
+
+        <!-- ACCIONES -->
+        <div class="success-actions">
+            <a asp-controller="Account"
+               asp-action="OrderDetails"
+               asp-route-id="@ViewBag.OrderId"
+               class="btn-saint">
+                Ver detalle del pedido
+            </a>
+
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="btn-saint">
+                Seguir comprando
+            </a>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,159 @@
+@model List<SaintHub.ViewModels.CategoryProductVM>
+
+<div class="category-wrapper">
+    @if (!string.IsNullOrWhiteSpace(ViewBag.SearchQuery))
+    {
+        <div class="category-hero">
+            <h1>Resultados para “@ViewBag.SearchQuery”</h1>
+            <p>Explorá los productos relacionados</p>
+        </div>
+    }
+    else
+    {
+      
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="empty-state">
+            <h3>Aún no hay productos</h3>
+            <p>Estamos preparando nuevos lanzamientos.</p>
+
+            <a asp-controller="Shop"
+               asp-action="Index"
+               class="btn-saint">
+                Ver catálogo
+            </a>
+        </div>
+    }
+    else
+    {
+        <section class="product-grid">
+            <!-- CARD ESPECIAL – PEDIDO PERSONALIZADO -->
+            <div class="product-card special-request">
+
+                <span class="special-badge">PEDIDO ESPECIAL</span>
+
+                <div class="special-body">
+                    <h3>¿Buscas algo que no está en el catálogo?</h3>
+                    <p>Solicita cualquier producto que no veas aquí</p>
+                </div>
+
+                <div class="special-action">
+                    <a href="/CustomOrder"
+                       class="btn-saint highlight">
+                        Solicitar producto
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            @foreach (var p in Model)
+            {
+                <article class="product-card">
+                    <div class="product-badge @(p.Fulfillment == 1 ? "stock" : "on-demand")">
+                        @(p.Fulfillment == 1 ? "EN STOCK" : "POR ENCARGO")
+                    </div>
+                    <div class="product-image"
+                         data-images='@Html.Raw(System.Text.Json.JsonSerializer.Serialize(p.Images ?? new List<string>()))'>
+                        <img src="@(p.Images?.FirstOrDefault() ?? "/img/no-image.png")" alt="@p.Name" />
+                    </div>
+
+
+
+                    <div class="product-info">
+                        <h3>@p.Name</h3>
+
+                        <div class="price-block">
+                            <p class="price-range">
+                                @if (p.IsPriceRange)
+                                {
+                                    <text>₡ @p.PriceFromCrc.ToString("N0") – ₡ @p.PriceToCrc.ToString("N0")</text>
+                                }
+                                else
+                                {
+                                    <text>₡ @p.PriceFromCrc.ToString("N0")</text>
+                                }
+                            </p>
+
+                            @if (p.Fulfillment != 1 && !string.IsNullOrWhiteSpace(p.PriceNote))
+                            {
+                                
+                            }
+                        </div>
+
+
+                        <a asp-controller="Shop"
+                           asp-action="Details"
+                           asp-route-id="@p.Id"
+                           class="btn-saint btn-outline">
+                            Ver producto
+                        </a>
+                    </div>
+
+
+                </article>
+            }
+        </section>
+    }
+
+</div>
+<script>
+    document.querySelectorAll('.product-image').forEach(card => {
+        const images = JSON.parse(card.dataset.images || '[]');
+        if (images.length <= 1) return;
+
+        let index = 0;
+        let currentImg = card.querySelector('img');
+
+        setInterval(() => {
+            const nextIndex = (index + 1) % images.length;
+
+            const nextImg = document.createElement('img');
+            nextImg.src = images[nextIndex];
+            nextImg.classList.add('slide-in');
+
+            card.appendChild(nextImg);
+
+            // fuerza repaint
+            nextImg.getBoundingClientRect();
+
+            currentImg.classList.add('slide-out');
+            nextImg.classList.remove('slide-in');
+
+            setTimeout(() => {
+                card.removeChild(currentImg);
+                currentImg = nextImg;
+                index = nextIndex;
+            }, 550);
+
+        }, 2400);
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+        const steps = document.querySelectorAll(".how-step");
+        const progress = document.querySelector(".how-progress");
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const step = entry.target;
+                    const stepNum = step.dataset.step;
+
+                    step.classList.add("is-active");
+                    progress.classList.remove("step-1","step-2","step-3");
+                    progress.classList.add("step-" + stepNum);
+                }
+            });
+        }, {
+            threshold: 0.6
+        });
+
+        steps.forEach(step => observer.observe(step));
+    });
+</script>

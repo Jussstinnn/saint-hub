@@ -1,0 +1,102 @@
+﻿@model List<SaintHub.Models.CustomRequest>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/custom-requests.css" asp-append-version="true" />
+}
+
+<div class="custom-wrapper">
+
+    <!-- HEADER -->
+    <div class="custom-header">
+        <div>
+            <h1>Pedidos personalizados</h1>
+            <span class="custom-subtitle">
+                Solicitudes recibidas por encargo y pedidos especiales
+            </span>
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="custom-empty">
+            No hay solicitudes registradas.
+        </div>
+    }
+    else
+    {
+        <section class="custom-card">
+
+            <div class="custom-table-head">
+                <span>Cliente</span>
+                <span>Contacto</span>
+                <span>Pedido</span>
+                <span>Estado</span>
+                <span>Fecha</span>
+                <span></span>
+            </div>
+
+            @foreach (var r in Model)
+            {
+                <div class="custom-row">
+
+                    <!-- CLIENTE -->
+                    <div class="custom-client">
+                        <strong>
+                            @(string.IsNullOrWhiteSpace(r.FullName) ? "Cliente sin nombre" : r.FullName)
+                        </strong>
+                    </div>
+
+                    <!-- CONTACTO -->
+                    <div class="custom-contact">
+                        <span>
+                            @(string.IsNullOrWhiteSpace(r.Email) ? "Sin email" : r.Email)
+                        </span>
+                        <span>
+                            @(string.IsNullOrWhiteSpace(r.Phone) ? "Sin teléfono" : r.Phone)
+                        </span>
+                    </div>
+
+                    <!-- PEDIDO -->
+                    <div class="custom-request">
+                        <span>
+                            @(string.IsNullOrWhiteSpace(r.ProductType)
+                                                ? "Pedido personalizado"
+                                                : r.ProductType)
+                </span>
+
+                        <span class="muted">
+                            @(string.IsNullOrWhiteSpace(r.Brand) ? "Marca no indicada" : r.Brand)
+                            @(string.IsNullOrWhiteSpace(r.ProductName) ? "" : $" {r.ProductName}")
+                            · Talla: @(string.IsNullOrWhiteSpace(r.Size) ? "—" : r.Size)
+                        </span>
+
+                    </div>
+
+                    <!-- ESTADO -->
+                    <span class="custom-status status-@r.Status.ToLower()">
+                        @r.Status
+                    </span>
+
+                    <!-- FECHA -->
+                    <span class="custom-date">
+                        @r.CreatedAt.ToString("dd/MM/yyyy · HH:mm")
+                    </span>
+
+                    <!-- ACTION -->
+                    <a asp-action="Details"
+                       asp-route-id="@r.Id"
+                       class="btn-view">
+                        Ver
+                    </a>
+
+                </div>
+                }
+        </section>
+    }
+
+</div>
+
+
+
+
+

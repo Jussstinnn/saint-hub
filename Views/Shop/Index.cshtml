@@ -1,0 +1,59 @@
+﻿@model List<SaintHub.Models.Product>
+
+<div class="category-wrapper">
+
+    @if (!Model.Any())
+    {
+        <div class="empty-state">
+            <h3>Aún no hay productos</h3>
+            <p>Estamos preparando nuevos lanzamientos.</p>
+
+            <a asp-controller="Shop"
+               asp-action="Index"
+               class="btn-saint">
+                Ver catálogo
+            </a>
+        </div>
+    }
+    else
+    {
+        <section class="product-grid">
+            @foreach (var p in Model)
+            {
+                <article class="product-card">
+                    <div class="product-badge @(p.Fulfillment == 1 ? "stock" : "on-demand")">
+                        @(p.Fulfillment == 1 ? "EN STOCK" : "POR ENCARGO")
+                    </div>
+                    <div class="product-image">
+                        <img src="@p.Images.FirstOrDefault()?.Url"
+                             alt="@p.Name" />
+
+
+                    </div>
+
+                    <div class="product-info">
+                        <h3>@p.Name</h3>
+
+                        <p class="price">
+                            ₡ @p.PriceCrc.ToString("N0")
+                        </p>
+
+                        <a asp-controller="Shop"
+                           asp-action="Details"
+                           asp-route-id="@p.Id"
+                           class="btn-saint btn-outline">
+                            Ver producto
+                        </a>
+                    </div>
+
+                </article>
+            }
+        </section>
+    }
+
+</div>
+
+
+
+
+

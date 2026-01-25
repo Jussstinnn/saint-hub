@@ -1,0 +1,101 @@
+﻿
+
+
+<h1>Dashboard · Saint Hub</h1>
+<p class="text-muted">Resumen general del estado de la tienda</p>
+
+<!-- =========================
+     KPIs PRINCIPALES
+========================= -->
+<div class="product-grid" style="margin-top:2rem;">
+
+    <div class="card-saint kpi-card">
+        <h4>Ventas totales</h4>
+        <h2>₡ @ViewBag.TotalSales.ToString("N0")</h2>
+        <small>Ingresos acumulados</small>
+    </div>
+
+    <div class="card-saint kpi-card">
+        <h4>Pedidos</h4>
+        <h2>@ViewBag.TotalOrders</h2>
+        <small>Total procesados</small>
+    </div>
+
+</div>
+
+<!-- =========================
+     ESTADO DE PEDIDOS
+========================= -->
+<div class="card-saint" style="margin-top:2.5rem;">
+    <h3>Pedidos por estado</h3>
+
+    <div class="status-grid">
+        @foreach (var s in ViewBag.ByStatus)
+        {
+            <div class="status-item">
+                <span class="status-name">@s.Status</span>
+                <span class="status-count">@s.Count</span>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- =========================
+     TOP PRODUCTOS
+========================= -->
+<div class="card-saint" style="margin-top:2.5rem;">
+    <h3>Top productos</h3>
+
+    <table class="table-saint">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Vendidos</th>
+                <th>Total generado</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in ViewBag.TopProducts)
+            {
+                <tr>
+                    <td>@p.Name</td>
+                    <td>@p.Qty</td>
+                    <td>₡ @p.Total.ToString("N0")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- =========================
+     ÚLTIMOS PEDIDOS
+========================= -->
+<div class="card-saint" style="margin-top:2.5rem;">
+    <h3>Últimos pedidos</h3>
+
+    <table class="table-saint">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Cliente</th>
+                <th>Total</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var o in ViewBag.LastOrders)
+            {
+                <tr>
+                    <td>#@o.Id</td>
+                    <td>@o.FullName</td>
+                    <td>₡ @o.TotalCrc.ToString("N0")</td>
+                    <td>
+                        <span class="badge-status">@o.Status</span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+

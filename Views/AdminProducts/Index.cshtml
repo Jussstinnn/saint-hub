@@ -1,0 +1,314 @@
+@using SaintHub.Services
+@model List<SaintHub.Models.Product>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/products-admin.css" asp-append-version="true" />
+}
+
+@{
+    ViewData["Title"] = "Productos";
+}
+
+<div class="products-wrapper">
+
+    <!-- HEADER -->
+    <div class="products-header">
+        <div>
+            <h1>Productos</h1>
+            <span class="products-count">@Model.Count producto(s)</span>
+        </div>
+
+        <a href="/Admin/CreateProduct" class="btn-primary">
+            + Agregar producto
+        </a>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div class="products-toolbar">
+        <div class="toolbar-left">
+            <div class="search-wrap">
+                <input id="pSearch" type="search" placeholder="Buscar por nombre o ID…" autocomplete="off" />
+                <span class="search-icon">⌕</span>
+            </div>
+
+            <select id="pCategory" class="toolbar-select">
+                <option value="">Todas las categorías</option>
+                <option value="@ProductRules.Zapatos">Zapatos</option>
+                <option value="@ProductRules.Camisas">Camisas</option>
+                <option value="@ProductRules.Suetas">Suetas</option>
+                <option value="@ProductRules.Pantalones">Pantalones</option>
+                <option value="@ProductRules.Accesorios">Accesorios</option>
+                <option value="@ProductRules.Vinilos">Vinilos</option>
+            </select>
+
+            <select id="pStatus" class="toolbar-select">
+                <option value="">Todos</option>
+                <option value="active">Activos</option>
+                <option value="inactive">Inactivos</option>
+            </select>
+
+            <select id="pFulfillment" class="toolbar-select">
+                <option value="">En stock + Encargo</option>
+                <option value="@ProductRules.EnStock">En stock</option>
+                <option value="@ProductRules.PorEncargo">Por encargo</option>
+            </select>
+        </div>
+
+        <div class="toolbar-right">
+            <button type="button" class="view-toggle active" data-view="grid">Grid</button>
+            <button type="button" class="view-toggle" data-view="list">Lista</button>
+        </div>
+    </div>
+
+    <!-- LIST -->
+    <section class="products-card">
+
+        <div class="products-grid" id="productsGrid">
+            @foreach (var p in Model)
+            {
+                var imgs = (p.Images ?? new List<SaintHub.Models.ProductImage>())
+                    .OrderByDescending(i => i.IsPrimary)
+                    .ThenBy(i => i.SortOrder)
+                    .ToList();
+
+                var cover = imgs.FirstOrDefault(i => i.IsPrimary) ?? imgs.FirstOrDefault();
+                var thumbs = imgs.Take(4).ToList();
+
+                var (fromCrc, toCrc, isRange, note) = ProductRules.GetDisplayPrice(p);
+                var priceText = isRange ? $"₡ {fromCrc:N0} – ₡ {toCrc:N0}" : $"₡ {fromCrc:N0}";
+
+                var status = p.IsActive ? "active" : "inactive";
+                var fulfillment = p.Fulfillment;
+
+                <article class="p-card" data-id="@p.Id" data-name="@p.Name" data-category="@p.Category" data-status="@status" data-fulfillment="@fulfillment">
+                    <div class="p-media" data-action="preview" data-images="@string.Join(',', imgs.Select(x => x.Url))">
+                        @if (cover != null)
+                        {
+                            <img class="p-cover" src="@cover.Url" alt="@p.Name" loading="lazy" />
+                        }
+                        else
+                        {
+                            <div class="p-cover p-cover--empty">
+                                <div class="p-empty">Sin imagen</div>
+                            </div>
+                        }
+
+                        @if (thumbs.Count > 1)
+                        {
+                            <div class="p-thumbs">
+                                @foreach (var t in thumbs)
+                                {
+                                    <img src="@t.Url" alt="thumb" loading="lazy" />
+                                }
+                            </div>
+                        }
+                    </div>
+
+                    <div class="p-body">
+                        <div class="p-top">
+                            <div class="p-title">
+                                <strong title="@p.Name">@p.Name</strong>
+                                <span class="p-meta">ID #@p.Id · @ProductRules.CategoryName(p.Category)</span>
+                            </div>
+
+                            <span class="p-status @status">@(p.IsActive ? "Activo" : "Inactivo")</span>
+                        </div>
+
+                        <div class="p-badges">
+                            <span class="badge">@(p.Fulfillment == ProductRules.EnStock ? "En stock" : "Por encargo")</span>
+                            <span class="badge dim">@priceText</span>
+                            <span class="badge dim">@((p.Variants?.Count ?? 0)) var</span>
+                            <span class="badge dim">@((p.Images?.Count ?? 0)) img</span>
+                        </div>
+
+                        @if (!string.IsNullOrWhiteSpace(note))
+                        {
+                            <div class="p-note">@note</div>
+                        }
+
+                        <div class="p-actions">
+                            <a href="/Admin/Products/Edit/@p.Id" class="btn-view">Editar</a>
+
+                            <button type="button" class="btn-ghost" data-action="preview">Preview</button>
+
+                            <form class="delete-form" asp-action="Delete" asp-route-id="@p.Id" method="post" onsubmit="return confirm('¿Eliminar este producto? Esta acción no se puede deshacer.');">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn-danger">Eliminar</button>
+                            </form>
+                        </div>
+                    </div>
+                </article>
+            }
+        </div>
+
+        <div class="products-empty" id="productsEmpty" style="display:none;">
+            No se encontraron productos con esos filtros.
+        </div>
+    </section>
+
+</div>
+
+<!-- PREVIEW MODAL -->
+<div class="p-modal" id="pModal" aria-hidden="true">
+    <div class="p-modal-backdrop" data-close="1"></div>
+    <div class="p-modal-card" role="dialog" aria-modal="true">
+        <button class="p-modal-x" type="button" data-close="1" aria-label="Cerrar">×</button>
+        <div class="p-modal-main">
+            <button class="p-nav" type="button" id="pPrev" aria-label="Anterior">‹</button>
+            <img id="pModalImg" alt="preview" />
+            <button class="p-nav" type="button" id="pNext" aria-label="Siguiente">›</button>
+        </div>
+        <div class="p-modal-strip" id="pStrip"></div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+(() => {
+  const grid = document.getElementById('productsGrid');
+  if (!grid) return;
+
+  const q = document.getElementById('pSearch');
+  const cat = document.getElementById('pCategory');
+  const st = document.getElementById('pStatus');
+  const full = document.getElementById('pFulfillment');
+  const empty = document.getElementById('productsEmpty');
+
+  const toggles = Array.from(document.querySelectorAll('.view-toggle'));
+
+  function normalize(s){ return (s||'').toString().trim().toLowerCase(); }
+
+  function applyFilters(){
+    const term = normalize(q?.value);
+    const c = (cat?.value || '').toString();
+    const s = (st?.value || '').toString();
+    const f = (full?.value || '').toString();
+
+    let visible = 0;
+    const cards = Array.from(grid.querySelectorAll('.p-card'));
+    for (const card of cards){
+      const name = normalize(card.getAttribute('data-name'));
+      const id = (card.getAttribute('data-id') || '');
+      const category = (card.getAttribute('data-category') || '');
+      const status = (card.getAttribute('data-status') || '');
+      const fulfillment = (card.getAttribute('data-fulfillment') || '');
+
+      const okTerm = !term || name.includes(term) || id.includes(term);
+      const okCat = !c || category === c;
+      const okStatus = !s || status === s;
+      const okFull = !f || fulfillment === f;
+
+      const ok = okTerm && okCat && okStatus && okFull;
+      card.style.display = ok ? '' : 'none';
+      if (ok) visible++;
+    }
+    if (empty) empty.style.display = visible ? 'none' : 'block';
+  }
+
+  [q, cat, st, full].forEach(el => {
+    if (!el) return;
+    el.addEventListener('input', applyFilters);
+    el.addEventListener('change', applyFilters);
+  });
+
+  // view toggle
+  toggles.forEach(btn => {
+    btn.addEventListener('click', () => {
+      toggles.forEach(x => x.classList.remove('active'));
+      btn.classList.add('active');
+      const v = btn.getAttribute('data-view');
+      grid.classList.toggle('is-list', v === 'list');
+    });
+  });
+
+  // Preview modal
+  const modal = document.getElementById('pModal');
+  const modalImg = document.getElementById('pModalImg');
+  const strip = document.getElementById('pStrip');
+  const prev = document.getElementById('pPrev');
+  const next = document.getElementById('pNext');
+
+  let imgs = [];
+  let idx = 0;
+
+  function openModal(imageUrls){
+    imgs = (imageUrls || []).filter(Boolean);
+    idx = 0;
+    if (!imgs.length) return;
+
+    renderModal();
+    modal?.classList.add('open');
+    modal?.setAttribute('aria-hidden', 'false');
+    document.documentElement.style.overflow = 'hidden';
+  }
+
+  function closeModal(){
+    modal?.classList.remove('open');
+    modal?.setAttribute('aria-hidden', 'true');
+    document.documentElement.style.overflow = '';
+  }
+
+  function renderModal(){
+    if (!modalImg) return;
+    modalImg.src = imgs[idx];
+
+    if (!strip) return;
+    strip.innerHTML = '';
+    imgs.slice(0, 12).forEach((u, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'p-strip-item' + (i === idx ? ' active' : '');
+      const im = document.createElement('img');
+      im.src = u;
+      im.alt = 'thumb';
+      b.appendChild(im);
+      b.addEventListener('click', () => { idx = i; renderModal(); });
+      strip.appendChild(b);
+    });
+
+    if (prev) prev.disabled = imgs.length <= 1;
+    if (next) next.disabled = imgs.length <= 1;
+  }
+
+  function step(d){
+    if (!imgs.length) return;
+    idx = (idx + d + imgs.length) % imgs.length;
+    renderModal();
+  }
+
+  prev?.addEventListener('click', () => step(-1));
+  next?.addEventListener('click', () => step(1));
+
+  modal?.addEventListener('click', (e) => {
+    const t = e.target;
+    if (t && t.getAttribute && t.getAttribute('data-close') === '1') closeModal();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!modal?.classList.contains('open')) return;
+    if (e.key === 'Escape') closeModal();
+    if (e.key === 'ArrowLeft') step(-1);
+    if (e.key === 'ArrowRight') step(1);
+  });
+
+  // open from cards
+  grid.addEventListener('click', (e) => {
+    const target = e.target;
+    if (!target) return;
+
+    const previewBtn = target.closest?.('[data-action="preview"]');
+    if (!previewBtn) return;
+
+    const card = target.closest?.('.p-card');
+    if (!card) return;
+    const media = card.querySelector('.p-media');
+    const raw = media?.getAttribute('data-images') || '';
+    const urls = raw.split(',').map(x => x.trim()).filter(Boolean);
+    openModal(urls);
+  });
+
+  // initial
+  applyFilters();
+})();
+</script>
+}

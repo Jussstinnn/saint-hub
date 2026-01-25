@@ -1,0 +1,178 @@
+﻿@model SaintHub.ViewModels.AccountDashboardVM
+
+@{
+    ViewData["Title"] = "Mi cuenta";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Account.css" asp-append-version="true" />
+}
+
+<div class="account-layout">
+
+    <!-- =========================
+         SIDEBAR (DESKTOP)
+    ========================== -->
+    <aside class="account-sidebar">
+        <div class="sidebar-brand">
+            <span class="logo">S</span>
+            <strong>SAINT HUB</strong>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a class="active">Dashboard</a>
+
+            <a asp-action="MyOrders">
+                Mis pedidos
+            </a>
+
+            <a asp-action="EditProfile">
+                Mi perfil
+            </a>
+
+            <a asp-action="Logout" class="danger">
+                Cerrar sesión
+            </a>
+        </nav>
+    </aside>
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+    <main class="account-main">
+
+        <div class="account-wrapper">
+            <div class="account-card account-dashboard">
+
+                <!-- HEADER -->
+                <div class="account-head">
+                    <h1>Hola, @Model.FullName <span class="wave">👋</span></h1>
+                    <p>Este es el resumen de tu actividad en Saint Hub</p>
+                </div>
+
+                <!-- STATS -->
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <span>Pedidos realizados</span>
+                        <strong>@Model.TotalOrders</strong>
+                    </div>
+
+                    <div class="stat-card">
+                        <span>Total gastado</span>
+                        <strong>₡ @Model.TotalSpentCrc.ToString("N0")</strong>
+                    </div>
+                </div>
+
+                <!-- LAST ORDER -->
+                @if (Model.LastOrderId != null)
+                {
+                    <div class="dashboard-last-order">
+                        <span>Último pedido</span>
+
+                        <div class="last-order-box">
+                            <div>
+                                <strong>Pedido #@Model.LastOrderId</strong>
+                                @{
+                                    var lastOrderDate = Model.LastOrderDate != null
+                                    ? Model.LastOrderDate.Value.ToLocalTime().ToString("dd/MM/yyyy · HH:mm")
+                                    : "";
+                                }
+                                <p>@lastOrderDate</p>
+                            </div>
+
+                            <span class="order-status status-@Model.LastOrderStatus!.ToLower()">
+                                @Model.LastOrderStatus
+                            </span>
+                        </div>
+
+                        <a class="btn-account-outline"
+                           asp-action="OrderDetails"
+                           asp-route-id="@Model.LastOrderId">
+                            Ver detalle
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="account-empty">
+                        <p>Aún no tenés pedidos realizados.</p>
+                    </div>
+                }
+
+                <!-- MESSAGE -->
+                @if (TempData["ProfileUpdated"] != null)
+                {
+                    <div class="account-message">
+                        @TempData["ProfileUpdated"]
+                    </div>
+                }
+
+                <!-- =========================
+                     CTAs — MOBILE ONLY
+                ========================== -->
+                <!-- VER PEDIDOS -->
+                <div class="dashboard-section mobile-only">
+                    <a class="dashboard-cta primary"
+                       asp-action="MyOrders">
+                        <span class="icon">
+                            <!-- BOX -->
+                            <svg viewBox="0 0 24 24">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
+                                <path d="M3.3 7.3 12 12l8.7-4.7M12 22V12" />
+                            </svg>
+                        </span>
+                        <span>Ver mis pedidos</span>
+                    </a>
+                </div>
+
+                <!-- ACCIONES SECUNDARIAS -->
+                <div class="dashboard-section dashboard-secondary-grid mobile-only">
+                    <a class="dashboard-cta outline"
+                       asp-action="EditProfile">
+                        <span class="icon">
+                            <!-- EDIT -->
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 20h9" />
+                                <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+                            </svg>
+                        </span>
+                        <span>Editar perfil</span>
+                    </a>
+
+                    <a class="dashboard-cta outline"
+                       asp-controller="Home"
+                       asp-action="Index">
+                        <span class="icon">
+                            <!-- CART -->
+                            <svg viewBox="0 0 24 24">
+                                <circle cx="9" cy="21" r="1" />
+                                <circle cx="20" cy="21" r="1" />
+                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                            </svg>
+                        </span>
+                        <span>Seguir comprando</span>
+                    </a>
+                </div>
+
+                <!-- LOGOUT MOBILE -->
+                <div class="dashboard-section dashboard-danger mobile-only">
+                    <a class="dashboard-cta danger"
+                       asp-action="Logout">
+                        <span class="icon">
+                            <!-- LOGOUT -->
+                            <svg viewBox="0 0 24 24">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                                <path d="M16 17l5-5-5-5" />
+                                <path d="M21 12H9" />
+                            </svg>
+                        </span>
+                        <span>Cerrar sesión</span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+</div>

@@ -1,0 +1,344 @@
+:root {
+    --accent: #f5c451;
+}
+
+/* WRAPPER */
+.custom-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem 5rem;
+}
+
+/* HEADER */
+.custom-header {
+    margin-bottom: 3rem;
+}
+
+    .custom-header h1 {
+        font-size: 2.6rem;
+        font-weight: 800;
+    }
+
+.custom-subtitle {
+    display: block;
+    margin-top: .4rem;
+    font-size: .85rem;
+    opacity: .5;
+}
+
+/* EMPTY */
+.custom-empty {
+    margin-top: 2rem;
+    padding: 2rem;
+    border-radius: 20px;
+    background: rgba(255,255,255,.04);
+    text-align: center;
+    opacity: .7;
+}
+
+/* CARD */
+.custom-card {
+    background: radial-gradient(120% 120% at 0% 0%, #121212 0%, #070707 65%);
+    border-radius: 26px;
+    padding: 2rem;
+    box-shadow: 0 40px 80px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+/* HEAD */
+.custom-table-head {
+    display: grid;
+    grid-template-columns: 1.4fr 2fr 2.5fr 1fr 1.3fr 120px;
+    gap: 1rem;
+    padding: .8rem 1rem;
+    font-size: .7rem;
+    opacity: .6;
+    text-transform: uppercase;
+}
+
+/* ROW */
+.custom-row {
+    display: grid;
+    grid-template-columns: 1.4fr 2fr 2.5fr 1fr 1.3fr 120px;
+    gap: 1rem;
+    align-items: center;
+    padding: 1.2rem 1rem;
+    border-radius: 18px;
+    background: rgba(255,255,255,.03);
+    margin-top: .6rem;
+    transition: .25s;
+}
+
+    .custom-row:hover {
+        background: rgba(255,255,255,.06);
+    }
+
+/* CLIENT */
+.custom-client strong {
+    font-size: .95rem;
+}
+
+/* CONTACT */
+.custom-contact span {
+    display: block;
+    font-size: .75rem;
+    opacity: .7;
+    padding-top: 17px;
+}
+
+/* REQUEST */
+.custom-request span {
+    display: block;
+    font-size: .8rem;
+}
+
+.custom-request .muted {
+    opacity: .6;
+    font-size: .75rem;
+}
+
+/* STATUS */
+.custom-status {
+    padding: .35rem .9rem;
+    border-radius: 999px;
+    font-size: .7rem;
+    font-weight: 700;
+    width: fit-content;
+}
+
+.status-nuevo {
+    background: rgba(255,255,255,.08);
+    color: #ccc;
+}
+
+.status-en_proceso {
+    background: rgba(245,196,81,.18);
+    color: var(--accent);
+}
+
+.status-completado {
+    background: rgba(120,200,255,.18);
+    color: #78c8ff;
+}
+
+.status-cancelado {
+    background: rgba(255,120,120,.18);
+    color: #ff7b7b;
+}
+
+/* DATE */
+.custom-date {
+    font-size: .75rem;
+    opacity: .6;
+}
+
+/* ACTION */
+.btn-view {
+    background: #111;
+    color: #fff;
+    border-radius: 999px;
+    padding: .6rem 1.4rem;
+    font-size: .75rem;
+    font-weight: 700;
+    text-decoration: none;
+    text-align: center;
+    transition: .25s;
+}
+
+    .btn-view:hover {
+        background: #1a1a1a;
+    }
+
+@media (max-width: 768px) {
+
+    .custom-wrapper {
+        padding: 2rem 1rem 3.5rem;
+    }
+
+    .custom-header {
+        margin-bottom: 2rem;
+    }
+
+        .custom-header h1 {
+            font-size: 2.1rem;
+        }
+}
+@media (max-width: 768px) {
+
+    .custom-table-head {
+        display: none;
+    }
+}
+@media (max-width: 768px) {
+
+    .custom-row {
+        grid-template-columns: 1fr;
+        gap: .6rem;
+        padding: 1.2rem;
+    }
+}
+@media (max-width: 768px) {
+
+    .custom-client {
+        order: 1;
+    }
+
+    .custom-request {
+        order: 2;
+    }
+
+    .custom-contact {
+        order: 3;
+    }
+
+    .custom-status {
+        order: 4;
+        margin-top: .3rem;
+    }
+
+    .custom-date {
+        order: 5;
+        font-size: .7rem;
+    }
+
+    .btn-view {
+        order: 6;
+        margin-top: .6rem;
+        width: 100%;
+    }
+}
+@media (max-width: 480px) {
+
+    .custom-client strong {
+        font-size: .9rem;
+    }
+
+    .custom-request span {
+        font-size: .85rem;
+    }
+
+    .btn-view {
+        padding: .8rem 0;
+        font-size: .8rem;
+    }
+}
+@media (max-width: 480px) {
+
+    .custom-status {
+        font-size: .65rem;
+        padding: .45rem 1rem;
+    }
+}
+@media (max-width: 600px) {
+
+    .custom-empty {
+        padding: 1.6rem 1rem;
+        font-size: .85rem;
+    }
+}
+.custom-success-wrap {
+    min-height: calc(100vh - 120px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+}
+
+.custom-success-card {
+    max-width: 720px;
+    width: 100%;
+    background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 26px;
+    padding: 3rem 2.5rem;
+    text-align: center;
+    animation: fadeUp .6s ease;
+}
+
+.custom-success-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: #ffd166;
+    color: #111;
+    font-size: 2rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+}
+
+.custom-success-eyebrow {
+    display: inline-block;
+    font-size: .75rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: #ffd166;
+    margin-bottom: .5rem;
+}
+
+.custom-success-title {
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    margin-bottom: 1rem;
+}
+
+.custom-success-text {
+    color: rgba(255,255,255,.75);
+    line-height: 1.7;
+    max-width: 60ch;
+    margin: 0 auto 2rem;
+}
+
+.custom-success-steps {
+    text-align: left;
+    background: rgba(255,255,255,.03);
+    border-radius: 18px;
+    padding: 1.75rem;
+    margin-bottom: 1.5rem;
+}
+
+    .custom-success-steps h3 {
+        font-size: 1rem;
+        margin-bottom: .75rem;
+    }
+
+    .custom-success-steps ul {
+        margin: 0;
+        padding-left: 1.2rem;
+        color: rgba(255,255,255,.75);
+    }
+
+    .custom-success-steps li {
+        margin-bottom: .4rem;
+    }
+
+.custom-success-note {
+    font-size: .9rem;
+    color: rgba(255,255,255,.65);
+    margin-bottom: 2.2rem;
+}
+
+.custom-success-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 640px) {
+    .custom-success-card {
+        padding: 2.25rem 1.75rem;
+    }
+}

@@ -1,0 +1,227 @@
+:root {
+    --accent: #f5c451;
+}
+
+/* WRAPPER */
+.custom-detail-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 3rem 2rem 5rem;
+}
+
+/* HEADER */
+.custom-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+}
+
+    .custom-detail-header h1 {
+        font-size: 2.4rem;
+        font-weight: 800;
+    }
+
+.custom-id {
+    display: block;
+    margin-top: .4rem;
+    font-size: .85rem;
+    opacity: .5;
+}
+
+/* STATUS BADGE */
+.custom-status {
+    padding: .45rem 1.4rem;
+    border-radius: 999px;
+    font-size: .7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.status-nuevo {
+    background: rgba(255,255,255,.08);
+    color: #ccc;
+}
+
+.status-en_proceso {
+    background: rgba(245,196,81,.18);
+    color: var(--accent);
+}
+
+.status-cotizado {
+    background: rgba(120,200,255,.18);
+    color: #78c8ff;
+}
+
+.status-cerrado {
+    background: rgba(255,120,120,.18);
+    color: #ff7b7b;
+}
+
+/* CARD */
+.custom-card {
+    background: radial-gradient(120% 120% at 0% 0%, #121212 0%, #070707 65%);
+    border-radius: 26px;
+    padding: 2.5rem;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 40px 80px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+    .custom-card h2 {
+        font-size: 1.3rem;
+        margin-bottom: 1.6rem;
+    }
+
+/* GRID */
+.custom-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+    .custom-grid .span-2 {
+        grid-column: span 2;
+    }
+
+    .custom-grid span {
+        font-size: .7rem;
+        opacity: .6;
+    }
+
+    .custom-grid strong {
+        display: block;
+        margin-top: .4rem;
+        font-size: .95rem;
+    }
+
+/* STATUS FORM */
+.status-form {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.select-premium {
+    background: #0c0c0c;
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 14px;
+    padding: .7rem 1.2rem;
+    color: #fff;
+}
+
+/* BUTTONS */
+.btn-primary {
+    background: linear-gradient(135deg, #f5c451, #e1ac2f);
+    color: #000;
+    border: none;
+    padding: .8rem 2rem;
+    border-radius: 999px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+/* CONTACT */
+.contact-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-whatsapp {
+    background: #0f3d2e;
+    color: #3cffb0;
+    padding: .9rem 2.2rem;
+    border-radius: 999px;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+
+    .custom-detail-wrapper {
+        padding: 2rem 1rem 3.5rem;
+    }
+}
+@media (max-width: 768px) {
+
+    .custom-detail-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: .8rem;
+    }
+
+        .custom-detail-header h1 {
+            font-size: 2rem;
+        }
+}
+@media (max-width: 480px) {
+
+    .custom-status {
+        padding: .5rem 1.2rem;
+        font-size: .65rem;
+    }
+}
+@media (max-width: 600px) {
+
+    .custom-card {
+        padding: 2rem 1.4rem;
+        border-radius: 22px;
+        margin-bottom: 2rem;
+    }
+
+        .custom-card h2 {
+            font-size: 1.15rem;
+            margin-bottom: 1.2rem;
+        }
+}
+@media (max-width: 700px) {
+
+    .custom-grid {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+    }
+
+        .custom-grid .span-2 {
+            grid-column: auto;
+        }
+}
+@media (max-width: 600px) {
+
+    .status-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .select-premium {
+        width: 100%;
+    }
+
+    .btn-primary {
+        width: 100%;
+        padding: .9rem 0;
+    }
+}
+@media (max-width: 600px) {
+
+    .contact-card {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+
+    .btn-whatsapp {
+        width: 100%;
+        text-align: center;
+        padding: 1rem 0;
+    }
+}
+.ref-link {
+    color: #ffd166;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+    .ref-link:hover {
+        text-decoration: underline;
+    }

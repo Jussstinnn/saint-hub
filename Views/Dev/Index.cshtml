@@ -1,0 +1,295 @@
+﻿@{
+    ViewData["Title"] = "Developer · Portfolio";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/dev-ultra.css" asp-append-version="true" />
+</head>
+<body class="force-motion">
+
+    <section class="dv" id="devRoot">
+        <div class="dv-bg" aria-hidden="true">
+            <div class="dv-noise"></div>
+            <div class="dv-grid"></div>
+            <div class="dv-stars"></div>
+            <div class="dv-aurora a1"></div>
+            <div class="dv-aurora a2"></div>
+            <div class="dv-aurora a3"></div>
+            <div class="dv-vignette"></div>
+            <div class="dv-spotlight" id="spotlight"></div>
+        </div>
+
+        <div class="dv-toast" id="toast" role="status" aria-live="polite">
+            Copiado al portapapeles ✅
+        </div>
+
+        <div class="dv-wrap">
+
+            <div class="dv-top reveal" data-stagger>
+                <a class="dv-chip" href="/" title="Volver al sitio">
+                    <span class="dot"></span>
+                    Saint Hub · Volver
+                    <span class="arr">↩</span>
+                </a>
+
+                <div class="dv-badges">
+                    <span class="dv-badge">Premium UI</span>
+                    <span class="dv-badge">ASP.NET Core</span>
+                    <span class="dv-badge">EF Core · MySQL</span>
+                </div>
+            </div>
+
+            <header class="dv-hero">
+                <div class="dv-hero-left reveal dv-hero-left-flow" data-stagger>
+
+
+                    <p class="dv-eyebrow">
+                        Crafted by <strong>Justin Montoya</strong> · Full-Stack Developer
+                    </p>
+
+                    <h1 class="dv-title">
+                        Diseño y desarrollo <span class="grad">premium</span> para productos reales.
+                    </h1>
+
+                    <p class="dv-sub">
+                        Experiencias web con estética moderna, micro-interacciones, rendimiento y arquitectura limpia.
+                        Esta página funciona como <strong>firma</strong> del proyecto y como <strong>portafolio</strong>.
+                    </p>
+                    <!-- MARQUEE (solo mobile) -->
+                    <section class="dv-marquee reveal dv-marquee--mobile" aria-label="Skills marquee">
+                        <div class="track">
+                            <div class="row">
+                                <span>ASP.NET Core</span><span>EF Core</span><span>MySQL</span><span>Razor</span><span>UI/UX</span>
+                                <span>Performance</span><span>Security</span><span>Architecture</span><span>Git</span><span>Responsive</span>
+                            </div>
+                            <div class="row clone" aria-hidden="true">
+                                <span>ASP.NET Core</span><span>EF Core</span><span>MySQL</span><span>Razor</span><span>UI/UX</span>
+                                <span>Performance</span><span>Security</span><span>Architecture</span><span>Git</span><span>Responsive</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="dv-cta" data-magnetic>
+                        <a class="dv-btn primary" href="mailto:justinmr0510@gmail.com">
+                            <span class="shine"></span>
+                            Contactar por email <span class="ico">✉</span>
+                        </a>
+
+                        <button class="dv-btn ghost" type="button" id="copyEmailBtn" data-copy="justinmr0510@gmail.com">
+                            Copiar email <span class="ico">⧉</span>
+                        </button>
+
+                        <a class="dv-btn ghost" target="_blank" rel="noreferrer" href="https://www.linkedin.com/in/justin-montoya-r%C3%ADos-672020389/">
+                            LinkedIn <span class="ico">↗</span>
+                        </a>
+
+                       
+                        <a class="dv-btn ghost" target="_blank" rel="noreferrer" href="https://wa.me/50683281523">
+                            WhatsApp <span class="ico">↗</span>
+                        </a>
+                    </div>
+
+                    <div class="dv-metrics">
+                        <div class="dv-metric dv-tilt reveal" data-stagger>
+                            <span class="k">Experiencia</span>
+                            <span class="v"><b class="count" data-count="30">0</b>+ features UI</span>
+                        </div>
+                        <div class="dv-metric dv-tilt reveal" data-stagger>
+                            <span class="k">Entrega</span>
+                            <span class="v"><b class="count" data-count="100">0</b>% responsive</span>
+                        </div>
+                        <div class="dv-metric dv-tilt reveal" data-stagger>
+                            <span class="k">Performance</span>
+                            <span class="v"><b class="count" data-count="60">0</b>fps animaciones</span>
+                        </div>
+                    </div>
+                </div>
+
+                <aside class="dv-card dv-tilt reveal" data-stagger>
+                    <div class="dv-card-border" aria-hidden="true"></div>
+
+                    <div class="dv-card-head">
+                        <div class="dv-mark">
+                            <span>JM</span>
+                            <i class="ring" aria-hidden="true"></i>
+                        </div>
+
+                        <div class="dv-card-title">
+                            <strong>Signature Page</strong>
+                            <span>Autoría & contacto profesional</span>
+                        </div>
+                    </div>
+
+                    <p class="dv-card-desc">
+                        Me obsesiona que un producto “se sienta caro”: tipografía, jerarquía visual,
+                        micro-animaciones y consistencia. Esta página prueba el nivel y deja mi marca.
+                    </p>
+
+                    <div class="dv-tags">
+                        <span>ASP.NET MVC</span>
+                        <span>Razor</span>
+                        <span>Auth/Sessions</span>
+                        <span>Admin UI</span>
+                        <span>Custom CSS System</span>
+                        <span>MySQL</span>
+                    </div>
+
+                    <div class="dv-sep"></div>
+
+                    <div class="dv-mini-grid">
+                        <div class="mini"><span class="n">UI</span><span class="d">Micro-interactions</span></div>
+                        <div class="mini"><span class="n">DX</span><span class="d">Código limpio</span></div>
+                        <div class="mini"><span class="n">Perf</span><span class="d">Animación ligera</span></div>
+                        <div class="mini"><span class="n">Inventario</span><span class="d">Stock, tallas/colores, precios por variante</span></div>
+                        <div class="mini"><span class="n">Apartado del Admin</span><span class="d">Dashboard: productos, pedidos, usuarios, roles</span></div>
+                        <div class="mini"><span class="n">Parte Financiera</span><span class="d">KPIs: ingresos, costos, utilidad, métricas</span></div>
+
+                    </div>
+                </aside>
+            </header>
+
+            <section class="dv-marquee reveal" aria-label="Skills marquee">
+                <div class="track">
+                    <div class="row">
+                        <span>ASP.NET Core</span><span>EF Core</span><span>MySQL</span><span>Razor</span><span>UI/UX</span>
+                        <span>Performance</span><span>Security</span><span>Architecture</span><span>Git</span><span>Responsive</span>
+                    </div>
+                    <div class="row clone" aria-hidden="true">
+                        <span>ASP.NET Core</span><span>EF Core</span><span>MySQL</span><span>Razor</span><span>UI/UX</span>
+                        <span>Performance</span><span>Security</span><span>Architecture</span><span>Git</span><span>Responsive</span>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="dv-foot reveal">
+                <div class="line"></div>
+                <p>
+                    © @DateTime.Now.Year · Designed & Engineered by <strong>Justin Montoya</strong>
+                    <span class="sep">·</span>
+                    <a href="/" class="back">Volver al sitio</a>
+                </p>
+            </footer>
+
+        </div>
+    </section>
+
+    <script>
+        (() => {
+          const root = document.getElementById("devRoot");
+          const spot = document.getElementById("spotlight");
+          const toast = document.getElementById("toast");
+          const copyBtn = document.getElementById("copyEmailBtn");
+               const reduced = !document.body.classList.contains("force-motion")
+        && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+
+          // Spotlight
+          if (!reduced && root && spot) {
+            let raf = null;
+            root.addEventListener("mousemove", (e) => {
+              if (raf) return;
+              raf = requestAnimationFrame(() => {
+                const r = root.getBoundingClientRect();
+                spot.style.setProperty("--x", (e.clientX - r.left) + "px");
+                spot.style.setProperty("--y", (e.clientY - r.top) + "px");
+                raf = null;
+              });
+            }, { passive: true });
+          }
+
+          // Reveal
+          const reveals = document.querySelectorAll(".reveal");
+          if (!reduced && "IntersectionObserver" in window) {
+            const io = new IntersectionObserver((entries) => {
+              entries.forEach(en => {
+                if (!en.isIntersecting) return;
+                en.target.classList.add("is-in");
+                io.unobserve(en.target);
+              });
+            }, { threshold: 0.12 });
+            reveals.forEach(el => io.observe(el));
+          } else {
+            reveals.forEach(el => el.classList.add("is-in"));
+          }
+
+          // Tilt
+          const tilts = document.querySelectorAll(".dv-tilt");
+          if (!reduced) {
+            tilts.forEach(card => {
+              let rect = null;
+              card.addEventListener("mouseenter", () => { rect = card.getBoundingClientRect(); card.classList.add("tilting"); });
+              card.addEventListener("mouseleave", () => { card.classList.remove("tilting"); card.style.setProperty("--rx","0deg"); card.style.setProperty("--ry","0deg"); rect = null; });
+              card.addEventListener("mousemove", (e) => {
+                rect = rect || card.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width;
+                const y = (e.clientY - rect.top) / rect.height;
+                card.style.setProperty("--rx", ((0.5 - y) * 10).toFixed(2) + "deg");
+                card.style.setProperty("--ry", ((x - 0.5) * 12).toFixed(2) + "deg");
+              });
+            });
+          }
+
+          // Magnetic
+          document.querySelectorAll("[data-magnetic] .dv-btn").forEach(btn => {
+            if (reduced) return;
+            let r=null;
+            btn.addEventListener("mousemove",(e)=>{
+              r=r||btn.getBoundingClientRect();
+              const dx=(e.clientX-(r.left+r.width/2))/r.width;
+              const dy=(e.clientY-(r.top+r.height/2))/r.height;
+              btn.style.transform=`translate(${dx*10}px, ${dy*8}px)`;
+            });
+            btn.addEventListener("mouseleave",()=>{ btn.style.transform=""; r=null; });
+          });
+
+          // Toast
+          const showToast = () => {
+            if (!toast) return;
+            toast.classList.add("show");
+            clearTimeout(window.__dvToastT);
+            window.__dvToastT = setTimeout(() => toast.classList.remove("show"), 1600);
+          };
+
+          if (copyBtn) {
+            copyBtn.addEventListener("click", async () => {
+              const value = copyBtn.getAttribute("data-copy") || "";
+              try { await navigator.clipboard.writeText(value); showToast(); }
+              catch { showToast(); }
+            });
+          }
+
+          // Counters
+          document.querySelectorAll(".count[data-count]").forEach(el=>{
+            if (reduced) { el.textContent = el.getAttribute("data-count") || "0"; return; }
+            const target = parseInt(el.getAttribute("data-count")||"0",10);
+            const start = performance.now();
+            const dur = 1100;
+            const tick = (t) => {
+              const p = Math.min(1,(t-start)/dur);
+              const eased = 1 - Math.pow(1-p,3);
+              el.textContent = Math.round(target*eased);
+              if (p<1) requestAnimationFrame(tick);
+            };
+            requestAnimationFrame(tick);
+          });
+                  // ✅ Forzar reveal inicial (entrada al cargar)
+        window.addEventListener("load", () => {
+          requestAnimationFrame(() => {
+            document.querySelectorAll(".reveal").forEach((el, i) => {
+              el.style.setProperty("--d", (i * 80) + "ms");
+              el.classList.add("is-in");
+            });
+          });
+        });
+
+        })();
+    </script>
+
+</body>
+</html>

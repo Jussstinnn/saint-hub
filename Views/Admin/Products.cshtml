@@ -1,0 +1,139 @@
+﻿@model List<SaintHub.Models.Product>
+
+<h1>Admin · Productos</h1>
+
+<a asp-controller="Admin"
+   asp-action="CreateProduct"
+   class="btn-saint">
+    + Agregar producto
+</a>
+
+
+
+<div class="card-saint" style="margin-top:1.5rem;">
+    @if (TempData["Error"] != null)
+    {
+        <div style="margin-bottom:1rem; color:#f5c86b;">
+            @TempData["Error"]
+        </div>
+    }
+
+    <table class="table-saint">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Estado</th>
+                <th>Imagen</th>
+                <th>Tallas / Stock</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Model)
+            {
+                <tr>
+                    <!-- ID -->
+                    <td>@p.Id</td>
+
+                    <!-- PRODUCTO -->
+                    <td>
+                        <strong>@p.Name</strong><br />
+                        <small style="color:var(--text-muted)">
+                            @(p.Fulfillment == 1 ? "En stock" : "Por encargo")
+                        </small>
+                    </td>
+
+                    <!-- PRECIO -->
+                    <td>₡ @p.PriceCrc.ToString("N0")</td>
+
+                    <!-- ESTADO -->
+                    <td>@(p.IsActive ? "Activo" : "Inactivo")</td>
+
+                    <!-- IMAGEN -->
+                    <td>
+                        @{
+                            var img = p.Images.FirstOrDefault(i => i.IsPrimary)
+                            ?? p.Images.FirstOrDefault();
+                        }
+
+                        @if (img != null)
+                        {
+                            <img src="@img.Url"
+                                 alt="@p.Name"
+                                 style="width:60px; height:60px; object-fit:cover; border-radius:8px; display:block;" />
+
+                            @if (p.Images.Count > 1)
+                            {
+                                <small style="color:var(--text-muted); font-size:.75rem;">
+                                    +@(@p.Images.Count - 1) más
+                                </small>
+                            }
+                        }
+                        else
+                        {
+                            <span style="color:var(--text-muted); font-size:.8rem;">
+                                Sin imagen
+                            </span>
+                        }
+
+                        <!-- Subir imagen adicional -->
+                        <form asp-action="UploadImage"
+                              method="post"
+                              enctype="multipart/form-data"
+                              style="margin-top:.4rem; display:flex; gap:.3rem;">
+                            <input type="hidden" name="productId" value="@p.Id" />
+                            <input type="file" name="image" required accept="image/jpeg,image/png,image/gif,image/webp,image/avif,.webp,.avif" />
+                            <button class="btn-saint-outline">+</button>
+                        </form>
+                    </td>
+
+                    <!-- TALLAS / STOCK -->
+                    <td>
+                        @if (p.Variants.Any())
+                        {
+                            foreach (var v in p.Variants)
+                            {
+                                <div style="font-size:.85rem;">
+                                    @v.Option → <strong>@v.Stock</strong>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <small style="color:var(--text-muted); font-size:.8rem;">
+                                Sin tallas
+                            </small>
+                        }
+
+                        <form asp-action="AddVariant"
+                              method="post"
+                              style="margin-top:.5rem; display:flex; gap:.4rem;">
+                            <input type="hidden" name="productId" value="@p.Id" />
+
+                            <input class="input-saint"
+                                   name="option"
+                                   placeholder="US 10"
+                                   required
+                                   style="width:90px;" />
+
+                            <input class="input-saint"
+                                   name="stock"
+                                   type="number"
+                                   placeholder="Stock"
+                                   style="width:80px;" />
+
+                            <button class="btn-saint-outline">+</button>
+                        </form>
+                    </td>
+
+                    <!-- FECHA -->
+                    <td>@p.CreatedAt.ToLocalTime().ToString("dd/MM/yyyy")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+

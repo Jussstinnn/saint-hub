@@ -1,0 +1,574 @@
+﻿@{
+    ViewData["Title"] = "Saint Hub";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/home-animations.css" asp-append-version="true" />
+
+}
+
+<!-- HERO -->
+<section class="home-hero" style="background-image:url('/img/home/hero2.jpg')">
+    <div class="home-hero-overlay"></div>
+
+    <div class="home-hero-content">
+
+        <h1>SAINT HUB</h1>
+        <p>Sneakers & Culture</p>
+
+        <a href="#purchase-modes" class="btn-saint scroll-soft">
+            Explorar tienda
+        </a>
+
+
+    </div>
+</section>
+<section class="purchase-modes" id="purchase-modes">
+
+
+    <!-- EN STOCK -->
+    <a asp-controller="Category"
+       asp-action="Index"
+       asp-route-fulfillment="1"
+       class="mode-card reveal reveal-up"
+       style="background-image:url('/img/home/stock.png')">
+
+        <div class="mode-overlay"></div>
+
+        <div class="mode-content">
+            <h3>En stock</h3>
+            <p>Productos disponibles para envío o retiro inmediato.</p>
+        </div>
+    </a>
+
+    <!-- POR ENCARGO -->
+    <a asp-controller="Category"
+       asp-action="Index"
+       asp-route-fulfillment="2"
+       class="mode-card reveal reveal-up"
+       style="background-image:url('/img/home/delivery.jpg')">
+
+        <div class="mode-overlay"></div>
+
+        <div class="mode-content">
+            <h3>Por encargo</h3>
+            <p>Traemos piezas exclusivas bajo pedido.</p>
+        </div>
+    </a>
+
+
+    <!-- CUSTOM ORDER (NO SE TOCA) -->
+    <a asp-controller="CustomOrder"
+       asp-action="Index"
+       class="mode-card reveal reveal-up"
+       style="background-image:url('/img/home/accesorios.jpg');
+              transition-delay:.35s">
+
+        <div class="mode-overlay"></div>
+
+        <div class="mode-content">
+            <h3>Pedido personalizado</h3>
+            <p>Buscamos lo que querés, a tu medida.</p>
+            
+        </div>
+    </a>
+
+</section>
+
+
+
+<section class="home-how">
+
+    <div class="how-header reveal">
+        <small>Proceso</small>
+        <h2>Cómo funciona Saint Hub</h2>
+        <p>
+            Seleccionamos piezas con criterio.
+            Te acompañamos durante todo el proceso.
+        </p>
+    </div>
+
+    <div class="how-steps">
+
+      
+
+        <div class="how-step reveal" data-step="1">
+            <span class="step-number">01</span>
+            <h4>Elegís la pieza</h4>
+            <p>Explorá productos en stock o solicitá un modelo específico.</p>
+        </div>
+
+        <div class="how-step reveal" data-step="2">
+            <span class="step-number">02</span>
+            <h4>La gestionamos</h4>
+            <p>Verificamos disponibilidad, autenticidad y tiempos de entrega.</p>
+        </div>
+
+        <div class="how-step reveal" data-step="3">
+            <span class="step-number">03</span>
+            <h4>Te la entregamos</h4>
+            <p>Recibís tu pedido con seguimiento y atención personalizada.</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+
+
+
+@model HomeFeatureSection
+
+@if (Model != null)
+{
+    <section class="home-feature">
+
+        <div class="feature-img reveal reveal-left">
+            <img src="@Model.ImagePath" alt="@Model.Title">
+        </div>
+
+        <div class="feature-content reveal reveal-right">
+            <small>@Model.SmallTitle</small>
+            <h2>@Model.Title</h2>
+            <p>@Model.Description</p>
+
+            <a href="@Model.ButtonUrl" class="btn-saint-outline">
+                @Model.ButtonText
+            </a>
+        </div>
+
+    </section>
+}
+
+
+
+    
+
+<!-- =========================
+     FAQ – SAINT HUB
+========================= -->
+<section class="home-faq">
+
+    <div class="faq-header reveal reveal-scale">
+        <small>Claridad</small>
+        <h2>Antes de comprar</h2>
+    </div>
+
+    <div class="faq-grid">
+
+        <div class="faq-item reveal reveal-up" style="transition-delay:.05s">
+            <h4>¿Por qué algunos pedidos tardan 7 a 14 días?</h4>
+            <p>
+                Trabajamos con stock limitado y pedidos bajo encargo.
+                Esto nos permite ofrecer piezas que no siempre están disponibles localmente.
+            </p>
+        </div>
+
+        <div class="faq-item reveal reveal-up" style="transition-delay:.15s">
+            <h4>¿Los productos son originales?</h4>
+            <p>
+                Sí. Verificamos autenticidad y condición antes de gestionar cualquier pedido.
+            </p>
+        </div>
+
+        <div class="faq-item reveal reveal-up" style="transition-delay:.25s">
+            <h4>¿Qué pasa si no hay disponibilidad?</h4>
+            <p>
+                Te avisamos antes de continuar el proceso y te ofrecemos alternativas o reembolso.
+            </p>
+        </div>
+
+        <div class="faq-item reveal reveal-up" style="transition-delay:.35s">
+            <h4>¿Cómo funciona un pedido personalizado?</h4>
+            <p>
+                Nos indicás el modelo que buscás y nosotros gestionamos la búsqueda, tiempos y entrega.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     CUSTOM ORDERS – PREMIUM
+========================= -->
+<section class="home-custom">
+
+    <div class="custom-container">
+
+        <!-- TEXTO -->
+        <div class="custom-content reveal reveal-left">
+            <small>Servicio exclusivo</small>
+            <h2>Pedidos personalizados</h2>
+
+            <p class="custom-lead">
+                Algunas piezas no están en stock.
+                Otras simplemente no se consiguen.
+            </p>
+
+            <p class="custom-desc">
+                En Saint Hub gestionamos pedidos personalizados para quienes buscan algo específico.
+                Nos encargamos de la búsqueda, validación, tiempos y entrega.
+            </p>
+
+            <ul class="custom-list">
+                <li class="reveal reveal-up" style="transition-delay:.15s">Modelos específicos</li>
+                <li class="reveal reveal-up" style="transition-delay:.25s">Tallas difíciles</li>
+                <li class="reveal reveal-up" style="transition-delay:.35s">Piezas limitadas o descontinuadas</li>
+                <li class="reveal reveal-up" style="transition-delay:.45s">Asesoría directa durante todo el proceso</li>
+            </ul>
+
+            <a asp-controller="CustomOrder"
+               asp-action="Index"
+               class="btn-saint custom-btn reveal reveal-up"
+               style="transition-delay:.55s">
+                Solicitar pedido
+            </a>
+        </div>
+
+        <!-- VISUAL -->
+        <div class="custom-visual reveal reveal-right">
+            <img src="/img/branding/logo-white.png"
+                 alt="Saint Hub logo"
+                 class="custom-logo">
+        </div>
+
+    </div>
+
+</section>
+
+<section class="home-logos reveal">
+    <div class="logos-container">
+        <h2>Marcas</h2>
+        <!-- SUBTEXTO LEGAL -->
+        <p class="logos-disclaimer reveal">
+            Las marcas y logotipos mostrados son propiedad de sus respectivos dueños.
+            Saint Hub no está afiliado ni asociado oficialmente con dichas marcas.
+        </p>
+        <div class="logos-grid">
+            <img src="/img/brands/adidas.png" alt="Adidas">
+            <img src="/img/brands/Asics.png" alt="Asics">
+            <img src="/img/brands/DrMartens.png" alt="Dr. Martens">
+            <img src="/img/brands/jordan.png" alt="Jordan">
+            <img src="/img/brands/newbalance.png" alt="New Balance">
+            <img src="/img/brands/nike.png" alt="Nike">
+            <img src="/img/brands/puma.png" alt="Puma">
+            <img src="/img/brands/Supreme.png" alt="Supreme">
+            <img src="/img/brands/Timberland.png" alt="Timberland">
+        </div>
+
+</section>
+
+
+
+
+    <!-- DOTS -->
+    <div class="carousel-dots" id="carouselDots"></div>
+
+</section>
+
+
+
+
+    <script>
+        const track = document.getElementById("carouselTrack");
+        const slides = document.querySelectorAll(".carousel-slide");
+        const dotsContainer = document.getElementById("carouselDots");
+
+        let index = 0;
+        let interval;
+
+        slides.forEach((_, i) => {
+            const dot = document.createElement("button");
+            if (i === 0) dot.classList.add("active");
+
+            dot.addEventListener("click", () => {
+                index = i;
+                updateCarousel();
+                resetInterval();
+            });
+
+            dotsContainer.appendChild(dot);
+        });
+
+        const dots = dotsContainer.querySelectorAll("button");
+
+        function updateCarousel(){
+            track.style.transform = `translateX(-${index * 100}%)`;
+            dots.forEach(d => d.classList.remove("active"));
+            dots[index].classList.add("active");
+        }
+
+        function nextSlide(){
+            index = (index + 1) % slides.length;
+            updateCarousel();
+        }
+
+        function resetInterval(){
+            clearInterval(interval);
+            interval = setInterval(nextSlide, 4000);
+        }
+
+        interval = setInterval(nextSlide, 4000);
+    </script>
+<!-- =========================
+     TRUST BAR – SAINT HUB
+========================= -->
+<section class="home-trust">
+
+    <div class="trust-container">
+
+        <div class="trust-item reveal reveal-up" style="--d:0s">
+            <span class="trust-icon">
+                <i class="bi bi-shield-check"></i>
+            </span>
+            <h4>Pedido seguro</h4>
+            <p>
+                Procesos de compra protegidos para que compres con total confianza.
+            </p>
+        </div>
+
+        <div class="trust-item reveal reveal-up" style="--d:.12s">
+            <span class="trust-icon">
+                <i class="bi bi-credit-card-2-front"></i>
+            </span>
+            <h4>Pagos confiables</h4>
+            <p>
+                Transferencias, pagos locales y métodos verificados.
+            </p>
+        </div>
+
+        <div class="trust-item reveal reveal-up" style="--d:.24s">
+            <span class="trust-icon">
+                <i class="bi bi-box-seam"></i>
+            </span>
+            <h4>Entrega de 7 a 14 días hábiles</h4>
+            <p>
+                Tiempos estimados según proveedor.
+                <br />
+                <small>Sujetos a cambios imprevistos</small>
+            </p>
+        </div>
+
+        <div class="trust-item reveal reveal-up" style="--d:.36s">
+            <span class="trust-icon">
+                <i class="bi bi-person-check"></i>
+            </span>
+            <h4>Atención personalizada</h4>
+            <p>
+                Acompañamiento directo durante todo el proceso.
+            </p>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+    <script>
+        /* =========================
+           REVEAL GENERAL (EXCEPTO MODE-CARD)
+        ========================= */
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const reveals = document.querySelectorAll('.reveal:not(.mode-card)');
+
+            const revealObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('show');
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.15
+            });
+
+            reveals.forEach(el => revealObserver.observe(el));
+
+        });
+    </script>
+
+    <script>
+        /* =========================
+           LOGOS – DELAY PROGRESIVO
+        ========================= */
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const logoObserver = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry, index) => {
+                        if (entry.isIntersecting) {
+                            setTimeout(() => {
+                                entry.target.classList.add('show');
+                            }, index * 120);
+                        }
+                    });
+                },
+                { threshold: 0.25 }
+            );
+
+            document
+                .querySelectorAll('.logos-grid img')
+                .forEach(img => logoObserver.observe(img));
+
+        });
+    </script>
+
+    <script>
+        /* =========================
+           HOW STEPS
+        ========================= */
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const steps = document.querySelectorAll('.how-step');
+            const lineFill = document.querySelector('.how-line-fill');
+
+            if (!steps.length) return;
+
+            const stepObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('show');
+
+                        if (lineFill && entry.target.dataset.step) {
+                            const step = parseInt(entry.target.dataset.step);
+                            const percent = ((step - 1) / (steps.length - 1)) * 100;
+                            lineFill.style.width = `${percent}%`;
+                        }
+
+                        stepObserver.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.4
+            });
+
+            steps.forEach(step => stepObserver.observe(step));
+
+        });
+    </script>
+
+    <script>
+        /* =========================
+           SCROLL SUAVE (BOTONES)
+        ========================= */
+        document.addEventListener("DOMContentLoaded", () => {
+
+            function easeInOutCubic(t) {
+                return t < 0.5
+                    ? 4 * t * t * t
+                    : 1 - Math.pow(-2 * t + 2, 3) / 2;
+            }
+
+            function smoothScrollTo(target, duration = 900, offset = -60) {
+                const start = window.pageYOffset;
+                const end = target.getBoundingClientRect().top + window.pageYOffset + offset;
+                const distance = end - start;
+                let startTime = null;
+
+                function animation(currentTime) {
+                    if (!startTime) startTime = currentTime;
+                    const timeElapsed = currentTime - startTime;
+                    const progress = Math.min(timeElapsed / duration, 1);
+                    const ease = easeInOutCubic(progress);
+
+                    window.scrollTo(0, start + distance * ease);
+
+                    if (timeElapsed < duration) {
+                        requestAnimationFrame(animation);
+                    }
+                }
+
+                requestAnimationFrame(animation);
+            }
+
+            document.querySelectorAll('.scroll-soft').forEach(btn => {
+                btn.addEventListener('click', e => {
+                    e.preventDefault();
+                    const target = document.querySelector(btn.getAttribute('href'));
+                    if (!target) return;
+                    smoothScrollTo(target);
+                });
+            });
+
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const cards = document.querySelectorAll(".purchase-modes .mode-card");
+            if (!cards.length) return;
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+
+                        const index = [...cards].indexOf(entry.target);
+
+                        setTimeout(() => {
+                            entry.target.classList.add("card-visible");
+                        }, index * 220); // delay visible
+
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.15
+            });
+
+            cards.forEach(card => observer.observe(card));
+        });
+    </script>
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const section = document.querySelector(".home-how");
+            const header = document.querySelector(".home-how .how-header");
+            const steps = document.querySelectorAll(".home-how .how-step");
+
+            if (!section || !steps.length) return;
+
+            const observer = new IntersectionObserver(
+                entries => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+
+                            // 1️⃣ Header entra MUY lento
+                            if (header) {
+                                header.classList.add("how-visible");
+                            }
+
+                            // 2️⃣ Steps caracol 🐌
+                            steps.forEach((step, index) => {
+                                setTimeout(() => {
+                                    step.classList.add("how-visible");
+                                }, 2800 + index * 1400);
+                                // ↑ pausa LARGA entre pasos
+                            });
+
+                            observer.unobserve(section);
+                        }
+                    });
+                },
+                {
+                    threshold: 0.2
+                }
+            );
+
+            observer.observe(section);
+        });
+    </script>
+
+
+

@@ -1,0 +1,153 @@
+﻿@model SaintHub.Models.Order
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/order-details.css" asp-append-version="true" />
+}
+
+<div class="order-wrapper">
+
+    <!-- HEADER -->
+    <div class="order-header">
+        <div>
+            <h1>Pedido #@Model.Id</h1>
+            <span class="order-date">
+                @Model.CreatedAt.ToString("dd/MM/yyyy · HH:mm")
+            </span>
+        </div>
+
+        <span class="order-status status-@Model.Status.ToLower()">
+            @Model.Status
+        </span>
+    </div>
+
+    <!-- DATOS DE ENVÍO -->
+    <section class="order-card">
+        <h2>Datos de envío</h2>
+
+        <div class="shipping-grid">
+
+            <div class="shipping-block span-2">
+                <span>Cliente</span>
+                <strong>@Model.FullName</strong>
+            </div>
+
+            <div class="shipping-block">
+                <span>Teléfono</span>
+                <strong>@Model.Phone</strong>
+            </div>
+
+            <div class="shipping-block">
+                <span>Correo electrónico</span>
+                <strong>@Model.Email</strong>
+            </div>
+
+            <div class="shipping-block span-2">
+                <span>Dirección exacta</span>
+                <strong>@Model.Address</strong>
+            </div>
+
+            <div class="shipping-block">
+                <span>Método de pago</span>
+                <strong>@Model.PaymentMethod</strong>
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Notes))
+            {
+                <div class="shipping-block span-2">
+                    <span>Notas del cliente</span>
+                    <strong>@Model.Notes</strong>
+                </div>
+            }
+
+        </div>
+    </section>
+
+    <!-- PRODUCTOS -->
+    <section class="order-card">
+        <h2>Productos</h2>
+
+        <div class="order-table">
+            <div class="order-table-head">
+                <span>Producto</span>
+                <span>Opción</span>
+                <span>Cantidad</span>
+                <span>Subtotal</span>
+            </div>
+
+            @foreach (var i in Model.Items)
+            {
+                <div class="order-table-row">
+                    <span>@i.ProductName</span>
+                    <span>@i.Option</span>
+                    <span>@i.Quantity</span>
+                    <span>₡ @i.SubtotalCrc.ToString("N0")</span>
+                </div>
+            }
+        </div>
+    </section>
+
+    <!-- RESUMEN -->
+    <section class="order-card">
+        <h2>Resumen</h2>
+
+        <div class="order-summary">
+            <div>
+                <span>Total del pedido</span>
+                <strong>₡ @Model.TotalCrc.ToString("N0")</strong>
+            </div>
+        </div>
+    </section>
+
+    <!-- CAMBIAR ESTADO -->
+    <section class="order-card">
+        <h2>Actualizar estado del pedido</h2>
+
+        @{
+            var statusSteps = new[]
+            {
+                "Pendiente",
+                "En proceso",
+                "Enviado",
+                "En entrega",
+                "Entregado"
+                };
+
+            var currentIndex = Array.IndexOf(statusSteps, Model.Status);
+        }
+
+        <div class="order-status-timeline">
+
+            @for (int i = 0; i < statusSteps.Length; i++)
+            {
+                var step = statusSteps[i];
+                var isActive = i <= currentIndex;
+
+                <form asp-action="UpdateStatus" method="post" class="timeline-form">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <input type="hidden" name="status" value="@step" />
+
+                    <button type="submit"
+                            class="timeline-step @(isActive ? "active" : "")">
+
+                        <span class="dot"></span>
+                        <span class="label">@step</span>
+
+                    </button>
+                </form>
+
+                @if (i < statusSteps.Length - 1)
+                {
+                    <div class="timeline-line @(isActive ? "active" : "")"></div>
+                }
+            }
+
+        </div>
+    </section>
+
+
+</div>
+
+
+
+
+

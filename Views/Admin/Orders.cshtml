@@ -1,0 +1,82 @@
+﻿@model List<SaintHub.Models.Order>
+
+<h1>Pedidos</h1>
+
+<div class="card-saint" style="margin-top:1rem;">
+    <table class="table-saint">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Cliente</th>
+                <th>Productos</th>
+                <th>Total</th>
+                <th>Estado</th>
+                <th>Fecha</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var o in Model)
+            {
+                <tr>
+                    <td>#@o.Id</td>
+
+                    <td>@o.FullName</td>
+
+                    <td>
+                        @foreach (var i in o.Items)
+                        {
+                            <div style="font-size:.85rem; color:#ccc;">
+                                @i.ProductName
+                                <span style="color:#f5c86b;">
+                                    (@i.Option)
+                                </span>
+                                × @i.Quantity
+                            </div>
+                        }
+                    </td>
+
+                    <td>₡ @o.TotalCrc.ToString("N0")</td>
+
+                    <td>
+                        <strong>@o.Status</strong>
+                    </td>
+
+                    <td>
+                        @o.CreatedAt.ToLocalTime().ToString("dd/MM/yyyy")
+                    </td>
+
+                    <td>
+                        <div style="display:flex; gap:.4rem; flex-wrap:wrap;">
+                            <a asp-action="Details"
+                               asp-route-id="@o.Id"
+                               class="btn-saint-outline">
+                                Ver detalles
+                            </a>
+
+                            <form asp-action="UpdateOrderStatus"
+                                  method="post"
+                                  style="display:flex; gap:.4rem;">
+                                <input type="hidden" name="id" value="@o.Id" />
+
+                                <select name="status" class="select-saint">
+                                    <option selected="@("Pendiente" == o.Status)">Pendiente</option>
+                                    <option selected="@("En proceso" == o.Status)">En proceso</option>
+                                    <option selected="@("Entregado" == o.Status)">Entregado</option>
+                                    <option selected="@("Cancelado" == o.Status)">Cancelado</option>
+                                </select>
+
+                                <button class="btn-saint-outline">
+                                    Actualizar
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+

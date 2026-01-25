@@ -1,0 +1,130 @@
+﻿@{
+    ViewData["Title"] = "Continuar como invitado";
+    var whatsappUrl =
+       "https://wa.me/50671270397?text=" + TempData["WhatsappText"];
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Checkout.css" asp-append-version="true" />
+}
+
+<section class="guest-premium">
+
+    <div class="guest-card-premium">
+
+        <!-- HEADER -->
+        <div class="guest-head">
+            <span class="guest-badge">EXPERIENCIA LIMITADA</span>
+            <h1>Estás por comprar sin cuenta</h1>
+            <p>
+                Podés continuar como invitado, pero perderás acceso
+                a funcionalidades que forman parte de la experiencia
+                <strong>Saint Hub</strong>.
+            </p>
+        </div>
+
+        <!-- COMPARACIÓN -->
+        <div class="guest-compare">
+
+            <!-- INVITADO -->
+            <div class="guest-column guest-guest">
+                <h3>Compra como invitado</h3>
+
+                <ul class="guest-list limited">
+                    <li>Sin historial de pedidos</li>
+                    <li>Seguimiento limitado del pedido</li>
+                    <li>Acceso manual a la información</li>
+                    <li>Sin prioridad de atención</li>
+                    <li>Datos no guardados para futuras compras</li>
+                </ul>
+            </div>
+
+            <!-- CUENTA -->
+            <div class="guest-column guest-account">
+                <h3>Cuenta Saint Hub</h3>
+
+                <ul class="guest-list full">
+                    <li>Historial completo de pedidos</li>
+                    <li>Seguimiento en tiempo real</li>
+                    <li>Estado del pedido siempre disponible</li>
+                    <li>Atención prioritaria</li>
+                    <li>Proceso de compra más rápido</li>
+                </ul>
+
+                <div class="guest-highlight">
+                    Recomendado
+                </div>
+            </div>
+
+        </div>
+
+        <!-- TRACKING PREVIEW -->
+        <div class="guest-tracking">
+
+            <h4>Seguimiento del pedido</h4>
+
+            <div class="tracking-bar-premium">
+                <div class="step active">
+                    <span class="dot"></span>
+                    <span>Pendiente</span>
+                </div>
+
+                <div class="line"></div>
+
+                <div class="step">
+                    <span class="dot"></span>
+                    <span>En proceso</span>
+                </div>
+
+                <div class="line"></div>
+
+                <div class="step locked">
+                    <span class="dot"></span>
+                    <span>Enviado</span>
+                </div>
+            </div>
+
+            <p class="tracking-lock">
+                El seguimiento completo está disponible únicamente con cuenta.
+            </p>
+
+        </div>
+
+        <!-- CTA -->
+        <div class="guest-actions-premium">
+
+            <a asp-controller="Account"
+               asp-action="Login"
+               class="btn-saint btn-main">
+                Iniciar sesión
+            </a>
+
+            <a asp-controller="Account"
+               asp-action="Register"
+               class="btn-saint-outline">
+                Crear cuenta
+            </a>
+
+            <form asp-controller="Checkout"
+                  asp-action="ConfirmPost"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <button type="submit" class="btn-guest-link">
+                    Continuar como invitado
+                </button>
+            </form>
+
+
+
+
+        </div>
+
+        <p class="guest-footnote">
+            Al continuar como invitado, la gestión y el seguimiento del pedido serán limitados.
+        </p>
+
+    </div>
+
+</section>

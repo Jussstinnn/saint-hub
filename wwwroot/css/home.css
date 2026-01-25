@@ -1,0 +1,1429 @@
+/* =========================
+   HERO – SAINT HUB (FIXED)
+========================= */
+
+.home-hero {
+    position: relative;
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+    /* Overlay animado */
+    .home-hero::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient( circle at center, rgba(0,0,0,.25), rgba(0,0,0,.85) );
+        animation: heroFade 1.4s ease forwards;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+@keyframes heroFade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+/* =========================
+   LOGOS – LEGAL DISCLAIMER
+========================= */
+/* =========================
+   MODE CARDS – SCROLL REVEAL
+========================= */
+
+.mode-card {
+    position: relative;
+    display: block;
+    border-radius: 22px;
+    overflow: hidden;
+    text-decoration: none;
+    cursor: pointer;
+    /* Estado inicial (antes del scroll) */
+    opacity: 0;
+    transform: translateY(40px) scale(0.96);
+    transition: opacity .8s cubic-bezier(.4,0,.2,1), transform .8s cubic-bezier(.4,0,.2,1), box-shadow .4s cubic-bezier(.4,0,.2,1);
+}
+
+    /* Cuando entra en pantalla */
+    .mode-card.is-visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    /* Hover – efecto botón premium */
+    .mode-card:hover {
+        transform: translateY(-10px) scale(1.015);
+        box-shadow: 0 35px 90px rgba(0,0,0,.55);
+    }
+
+        /* Oscurecimiento suave al hover */
+        .mode-card:hover .mode-overlay {
+            background: rgba(0,0,0,.55);
+        }
+
+/* Overlay base */
+.mode-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,.4);
+    transition: background .4s ease;
+}
+
+/* Contenido siempre arriba */
+.mode-content {
+    position: relative;
+    z-index: 2;
+}
+
+/* Pequeño feedback al click */
+.mode-card:active {
+    transform: scale(0.98);
+}
+/* =========================
+   FIX REVEAL + HOVER
+========================= */
+
+/* Reveal NO usa transform */
+.reveal {
+    opacity: 0;
+}
+
+    .reveal.is-visible {
+        opacity: 1;
+    }
+
+/* MODE CARD controla el movimiento */
+.mode-card {
+    position: relative;
+    display: block;
+    border-radius: 22px;
+    overflow: hidden;
+    cursor: pointer;
+    transform: translateY(40px) scale(0.96);
+    transition: transform .7s cubic-bezier(.4,0,.2,1), box-shadow .35s cubic-bezier(.4,0,.2,1), opacity .7s ease;
+}
+
+    /* Al aparecer */
+    .mode-card.is-visible {
+        transform: translateY(0) scale(1);
+    }
+
+    /* HOVER – AHORA SÍ FUNCIONA */
+    .mode-card:hover {
+        transform: translateY(-12px) scale(1.02);
+        box-shadow: 0 40px 90px rgba(0,0,0,.55);
+    }
+
+    /* Click feedback */
+    .mode-card:active {
+        transform: scale(0.97);
+    }
+
+/* =========================
+   LOGOS – DISCLAIMER BELOW TITLE
+========================= */
+
+.logos-disclaimer {
+    margin: .6rem auto 1.6rem;
+    font-size: .75rem;
+    line-height: 1.5;
+    text-align: center;
+    color: rgba(255,255,255,.45);
+    max-width: 720px;
+}
+
+
+
+/* Contenido */
+.home-hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    /* estado inicial */
+    opacity: 0;
+    transform: translateY(32px);
+    /* animación única */
+    animation: heroTextReveal 1.15s cubic-bezier(.4,0,.2,1) forwards;
+    animation-delay: .25s;
+}
+
+/* Animación del texto */
+@keyframes heroTextReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Título */
+.home-hero-content h1 {
+    font-size: clamp(3rem, 7vw, 6rem);
+    letter-spacing: .35em;
+    margin-bottom: .6rem;
+    color: #fff;
+    text-shadow: 0 6px 20px rgba(0,0,0,.6);
+}
+
+/* Subtítulo */
+.home-hero-content p {
+    color: rgba(255,255,255,.7);
+    letter-spacing: .15em;
+    margin-bottom: 2rem;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .home-hero-content {
+        transform: translateY(20px);
+        animation-duration: .85s;
+        animation-delay: .15s;
+    }
+}
+
+/* Accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+    .home-hero::after,
+    .home-hero-content {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+}
+
+
+
+/* FEATURE */
+
+.home-feature {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    padding: 6rem 10%;
+    align-items: center;
+}
+
+.feature-img img {
+    width: 100%;
+    border-radius: 20px;
+}
+
+.feature-content small {
+    color: var(--accent);
+    letter-spacing: 1px;
+    font-size: 1.4rem;
+}
+
+.feature-content h2 {
+    font-size: 2.4rem;
+    margin: 2rem 0;
+}
+
+.feature-content p {
+    color: var(--text-muted);
+    line-height: 1.9;
+}
+
+/* CATEGORIES */
+
+.home-categories {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding: 0 10% 6rem;
+}
+
+.category-tile {
+    height: 320px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    text-decoration: none;
+}
+
+    .category-tile::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,.4);
+    }
+
+    .category-tile span {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        font-size: 1.4rem;
+        font-weight: 700;
+    }
+
+/* EDITORIAL */
+
+.home-editorial {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 31rem;
+    padding: 1rem 4%;
+    align-items: center;
+}
+
+    .home-editorial img {
+        width: 40%;
+        border-radius: 20px;
+        margin-left: 19rem;
+    }
+
+.editorial-text h2 {
+    font-size: 2.6rem;
+    margin-bottom: 1rem;
+    margin-right: 0rem;
+}
+
+.editorial-text p {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+}
+
+/* CTA */
+
+.home-cta {
+    padding: 6rem 10%;
+    text-align: center;
+    background: #070707;
+}
+
+    .home-cta h2 {
+        font-size: 2.8rem;
+        margin-bottom: 1rem;
+    }
+/* =========================
+   PURCHASE MODES (HOVER PRO)
+========================= */
+
+.purchase-modes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding: 4rem 10%;
+}
+
+.mode-card {
+    position: relative;
+    height: 280px;
+    border-radius: 22px;
+    background-size: cover;
+    background-position: center;
+    text-decoration: none;
+    overflow: hidden;
+    transform: translateY(0);
+    transition: transform .35s ease, box-shadow .35s ease;
+}
+
+    .mode-card:hover {
+        transform: translateY(-12px);
+        box-shadow: 0 30px 60px rgba(0,0,0,.55);
+    }
+
+/* overlay oscuro */
+.mode-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient( to top, rgba(0,0,0,.65), rgba(0,0,0,.15) );
+}
+
+/* texto */
+.mode-content {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    right: 24px;
+    color: #fff;
+}
+
+    .mode-content h3 {
+        font-size: 1.6rem;
+        margin-bottom: .4rem;
+    }
+
+    .mode-content p {
+        font-size: .95rem;
+        color: #ddd;
+    }
+
+.mode-card:hover .mode-content h3 {
+    letter-spacing: .5px;
+}
+/* =========================
+   HOME – LOGOS DE MARCAS
+========================= */
+
+.home-logos {
+    max-width: 1200px;
+    margin: 4rem auto; /* antes 4rem */
+    padding: 0 1rem;
+    text-align: center;
+}
+
+    .home-logos h2 {
+        margin-bottom: .6rem; /* ?? ESTE ERA EL PROBLEMA */
+        font-size: 2rem;
+    }
+
+/* Disclaimer debajo del título */
+.logos-disclaimer {
+    margin: 0 auto 2rem; /* separación controlada */
+    font-size: .75rem;
+    line-height: 1.45;
+    color: rgba(255,255,255,.45);
+    max-width: 720px;
+}
+
+/* Grid de logos */
+.logos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4rem; /* antes 7rem (demasiado) */
+    align-items: center;
+}
+
+    .logos-grid img {
+        max-width: 240px; /* un poco más compacto */
+        margin: 0 auto;
+        opacity: .85;
+    }
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    .logos-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .logos-grid {
+        grid-template-columns: 1fr;
+    }
+}
+/* =========================
+   LOGOS – SCROLL ANIMATION
+========================= */
+
+.logos-grid img {
+    opacity: 0;
+    transform: translateY(24px) scale(0.96);
+    transition: opacity .6s ease, transform .6s cubic-bezier(.2,.8,.2,1);
+}
+
+    /* cuando entra en viewport */
+    .logos-grid img.show {
+        opacity: .85;
+        transform: translateY(0) scale(1);
+    }
+
+    /* hover sutil */
+    .logos-grid img:hover {
+        opacity: 1;
+        transform: translateY(-4px) scale(1.04);
+    }
+
+/* =========================
+   TRUST BAR – SAINT HUB
+========================= */
+
+.home-trust {
+    padding: 4.5rem 2rem 3rem;
+    background: linear-gradient(180deg, #0b0b0b, #0f0f0f);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.trust-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2.5rem;
+}
+
+.trust-item {
+    text-align: center;
+    color: #eaeaea;
+    opacity: 0.9;
+}
+
+    .trust-item.highlight {
+        position: relative;
+    }
+
+        .trust-item.highlight::before {
+            content: "";
+            position: absolute;
+            inset: -1rem;
+            border: 1px solid rgba(245,196,81,0.25);
+            border-radius: 14px;
+            pointer-events: none;
+        }
+
+.trust-icon {
+    display: inline-block;
+    font-size: 2.1rem;
+    margin-bottom: 0.8rem;
+    opacity: 0.9;
+}
+
+.trust-item h4 {
+    font-size: 0.95rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+    color: #f5c451;
+}
+
+.trust-item p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    opacity: 0.75;
+}
+
+.trust-item small {
+    font-size: 0.75rem;
+    opacity: 0.5;
+}
+
+/* Footer editorial */
+.trust-footer {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+}
+
+.trust-dot {
+    width: 4px;
+    height: 4px;
+    background: #f5c451;
+    border-radius: 50%;
+    opacity: 0.6;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .trust-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .trust-container {
+        grid-template-columns: 1fr;
+    }
+
+    .trust-item.highlight::before {
+        inset: -0.6rem;
+    }
+}
+/* =========================
+   TRUST INTERACTIONS
+========================= */
+
+.trust-item {
+    position: relative;
+    transition: transform 0.35s cubic-bezier(.4,0,.2,1), box-shadow 0.35s cubic-bezier(.4,0,.2,1), opacity 0.3s ease;
+    cursor: default;
+}
+
+    .trust-item::after {
+        content: "";
+        position: absolute;
+        inset: -1px;
+        border-radius: 14px;
+        background: radial-gradient( 120px 60px at 50% 0%, rgba(245,196,81,0.15), transparent 70% );
+        opacity: 0;
+        transition: opacity 0.35s ease;
+        pointer-events: none;
+    }
+
+    /* Hover */
+    .trust-item:hover {
+        transform: translateY(-4px);
+    }
+
+        .trust-item:hover::after {
+            opacity: 1;
+        }
+
+    /* Icon animation */
+    .trust-item .trust-icon {
+        transition: transform 0.35s cubic-bezier(.4,0,.2,1), opacity 0.3s ease;
+    }
+
+    .trust-item:hover .trust-icon {
+        transform: scale(1.12) rotate(-2deg);
+        opacity: 1;
+    }
+
+    /* Click / Tap feedback */
+    .trust-item:active {
+        transform: scale(0.97);
+        transition: transform 0.1s ease;
+    }
+
+    /* Highlight card refined interaction */
+    .trust-item.highlight:hover::before {
+        border-color: rgba(245,196,81,0.45);
+    }
+
+/* =========================
+   HOW IT WORKS – SAINT HUB
+========================= */
+
+.home-how {
+    padding: 6rem 10%;
+    background: #0b0b0b;
+}
+
+.how-header {
+    max-width: 520px;
+    margin-bottom: 4rem;
+}
+
+    .how-header small {
+        display: block;
+        font-size: 0.75rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 0.8rem;
+    }
+
+    .how-header h2 {
+        font-size: 2.6rem;
+        margin-bottom: 1rem;
+    }
+
+    .how-header p {
+        font-size: 1rem;
+        color: var(--text-muted);
+        line-height: 1.7;
+    }
+
+.how-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+}
+
+.how-step {
+    position: relative;
+    padding-left: 3rem;
+}
+
+.step-number {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: rgba(255,255,255,0.08);
+}
+
+.how-step h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.how-step p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+.home-how,
+.home-how * {
+    color: #fff;
+}
+
+.home-how {
+    position: relative;
+    z-index: 1;
+}
+
+    .home-how .how-header,
+    .home-how .how-steps,
+    .home-how .how-step {
+        position: relative;
+        z-index: 2;
+    }
+
+    .home-how::before,
+    .home-how::after {
+        z-index: 0;
+    }
+
+/* Responsive */
+@media (max-width: 900px) {
+    .how-steps {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+}
+/* =========================
+   FAQ – SAINT HUB
+========================= */
+
+.home-faq {
+    padding: 6rem 10%;
+    background: #0f0f0f;
+}
+
+.faq-header {
+    max-width: 420px;
+    margin-bottom: 4rem;
+}
+
+    .faq-header small {
+        display: block;
+        font-size: 0.75rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 0.8rem;
+    }
+
+    .faq-header h2 {
+        font-size: 2.4rem;
+    }
+
+.faq-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+}
+
+.faq-item h4 {
+    font-size: 1.05rem;
+    margin-bottom: 0.8rem;
+    letter-spacing: 0.04em;
+}
+
+.faq-item p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .faq-grid {
+        grid-template-columns: 1fr;
+    }
+}
+/* =========================
+   CUSTOM ORDERS – PREMIUM
+========================= */
+
+.home-custom {
+    padding: 8rem 10%;
+    background: radial-gradient( 1200px 600px at 20% 50%, rgba(245,196,81,0.06), transparent 60% ), #0b0b0b;
+}
+
+.custom-container {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 6rem;
+    align-items: center;
+}
+
+/* Content */
+.custom-content small {
+    display: block;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+}
+
+.custom-content h2 {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+}
+
+.custom-lead {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+}
+
+.custom-desc {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+}
+
+/* List */
+.custom-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 3rem;
+}
+
+    .custom-list li {
+        position: relative;
+        padding-left: 1.6rem;
+        margin-bottom: 0.8rem;
+        font-size: 0.95rem;
+        opacity: 0.85;
+    }
+
+        .custom-list li::before {
+            content: "—";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+/* Button */
+.custom-btn {
+    padding: 0.9rem 2.2rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.12em;
+}
+
+/* Visual side */
+.custom-visual {
+    position: relative;
+    height: 380px;
+    border-radius: 24px;
+    background: linear-gradient( 160deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01) );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.visual-mark {
+    font-size: 3.5rem;
+    font-weight: 900;
+    letter-spacing: 0.25em;
+    color: rgba(255,255,255,0.05);
+    transform: rotate(-8deg);
+    user-select: none;
+}
+
+/* Hover micro interaction */
+.custom-visual:hover {
+    border-color: rgba(245,196,81,0.3);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .custom-container {
+        grid-template-columns: 1fr;
+        gap: 4rem;
+    }
+
+    .custom-visual {
+        height: 260px;
+    }
+
+    .custom-content h2 {
+        font-size: 2.4rem;
+    }
+}
+/* Logo inside custom visual */
+.custom-logo {
+    max-width: 290px;
+    opacity: 0.80; /* MUY importante: lujo */
+    filter: grayscale(100%);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    user-select: none;
+}
+
+/* Hover sutil */
+.custom-visual:hover .custom-logo {
+    opacity: 0.15;
+    transform: scale(1.05);
+}
+
+.custom-visual {
+    backdrop-filter: blur(2px);
+}
+
+/*MOBILEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE*/
+
+@media (max-width: 768px) {
+    .home-hero {
+        min-height: 80vh;
+        /* SUBE la imagen: entre más pequeño el % , más arriba */
+        background-position: center 60% !important;
+    }
+
+    .home-hero-content h1 {
+        letter-spacing: .22em;
+    }
+
+    .home-hero-content p {
+        font-size: .9rem;
+        letter-spacing: .12em;
+    }
+}
+
+
+    .home-hero-content h1 {
+        letter-spacing: .22em;
+    }
+
+    .home-hero-content p {
+        font-size: .9rem;
+        letter-spacing: .12em;
+    }
+}
+
+@media (max-width: 900px) {
+
+    .home-feature {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        padding: 4rem 1.2rem;
+    }
+
+    .feature-content h2 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .home-categories {
+        grid-template-columns: repeat(3, 260px);
+        overflow-x: auto;
+        padding: 0 1.2rem 4rem;
+        gap: 1.2rem;
+        scroll-snap-type: x mandatory;
+    }
+
+    .category-tile {
+        scroll-snap-align: start;
+        height: 260px;
+    }
+
+    .home-categories::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+@media (max-width: 900px) {
+
+    .home-editorial {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        padding: 3rem 1.2rem;
+    }
+
+        .home-editorial img {
+            width: 100%;
+            margin-left: 0;
+        }
+
+    .editorial-text h2 {
+        font-size: 2.1rem;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .purchase-modes {
+        grid-template-columns: 1fr;
+        padding: 3rem 1.2rem;
+    }
+
+    .mode-card {
+        height: 240px;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .home-logos h2 {
+        margin-bottom: 3rem;
+        font-size: 1.7rem;
+    }
+
+    .logos-grid {
+        gap: 3rem;
+    }
+
+        .logos-grid img {
+            max-width: 200px;
+        }
+}
+
+@media (max-width: 600px) {
+
+    .home-trust {
+        padding: 3rem 1.2rem;
+    }
+
+    .trust-item h4 {
+        font-size: .85rem;
+    }
+
+    .trust-item p {
+        font-size: .85rem;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .home-how {
+        padding: 4rem 1.2rem;
+    }
+
+    .how-header h2 {
+        font-size: 2.1rem;
+    }
+
+    .how-step {
+        padding-left: 2.4rem;
+    }
+
+    .step-number {
+        font-size: 1.9rem;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .home-faq {
+        padding: 4rem 1.2rem;
+    }
+
+    .faq-header h2 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 900px) {
+
+    .home-custom {
+        padding: 5rem 1.2rem;
+    }
+
+    .custom-content h2 {
+        font-size: 2.2rem;
+    }
+
+    .custom-lead {
+        font-size: 1.05rem;
+    }
+
+    .custom-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .custom-visual {
+        height: 220px;
+    }
+
+    .custom-logo {
+        max-width: 220px;
+    }
+
+    .visual-mark {
+        font-size: 2.5rem;
+    }
+}
+
+/* =========================
+   SCROLL ANIMATIONS – BASE
+========================= */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .7s ease, transform .7s cubic-bezier(.22,.61,.36,1);
+    will-change: opacity, transform;
+}
+
+    .reveal.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+.reveal-left {
+    transform: translateX(-32px);
+}
+
+.reveal-right {
+    transform: translateX(32px);
+}
+
+.reveal-scale {
+    transform: scale(.96);
+}
+
+.reveal.show.reveal-scale {
+    transform: scale(1);
+}
+
+@media (max-width: 768px) {
+    .reveal {
+        transform: translateY(16px);
+    }
+}
+
+.feature-img.reveal {
+    transform: translateX(-48px);
+}
+
+.feature-content.reveal {
+    transform: translateX(48px);
+}
+
+    .feature-img.reveal.show,
+    .feature-content.reveal.show {
+        transform: translateX(0);
+    }
+
+@media (max-width: 768px) {
+    .feature-img.reveal {
+        transform: translateY(20px);
+    }
+
+    .feature-content.reveal {
+        transform: translateY(20px);
+    }
+}
+
+.custom-content.reveal {
+    transform: translateX(-56px);
+}
+
+.custom-visual.reveal {
+    transform: translateX(56px);
+}
+
+    .custom-content.reveal.show,
+    .custom-visual.reveal.show {
+        transform: translateX(0);
+    }
+
+@media (max-width: 768px) {
+
+    .custom-content.reveal,
+    .custom-visual.reveal {
+        transform: translateY(24px);
+    }
+}
+/* =========================
+   CAROUSEL – DESKTOP FIX
+========================= */
+
+.home-carousel {
+    max-width: 1600px;
+    margin: 2.5rem auto;
+    padding: 0 1rem;
+    overflow: hidden;
+    border-radius: 28px;
+    position: relative;
+}
+
+.carousel-track {
+    display: flex;
+    width: 100%;
+    transition: transform 0.6s cubic-bezier(.4,0,.2,1);
+}
+
+.carousel-slide {
+    min-width: 100%;
+    height: 420px;
+    position: relative;
+}
+
+    .carousel-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+@media (max-width: 768px) {
+    .carousel-slide {
+        height: 240px;
+    }
+}
+
+@media (max-width: 480px) {
+    .carousel-slide {
+        height: 200px;
+        border-radius: 18px;
+    }
+}
+
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: .5rem;
+    margin-top: 1rem;
+}
+
+    .carousel-dots span {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(255,255,255,.3);
+        transition: all .3s ease;
+    }
+
+        .carousel-dots span.active {
+            background: #f5c451;
+            transform: scale(1.2);
+        }
+
+.how-step.reveal {
+    transform: translateY(32px);
+}
+
+    .how-step.reveal.show {
+        transform: translateY(0);
+    }
+
+@media (max-width: 768px) {
+    .how-step.reveal {
+        transform: translateY(18px);
+    }
+}
+/* =========================
+   HOW IT WORKS – PROGRESIÓN
+========================= */
+
+.home-how {
+    background: radial-gradient( circle at top left, rgba(255,255,255,0.04), transparent 60% );
+}
+
+.home-how {
+    background: #0b0b0b;
+}
+
+.how-header {
+    margin-bottom: 4rem;
+}
+
+.how-steps {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+}
+
+
+
+/* STEP */
+.how-step {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    padding-top: 4.5rem;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity .6s ease, transform .6s ease;
+}
+
+    .how-step.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+/* NÚMEROS GRANDES */
+.step-number {
+    font-size: 4.5rem;
+    font-weight: 800;
+    line-height: 1;
+    color: #fff;
+    margin-bottom: .5rem;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+    .how-steps {
+        grid-template-columns: 1fr;
+        gap: 4rem;
+    }
+
+    .how-line {
+        display: none;
+    }
+
+    .step-number {
+        font-size: 3.5rem;
+    }
+}
+/* =========================
+   HOME – TRUST
+========================= */
+
+.home-trust {
+    padding: 5rem 1rem;
+}
+
+.trust-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3rem;
+}
+
+.trust-item {
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    border-radius: 20px;
+    background: radial-gradient( circle at top, rgba(255,255,255,0.05), rgba(255,255,255,0.01) );
+    backdrop-filter: blur(8px);
+    transition: transform .45s ease, box-shadow .45s ease;
+}
+
+    .trust-item:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 40px rgba(0,0,0,.45);
+    }
+
+.trust-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 1.2rem;
+    border-radius: 50%;
+    background: rgba(245,196,81,0.08);
+    color: var(--accent);
+    font-size: 1.8rem;
+}
+
+.trust-item h4 {
+    margin-bottom: .6rem;
+    font-weight: 600;
+}
+
+.trust-item p {
+    font-size: .95rem;
+    color: var(--text-muted);
+}
+
+.trust-item small {
+    opacity: .7;
+}
+
+/* =========================
+   REVEAL ANIMATIONS
+========================= */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .6s ease, transform .6s cubic-bezier(.2,.8,.2,1);
+    transition-delay: var(--d, 0s);
+}
+
+    .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 992px) {
+    .trust-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 520px) {
+    .trust-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}
+/* =========================
+   MODE CARDS – ANIMACIÓN LIMPIA
+========================= */
+
+.purchase-modes .mode-card {
+    opacity: 0;
+    transform: translateY(32px) scale(0.98);
+    transition: transform 0.9s cubic-bezier(.22,.61,.36,1), opacity 0.9s ease, box-shadow 0.45s ease;
+    will-change: transform;
+}
+
+    /* Aparece con scroll */
+    .purchase-modes .mode-card.card-visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+        /* Hover MUY sutil */
+        .purchase-modes .mode-card.card-visible:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 22px 48px rgba(0,0,0,.45);
+        }
+
+        /* Click */
+        .purchase-modes .mode-card.card-visible:active {
+            transform: scale(0.98);
+        }
+
+
+
+
+
+/* =========================
+   HOME HOW – CARACOL MODE
+========================= */
+
+/* Header */
+.home-how .how-header {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 2.4s ease, transform 2.4s cubic-bezier(.19,1,.22,1); /* easing MUY suave */
+}
+
+/* Steps */
+.home-how .how-step {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 2.2s ease, transform 2.2s cubic-bezier(.19,1,.22,1);
+}
+
+    /* Visible */
+    .home-how .how-header.how-visible,
+    .home-how .how-step.how-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }

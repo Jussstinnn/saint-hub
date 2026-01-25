@@ -1,0 +1,226 @@
+﻿@model SaintHub.Models.CustomRequest
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/custom-request-details.css" asp-append-version="true" />
+}
+
+<div class="custom-detail-wrapper">
+
+    <!-- HEADER -->
+    <div class="custom-detail-header">
+        <div>
+            <h1>Pedido personalizado</h1>
+            <span class="custom-id">Solicitud #@Model.Id</span>
+        </div>
+
+        <span class="custom-status status-@Model.Status.ToLower().Replace(" ", "_")">
+            @Model.Status
+        </span>
+    </div>
+
+    <!-- CLIENTE -->
+    <section class="custom-card">
+        <h2>Cliente</h2>
+
+        <div class="custom-grid">
+            <div>
+                <span>Nombre</span>
+                <strong>@Model.FullName</strong>
+            </div>
+
+            <div>
+                <span>Email</span>
+                <strong>@Model.Email</strong>
+            </div>
+
+            <div>
+                <span>Teléfono</span>
+                <strong>@Model.Phone</strong>
+            </div>
+
+            <div class="span-2">
+                <span>Dirección</span>
+                <strong>@Model.Address</strong>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- SOLICITUD -->
+    <section class="custom-card">
+        <h2>Solicitud</h2>
+
+        <div class="custom-grid">
+
+            <div>
+                <span>Tipo</span>
+                <strong>@Model.ProductType</strong>
+            </div>
+
+            <div>
+                <span>Marca</span>
+                <strong>@Model.Brand</strong>
+            </div>
+
+            <div>
+                <span>Producto</span>
+                <strong>@Model.ProductName</strong>
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Size))
+            {
+                <div>
+                    <span>Talla</span>
+                    <strong>@Model.Size</strong>
+                </div>
+            }
+
+
+            <div>
+                <span>Color</span>
+                <strong>@Model.Color</strong>
+            </div>
+
+            <div>
+                <span>Modelo</span>
+                <strong>@(Model.GenderModel ?? "—")</strong>
+            </div>
+            @if (!string.IsNullOrWhiteSpace(Model.ReferenceLink))
+            {
+                <div class="span-2">
+                    <span>Link de referencia</span>
+                    <strong>
+                        <a href="@Model.ReferenceLink"
+                           target="_blank"
+                           rel="noopener"
+                           class="ref-link">
+                            Ver referencia
+                        </a>
+                    </strong>
+                </div>
+            }
+
+            <div class="span-2">
+                <span>Comentarios</span>
+                <strong>@(Model.Comments ?? "Sin comentarios")</strong>
+            </div>
+
+
+        </div>
+    </section>
+    @if (Model.ProductType == "Música")
+    {
+        <section class="custom-card">
+            <h2>Detalles de música</h2>
+
+            <div class="custom-grid">
+
+                <div>
+                    <span>Artista / Banda</span>
+                    <strong>@Model.MusicArtist</strong>
+                </div>
+
+                <div>
+                    <span>Álbum</span>
+                    <strong>@Model.AlbumName</strong>
+                </div>
+
+                <div>
+                    <span>Edición / Versión</span>
+                    <strong>@Model.Edition</strong>
+                </div>
+
+                <div>
+                    <span>Formato</span>
+                    <strong>@Model.MusicFormat</strong>
+                </div>
+
+                <div>
+                    <span>Condición</span>
+                    <strong>@Model.Condition</strong>
+                </div>
+
+            </div>
+        </section>
+    }
+    @if (Model.ProductType == "Accesorios")
+    {
+        <section class="custom-card">
+            <h2>Detalles de accesorio</h2>
+
+            <div class="custom-grid">
+
+                <div>
+                    <span>Tipo de accesorio</span>
+                    <strong>@Model.AccessoryType</strong>
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(Model.AccessoryOther))
+                {
+                    <div>
+                        <span>Especificación</span>
+                        <strong>@Model.AccessoryOther</strong>
+                    </div>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(Model.Measurements))
+                {
+                    <div>
+                        <span>Medidas / Talla</span>
+                        <strong>@Model.Measurements</strong>
+                    </div>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(Model.Material))
+                {
+                    <div>
+                        <span>Material</span>
+                        <strong>@Model.Material</strong>
+                    </div>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(Model.Style))
+                {
+                    <div>
+                        <span>Estilo</span>
+                        <strong>@Model.Style</strong>
+                    </div>
+                }
+
+            </div>
+        </section>
+    }
+
+    <!-- ESTADO -->
+    <section class="custom-card">
+        <h2>Estado del pedido</h2>
+
+        <form asp-action="UpdateStatus" method="post" class="status-form">
+            <input type="hidden" name="id" value="@Model.Id" />
+
+            <select name="status" class="select-premium">
+                <option selected>@Model.Status</option>
+                <option>Nuevo</option>
+                <option>En proceso</option>
+                <option>Cotizado</option>
+                <option>Cerrado</option>
+            </select>
+
+            <button type="submit" class="btn-primary">
+                Actualizar estado
+            </button>
+        </form>
+    </section>
+
+    <!-- CONTACTO -->
+    <section class="custom-card contact-card">
+        <h2>Contacto rápido</h2>
+
+        <a class="btn-whatsapp"
+           target="_blank"
+           href="https://wa.me/@Model.Phone">
+            Contactar por WhatsApp
+        </a>
+    </section>
+
+</div>

@@ -1,0 +1,764 @@
+﻿@model SaintHub.Models.CustomRequest
+@{
+    ViewData["Title"] = "Pedido personalizado";
+}
+
+@section Styles {
+    <style>
+        /* ===============================
+           PEDIDO PERSONALIZADO – PREMIUM
+        =============================== */
+
+        .po-page {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+        }
+
+        /* ---------- HEADER ---------- */
+
+        .po-header {
+            max-width: 720px;
+            margin-bottom: 3rem;
+        }
+
+            .po-header h1 {
+                font-size: clamp(2.2rem, 3vw, 3rem);
+                margin-bottom: 1rem;
+            }
+
+            .po-header p {
+                color: rgba(255,255,255,.7);
+                line-height: 1.6;
+            }
+        /* ---------- HEADER PREMIUM ---------- */
+
+        .po-header-center {
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+            .po-header-center p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+        /* Eyebrow / etiqueta superior */
+        .po-eyebrow {
+            display: inline-block;
+            margin-bottom: .75rem;
+            font-size: .75rem;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: #ffd166;
+            opacity: .9;
+        }
+
+        /* Ajuste fino del título */
+        .po-header-center h1 {
+            margin-bottom: 1rem;
+        }
+
+        /* Texto más elegante */
+        .po-header-center p {
+            font-size: .95rem;
+            color: rgba(255,255,255,.68);
+            max-width: 62ch;
+            line-height: 1.7;
+        }
+
+        /* ---------- CARD ---------- */
+
+        .po-card {
+            background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+            border: 1px solid rgba(255,255,255,.08);
+            border-radius: 24px;
+            padding: 2.5rem;
+        }
+
+        /* ---------- SECTIONS ---------- */
+
+        .po-section {
+            margin-bottom: 3rem;
+        }
+
+            .po-section h3 {
+                font-size: 1.1rem;
+                margin-bottom: 1.5rem;
+                color: #ffd166;
+            }
+
+        /* ---------- GRID ---------- */
+
+        .po-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        /* ---------- FIELD ---------- */
+
+        .po-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+            .po-field label {
+                font-size: .8rem;
+                color: rgba(255,255,255,.6);
+                margin-bottom: .4rem;
+            }
+
+            .po-field input,
+            .po-field select,
+            .po-field textarea {
+                height: 52px;
+                padding: 0 1rem;
+                border-radius: 14px;
+                background: rgba(255,255,255,.04);
+                border: 1px solid rgba(255,255,255,.12);
+                color: #fff;
+                font-size: .95rem;
+            }
+
+            .po-field textarea {
+                height: auto;
+                min-height: 120px;
+                padding: 1rem;
+            }
+
+                .po-field input:focus,
+                .po-field select:focus,
+                .po-field textarea:focus {
+                    outline: none;
+                    border-color: #ffd166;
+                    background: rgba(255,255,255,.07);
+                }
+
+            /* ---------- SELECT PREMIUM ---------- */
+
+            .po-field select {
+                appearance: none;
+                background: rgba(255,255,255,.04) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23ffd166' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 1rem center;
+                background-size: 14px;
+                padding-right: 3rem;
+                cursor: pointer;
+            }
+
+                .po-field select option {
+                    background: #111;
+                    color: #fff;
+                }
+
+        /* ---------- HELPERS ---------- */
+
+        .po-span-2 {
+            grid-column: span 2;
+        }
+
+        .po-hint {
+            font-size: .8rem;
+            color: rgba(255,255,255,.5);
+            margin-top: -.5rem;
+        }
+
+        /* ---------- SUBMIT ---------- */
+
+        .po-submit {
+            margin-top: 3rem;
+            width: 100%;
+            height: 58px;
+            border-radius: 999px;
+            border: none;
+            background: #ffd166;
+            color: #111;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+            .po-submit:hover {
+                background: #ffcd4a;
+            }
+
+        /* Base compartida */
+        .po-eyebrow {
+            display: inline-block;
+            font-size: .75rem;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: #ffd166;
+            opacity: .9;
+        }
+
+        /* Variante para el título principal */
+        .po-title {
+            display: block;
+            margin-top: .75rem;
+            font-size: clamp(2.2rem, 3vw, 3rem);
+            font-weight: 800;
+            letter-spacing: .02em;
+            color: #fff;
+            text-transform: none; /* ← clave */
+        }
+        /* ===============================
+           ANIMACIONES PREMIUM
+        =============================== */
+
+        .po-animate * {
+            opacity: 0;
+            transform: translateY(12px);
+            animation-fill-mode: forwards;
+        }
+
+        /* Eyebrow */
+        .po-anim-eyebrow {
+            animation: fadeUp .6s ease-out .1s forwards;
+        }
+
+        /* Título */
+        .po-anim-title {
+            animation: fadeUpScale .7s ease-out .25s forwards;
+        }
+
+        /* Texto */
+        .po-anim-text {
+            animation: fadeUp .8s ease-out .45s forwards;
+        }
+
+        /* Card */
+        .po-anim-card {
+            opacity: 0;
+            transform: translateY(24px);
+            animation: fadeUpCard .8s ease-out .6s forwards;
+        }
+
+        /* ===============================
+           KEYFRAMES
+        =============================== */
+
+        @@keyframes fadeUp {
+            to
+
+        {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+       @@keyframes fadeUpScale {
+            from
+
+        {
+            opacity: 0;
+            transform: translateY(16px) scale(.98);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        }
+
+        @@keyframes fadeUpCard {
+            to
+
+        {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+
+        @@media (max-width: 768px) {
+            .po-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .po-span-2 {
+                grid-column: span 1;
+            }
+
+            .po-card {
+                padding: 1.75rem;
+            }
+
+        }
+
+    </style>
+}
+
+<section class="po-page">
+
+    <!-- HEADER -->
+    <header class="po-header po-header-center po-animate">
+        <span class="po-eyebrow po-anim-eyebrow">Servicio de pedido especial</span>
+
+        <h1 class="po-eyebrow po-title po-anim-title">
+            Pedido personalizado
+        </h1>
+
+        <p class="po-anim-text">
+            En Saint Hub gestionamos pedidos personalizados para ayudarte a encontrar
+            exactamente lo que estás buscando.
+            <br /><br />
+            Completa el formulario con los detalles del producto y nuestro equipo
+            te confirmará precio y disponibilidad antes de continuar.
+        </p>
+    </header>
+
+
+
+
+    <form asp-action="Index" method="post">
+        @Html.AntiForgeryToken()
+
+        <div class="po-card po-anim-card">
+
+
+            <!-- =====================
+                 TIPO DE PRODUCTO
+            ====================== -->
+            <div class="po-section">
+                <h3>Tipo de pedido</h3>
+
+                <div class="po-grid">
+                    <div class="po-field">
+                        <label>Tipo de producto *</label>
+                        <select asp-for="ProductType" id="productType">
+                            <option value="">Seleccionar</option>
+                            <option>Tenis</option>
+                            <option>Ropa</option>
+                            <option>Accesorios</option>
+                            <option>Música</option>
+                        </select>
+                    </div>
+
+                    <div class="po-hint po-span-2">
+                        Selecciona el tipo de producto para mostrar las opciones correspondientes.
+                    </div>
+                </div>
+            </div>
+
+            <!-- =====================
+                 DETALLES PRODUCTO
+            ====================== -->
+            <div class="po-section" id="productDetails" style="display:none;">
+                <h3>Detalles del producto</h3>
+
+                <div class="po-grid">
+
+                    <div class="po-field">
+                        <label>Marca *</label>
+                        <input asp-for="Brand" />
+                    </div>
+
+                    <div class="po-field">
+                        <label>Modelo o nombre *</label>
+                        <input asp-for="ProductName" />
+                    </div>
+
+                    <!-- TALLA TENIS -->
+                    <div class="po-field" id="sizeShoes" style="display:none;">
+                        <label>Talla (EU) *</label>
+                        <select asp-for="Size">
+                            <option value="">Seleccionar</option>
+                            <option>36</option>
+                            <option>37</option>
+                            <option>38</option>
+                            <option>39</option>
+                            <option>40</option>
+                            <option>41</option>
+                            <option>42</option>
+                            <option>43</option>
+                            <option>44</option>
+                            <option>45</option>
+                            <option>46</option>
+                            <option>47</option>
+                        </select>
+                    </div>
+
+                    <!-- TALLA ROPA -->
+                    <div class="po-field" id="sizeClothes" style="display:none;">
+                        <label>Talla *</label>
+                        <select>
+                            <option value="">Seleccionar</option>
+                            <option>XS</option>
+                            <option>S</option>
+                            <option>M</option>
+                            <option>L</option>
+                            <option>XL</option>
+                            <option>XXL</option>
+                        </select>
+                    </div>
+
+                    <div class="po-field">
+                        <label>Modelo *</label>
+                        <select asp-for="GenderModel">
+                            <option>Hombre</option>
+                            <option>Mujer</option>
+                        </select>
+                    </div>
+
+                    <div class="po-field">
+                        <label>Color *</label>
+                        <input asp-for="Color" />
+                    </div>
+
+                   
+
+                </div>
+            </div>
+            <!-- =====================
+                 DETALLES ACCESORIOS / MÚSICA
+            ===================== -->
+            <div class="po-section" id="musicDetails" style="display:none;">
+                <h3>Pedido personalizado de música</h3>
+
+                <div class="po-grid">
+
+                    <div class="po-field">
+                        <label>Artista / Banda *</label>
+                        <input asp-for="MusicArtist" id="MusicArtist" />
+                    </div>
+
+                    <div class="po-field">
+                        <label>Nombre del álbum *</label>
+                        <input asp-for="AlbumName" id="AlbumName" />
+                    </div>
+
+                    <div class="po-field">
+                        <label>Edición o versión *</label>
+                        <input asp-for="Edition" id="Edition" />
+                    </div>
+
+                    <div class="po-field">
+                        <label>Formato *</label>
+                        <select asp-for="MusicFormat" id="MusicFormat">
+                            <option value="">Seleccionar</option>
+                            <option>LP</option>
+                            <option>EP</option>
+                            <option>Audio CD</option>
+                        </select>
+                    </div>
+
+                    <div class="po-field">
+                        <label>Condición *</label>
+                        <select asp-for="Condition" id="Condition">
+                            <option value="">Seleccionar</option>
+                            <option>Nuevo / Sellado</option>
+                            <option>Usado (VG+, VG, etc.)</option>
+                        </select>
+                    </div>
+
+                  
+                </div>
+            </div>
+
+            <!-- =====================
+                 DETALLES ACCESORIOS
+            ===================== -->
+            <div class="po-section" id="accessoryDetails" style="display:none;">
+                <h3>Pedido de accesorios</h3>
+
+                <div class="po-grid">
+
+                    <!-- TIPO DE ACCESORIO -->
+                    <div class="po-field">
+                        <label>¿Qué accesorio deseas pedir? *</label>
+                        <select asp-for="AccessoryType" id="accessoryType">
+                            <option value="">Seleccionar</option>
+                            <option>Faja</option>
+                            <option>Cadena</option>
+                            <option>Gorra</option>
+                            <option>Pulsera</option>
+                            <option>Otro</option>
+                        </select>
+                    </div>
+                   
+                    <!-- OTRO -->
+                    <div class="po-field po-span-2 po-accent" id="accessoryOther" style="display:none;">
+                        <label>¿Qué accesorio tienes en mente?</label>
+                        <input asp-for="AccessoryOther"
+                               placeholder="Ej: Llavero, anillo, collar personalizado, brazalete…" />
+                        <small class="po-hint">
+                            Describe brevemente el accesorio para poder cotizarlo mejor.
+                        </small>
+                    </div>
+
+
+                    <!-- =====================
+                         FAJA
+                    ===================== -->
+                    <div id="fajaFields" class="po-span-2" style="display:none;">
+                        <div class="po-grid">
+
+                            <div class="po-field">
+                                <label>Talla</label>
+                                <select asp-for="Measurements">
+                                    <option>XS</option>
+                                    <option>S</option>
+                                    <option>M</option>
+                                    <option>L</option>
+                                    <option>XL</option>
+                                    <option>XXL</option>
+                                </select>
+                            </div>
+
+                            <div class="po-field">
+                                <label>Material</label>
+                                <select asp-for="Material">
+                                    <option>Cuero</option>
+                                    <option>Sintético</option>
+                                    <option>Indiferente</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- =====================
+                         CADENA
+                    ===================== -->
+                    <div id="chainFields" class="po-span-2" style="display:none;">
+                        <div class="po-grid">
+
+                            <div class="po-field">
+                                <label>Material</label>
+                                <select asp-for="Material">
+                                    <option>Acero inoxidable</option>
+                                    <option>Plata</option>
+                                    <option>Oro</option>
+                                    <option>Chapada</option>
+                                    <option>Indiferente</option>
+                                </select>
+                            </div>
+
+                            <div class="po-field">
+                                <label>Largo aproximado</label>
+                                <select asp-for="Measurements" id="chainLength">
+                                    <option value="">Seleccionar</option>
+                                    <option>45 cm</option>
+                                    <option>50 cm</option>
+                                    <option>55 cm</option>
+                                    <option>Otro</option>
+                                </select>
+                            </div>
+
+                            <div class="po-field" id="chainLengthOther" style="display:none;">
+                                <label>Indica el largo</label>
+                                <input asp-for="Measurements" placeholder="Ej: 60 cm" />
+                            </div>
+
+
+                            <div class="po-field">
+                                <label>Grosor</label>
+                                <select asp-for="Style">
+                                    <option>Delgado</option>
+                                    <option>Medio</option>
+                                    <option>Grueso</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- =====================
+                         GORRA
+                    ===================== -->
+                    <div id="capFields" class="po-span-2" style="display:none;">
+                        <div class="po-grid">
+
+                            <div class="po-field">
+                                <label>Talla</label>
+                                <select asp-for="Measurements" id="capSize">
+                                    <option value="">Seleccionar</option>
+                                    <option>Ajustable</option>
+                                    <option>S/M</option>
+                                    <option>L/XL</option>
+                                    <option>Talla específica</option>
+                                </select>
+                            </div>
+
+                            <div class="po-field" id="capSizeOther" style="display:none;">
+                                <label>Indica la talla</label>
+                                <input asp-for="Measurements" placeholder="Ej: 7 1/4" />
+                            </div>
+
+                            <div class="po-field">
+                                <label>Tipo</label>
+                                <select asp-for="Material">
+                                    <option>Snapback</option>
+                                    <option>Fitted</option>
+                                    <option>Dad hat</option>
+                                    <option>Trucker</option>
+                                </select>
+                            </div>
+
+                            <div class="po-field">
+                                <label>Estilo</label>
+                                <select asp-for="Style">
+                                    <option>Plano</option>
+                                    <option>Curvo</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="po-field po-span-2">
+                <label>Link de referencia</label>
+                <input asp-for="ReferenceLink" />
+            </div>
+
+            <div class="po-field po-span-2">
+                <label>Comentarios</label>
+                <textarea asp-for="Comments"></textarea>
+            </div>
+
+            <!-- =====================
+                 DATOS CLIENTE
+            ====================== -->
+            <div class="po-section">
+                <h3>Datos de contacto</h3>
+
+                <div class="po-grid">
+                    <div class="po-field">
+                        <label>Nombre completo *</label>
+                        <input asp-for="FullName" />
+                    </div>
+
+                    <div class="po-field">
+                        <label>Email *</label>
+                        <input asp-for="Email" />
+                    </div>
+
+                    <div class="po-field">
+                        <label>Teléfono *</label>
+                        <input asp-for="Phone" />
+                    </div>
+                </div>
+                <div class="po-field po-span-2">
+                    <label>Dirección *</label>
+                    <textarea asp-for="Address"
+                              placeholder="Provincia, cantón, distrito, señas exactas"
+                              required></textarea>
+                </div>
+
+            </div>
+
+            <button type="submit" class="po-submit">
+                Enviar solicitud
+            </button>
+
+        </div>
+    </form>
+</section>
+
+<!-- =====================
+     JS UX
+===================== -->
+<script>
+    const productType = document.getElementById('productType');
+
+    const productDetails = document.getElementById('productDetails');
+    const musicDetails = document.getElementById('musicDetails');
+    const accessoryDetails = document.getElementById('accessoryDetails');
+
+    const sizeShoes = document.getElementById('sizeShoes');
+    const sizeClothes = document.getElementById('sizeClothes');
+
+    const accessoryType = document.getElementById('accessoryType');
+    const accessoryOther = document.getElementById('accessoryOther');
+
+    const fajaFields = document.getElementById('fajaFields');
+    const chainFields = document.getElementById('chainFields');
+    const capFields = document.getElementById('capFields');
+
+    const chainLength = document.getElementById('chainLength');
+    const chainLengthOther = document.getElementById('chainLengthOther');
+
+    const capSize = document.getElementById('capSize');
+    const capSizeOther = document.getElementById('capSizeOther');
+
+    function hide(el) { if (el) el.style.display = 'none'; }
+    function show(el, display = 'block') { if (el) el.style.display = display; }
+
+    function resetAccessoryExtras() {
+        hide(accessoryOther);
+        hide(fajaFields);
+        hide(chainFields);
+        hide(capFields);
+        hide(chainLengthOther);
+        hide(capSizeOther);
+    }
+
+    function toggleProductType() {
+        const value = productType?.value;
+
+        hide(productDetails);
+        hide(musicDetails);
+        hide(accessoryDetails);
+        hide(sizeShoes);
+        hide(sizeClothes);
+
+        if (value !== 'Accesorios') resetAccessoryExtras();
+
+        if (value === 'Tenis') {
+            show(productDetails);
+            show(sizeShoes, 'flex');
+        }
+        else if (value === 'Ropa') {
+            show(productDetails);
+            show(sizeClothes, 'flex');
+        }
+        else if (value === 'Música') {
+            show(musicDetails);
+        }
+        else if (value === 'Accesorios') {
+            show(accessoryDetails);
+            toggleAccessoryFields();
+        }
+    }
+
+    function toggleAccessoryFields() {
+        resetAccessoryExtras();
+
+        const val = accessoryType?.value;
+
+        if (val === 'Otro') show(accessoryOther);
+        if (val === 'Faja') show(fajaFields);
+        if (val === 'Cadena') show(chainFields);
+        if (val === 'Gorra') show(capFields);
+    }
+
+    function toggleChainLength() {
+        if (chainLength?.value === 'Otro') show(chainLengthOther);
+        else hide(chainLengthOther);
+    }
+
+    function toggleCapSize() {
+        if (capSize?.value === 'Talla específica') show(capSizeOther);
+        else hide(capSizeOther);
+    }
+
+    productType?.addEventListener('change', toggleProductType);
+    accessoryType?.addEventListener('change', toggleAccessoryFields);
+    chainLength?.addEventListener('change', toggleChainLength);
+    capSize?.addEventListener('change', toggleCapSize);
+
+    toggleProductType();
+</script>
+
+
+
+
+

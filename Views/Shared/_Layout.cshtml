@@ -1,0 +1,747 @@
+﻿@using SaintHub.Services
+@using SaintHub.ViewModels
+@using SaintHub.Data
+@{
+    var cart = Context.Session.GetObject<List<CartItemVM>>("SAINT_CART");
+    var cartCount = cart?.Sum(x => x.Quantity) ?? 0;
+}
+
+@inject AppDbContext Db
+
+@{
+    var isAdmin =
+        ViewContext.RouteData.Values["controller"]?.ToString()?.StartsWith("Admin") == true;
+
+    var userIdStr = Context.Session.GetString("USER_AUTH");
+    var isLogged = int.TryParse(userIdStr, out var userId);
+
+    var currentUser = isLogged
+        ? Db.Users.FirstOrDefault(u => u.Id == userId)
+        : null;
+
+    var firstName = currentUser?.FullName?.Split(' ').FirstOrDefault() ?? "";
+}
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>Saint Hub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="~/favicon.ico" asp-append-version="true" />
+
+
+    <!-- GLOBAL CSS -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/navbar.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/categories.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/details.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Auth.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Cart.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Checkout.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Order.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/carousel.css" asp-append-version="true" />
+   
+
+    <!-- MOBILE -->
+    <link rel="stylesheet" href="~/css/mobile.css" asp-append-version="true" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    @RenderSection("Styles", required: false)
+</head>
+
+<body class="@(isAdmin ? "admin-mode" : "")">
+    @{
+        var hideLayout = ViewData["HideLayout"] as bool? ?? false;
+    }
+
+    @if (!isAdmin)
+    {
+
+        <!-- =========================
+             HEADER (NAVBAR)
+        ========================= -->
+        <header class="saint-header">
+
+            <!-- TOPBAR -->
+            <div class="saint-topbar">
+
+                <!-- HAMBURGER -->
+                <button class="nav-hamburger" id="openMenu" aria-label="Abrir menú">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+                <!-- LOGO -->
+                <a asp-controller="Home" asp-action="Index" class="saint-logo">
+                    <img src="~/img/branding/logo-white.png" alt="Saint Hub" />
+                </a>
+
+                <!-- CART MOBILE -->
+                <a asp-controller="Cart" asp-action="Index" class="nav-cart">
+                    <i class="bi bi-bag"></i>
+                    <span class="cart-count">@cartCount</span>
+
+                </a>
+
+
+
+                <!-- LEFT -->
+                <div class="nav-left">
+                    <div class="saint-social">
+                        <a href="https://www.instagram.com/saint_hubcr/" target="_blank" class="social-icon">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="https://wa.me/50671270397" target="_blank" class="social-icon">
+                            <i class="bi bi-whatsapp"></i>
+                        </a>
+                    </div>
+
+                    <form asp-controller="Category"
+                          asp-action="Index"
+                          method="get"
+                          class="saint-search-form desktop-search">
+
+                        <div class="saint-search-wrapper">
+                            <i class="bi bi-search saint-search-icon"></i>
+                            <input class="saint-search"
+                                   name="q"
+                                   placeholder="Buscar sneakers, marcas, modelos…" />
+
+                            <div class="search-preview" id="searchPreview"></div>
+                        </div>
+                    </form>
+
+
+                </div>
+
+                <!-- RIGHT -->
+                <div class="top-right">
+
+                    @if (isLogged)
+                    {
+                        <a asp-controller="Account"
+                           asp-action="Dashboard"
+                           class="nav-btn outline">
+                            <i class="bi bi-person"></i>
+                            <span>@firstName</span>
+                        </a>
+
+
+                        <a asp-controller="Account"
+                           asp-action="Logout"
+                           class="nav-btn outline">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span>Salir</span>
+                        </a>
+                    }
+
+                    else
+                    {
+                        <a asp-controller="Account" asp-action="Login" class="nav-btn outline">
+                            <i class="bi bi-person"></i>
+                            <span>Inicia sesión</span>
+                        </a>
+
+                        <a asp-controller="Account" asp-action="Register" class="nav-btn outline">
+                            <i class="bi bi-person-plus"></i>
+                            <span>Regístrate</span>
+                        </a>
+                    }
+
+                    <a asp-controller="Cart" asp-action="Index" class="nav-btn outline">
+                        <i class="bi bi-bag"></i>
+                        <span>Carrito</span>
+                        <span class="cart-count">@cartCount</span>
+
+                    </a>
+                </div>
+            </div>
+
+            <!-- CATEGORIES -->
+            <!-- CATEGORIES -->
+            @if (!hideLayout)
+            {
+                <nav class="saint-categories">
+
+                    <!-- ZAPATOS -->
+                    <div class="category-item">
+                        <a asp-controller="Category" asp-action="Index" asp-route-id="1">
+                            Zapatos
+                        </a>
+
+                        <div class="category-dropdown">
+                            <a asp-controller="Category"
+                               asp-action="Index"
+                               asp-route-id="1"
+                               asp-route-fulfillment="1">
+                                En stock
+                            </a>
+
+                            <a asp-controller="Category"
+                               asp-action="Index"
+                               asp-route-id="1"
+                               asp-route-fulfillment="2">
+                                Por encargo
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- CAMISAS -->
+                    <div class="category-item">
+                        <a asp-controller="Category" asp-action="Index" asp-route-id="2">
+                            Camisas
+                        </a>
+
+                        <div class="category-dropdown">
+                            <a asp-controller="Category"
+                               asp-action="Index"
+                               asp-route-id="2"
+                               asp-route-fulfillment="1">
+                                En stock
+                            </a>
+
+                            <a asp-controller="Category"
+                               asp-action="Index"
+                               asp-route-id="2"
+                               asp-route-fulfillment="2">
+                                Por encargo
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- SUETAS -->
+                    <div class="category-item">
+                        <a asp-controller="Category" asp-action="Index" asp-route-id="3">
+                            Suetas
+                        </a>
+
+                        <div class="category-dropdown">
+                            <a asp-controller="Category"
+                               asp-action="Index"
+                               asp-route-id="3"
+                               asp-route-fulfillment="1">
+                                En stock
+                            </a>
+
+                            <a asp-controller="Category"
+                               asp-action="Index"
+                               asp-route-id="3"
+                               asp-route-fulfillment="2">
+                                Por encargo
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- PANTALONES -->
+                    <div class="category-item">
+                        <a asp-controller="Category" asp-action="Index" asp-route-id="4">
+                            Pantalones
+                        </a>
+
+                        <div class="category-dropdown">
+                            <a asp-controller="Category"
+                               asp-action="Index"
+                               asp-route-id="4"
+                               asp-route-fulfillment="1">
+                                En stock
+                            </a>
+
+                            <a asp-controller="Category"
+                               asp-action="Index"
+                               asp-route-id="4"
+                               asp-route-fulfillment="2">
+                                Por encargo
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- ACCESORIOS -->
+                    <div class="category-item">
+                        <a asp-controller="Category" asp-action="Index" asp-route-id="5">
+                            Accesorios
+                        </a>
+
+                        <div class="category-dropdown">
+                            <a asp-controller="Category"
+                               asp-action="Index"
+                               asp-route-id="5"
+                               asp-route-fulfillment="1">
+                                En stock
+                            </a>
+
+                            <a asp-controller="Category"
+                               asp-action="Index"
+                               asp-route-id="5"
+                               asp-route-fulfillment="2">
+                                Por encargo
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- VINILOS -->
+                    <div class="category-item">
+                        <a asp-controller="Category" asp-action="Index" asp-route-id="6">
+                            Vinilos
+                        </a>
+
+                        <div class="category-dropdown">
+                            <a asp-controller="Category"
+                               asp-action="Index"
+                               asp-route-id="6"
+                               asp-route-fulfillment="1">
+                                En stock
+                            </a>
+
+                            <a asp-controller="Category"
+                               asp-action="Index"
+                               asp-route-id="6"
+                               asp-route-fulfillment="2">
+                                Por encargo
+                            </a>
+                        </div>
+                    </div>
+
+                </nav>
+            }
+
+            <!-- MOBILE MENU -->
+            <nav class="mobile-menu" id="mobileMenu">
+
+                <div class="mobile-menu-header">
+                    <span>Menú</span>
+                    <button id="closeMenu">&times;</button>
+                </div>
+
+                <!-- HOME -->
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="mobile-link home-link">
+                    Home
+                </a>
+
+                <hr />
+
+                @if (isLogged)
+                {
+                    <a asp-controller="Account" asp-action="Dashboard">Mi cuenta</a>
+                    <a asp-controller="Account" asp-action="Logout">Cerrar sesión</a>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Login">Iniciar sesión</a>
+                    <a asp-controller="Account" asp-action="Register">Crear cuenta</a>
+                }
+
+
+
+                <!-- CATEGORÍAS -->
+                <div class="mobile-category">
+                    <button class="mobile-category-toggle">
+                        Zapatos <span class="chevron">›</span>
+                    </button>
+                    <div class="mobile-submenu">
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="1"
+                           class="submenu-all">
+                            Todo
+                        </a>
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="1"
+                           asp-route-fulfillment="1"
+                           class="submenu-stock">
+                            En stock
+                        </a>
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="1"
+                           asp-route-fulfillment="2"
+                           class="submenu-demand">
+                            Por encargo
+                        </a>
+                    </div>
+                </div>
+
+                <div class="mobile-category">
+                    <button class="mobile-category-toggle">
+                        Camisas <span class="chevron">›</span>
+                    </button>
+                    <div class="mobile-submenu">
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="2"
+                           class="submenu-all">
+                            Todo
+                        </a>
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="2"
+                           asp-route-fulfillment="1"
+                           class="submenu-stock">
+                            En stock
+                        </a>
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="2"
+                           asp-route-fulfillment="2"
+                           class="submenu-demand">
+                            Por encargo
+                        </a>
+                    </div>
+                </div>
+
+                <div class="mobile-category">
+                    <button class="mobile-category-toggle">
+                        Suetas <span class="chevron">›</span>
+                    </button>
+                    <div class="mobile-submenu">
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="3"
+                           class="submenu-all">
+                            Todo
+                        </a>
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="3"
+                           asp-route-fulfillment="1"
+                           class="submenu-stock">
+                            En stock
+                        </a>
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="3"
+                           asp-route-fulfillment="2"
+                           class="submenu-demand">
+                            Por encargo
+                        </a>
+                    </div>
+                </div>
+
+                <div class="mobile-category">
+                    <button class="mobile-category-toggle">
+                        Pantalones <span class="chevron">›</span>
+                    </button>
+                    <div class="mobile-submenu">
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="4"
+                           class="submenu-all">
+                            Todo
+                        </a>
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="4"
+                           asp-route-fulfillment="1"
+                           class="submenu-stock">
+                            En stock
+                        </a>
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="4"
+                           asp-route-fulfillment="2"
+                           class="submenu-demand">
+                            Por encargo
+                        </a>
+                    </div>
+                </div>
+
+                <div class="mobile-category">
+                    <button class="mobile-category-toggle">
+                        Accesorios <span class="chevron">›</span>
+                    </button>
+                    <div class="mobile-submenu">
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="5"
+                           class="submenu-all">
+                            Todo
+                        </a>
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="5"
+                           asp-route-fulfillment="1"
+                           class="submenu-stock">
+                            En stock
+                        </a>
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="5"
+                           asp-route-fulfillment="2"
+                           class="submenu-demand">
+                            Por encargo
+                        </a>
+                    </div>
+                </div>
+
+                <div class="mobile-category">
+                    <button class="mobile-category-toggle">
+                        Vinilos <span class="chevron">›</span>
+                    </button>
+                    <div class="mobile-submenu">
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="6"
+                           class="submenu-all">
+                            Todo
+                        </a>
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="6"
+                           asp-route-fulfillment="1"
+                           class="submenu-stock">
+                            En stock
+                        </a>
+                        <a asp-controller="Category"
+                           asp-action="Index"
+                           asp-route-id="6"
+                           asp-route-fulfillment="2"
+                           class="submenu-demand">
+                            Por encargo
+                        </a>
+                    </div>
+                </div>
+
+
+            </nav>
+
+
+        </header>
+
+        <!-- MOBILE SEARCH -->
+        <!-- MOBILE SEARCH -->
+        <form asp-controller="Shop"
+              asp-action="Index"
+              method="get"
+              class="mobile-search">
+
+            <i class="bi bi-search search-icon"></i>
+
+            <input class="saint-search mobile-search-input"
+                   type="search"
+                   name="q"
+                   placeholder="Buscar sneakers, marcas, modelos…" />
+
+            <!-- 🔽 PREVIEW MOBILE -->
+            <div class="search-preview mobile" id="searchPreviewMobile"></div>
+        </form>
+
+
+
+
+    }
+
+    @if (isAdmin)
+    {
+        <div class="admin-shell">
+            <aside class="admin-sidebar">
+                <div class="admin-logo">
+                    <img src="~/img/branding/logo-white.png" />
+                </div>
+
+                <nav class="admin-nav">
+                    <a asp-controller="Admin" asp-action="Dashboard">Dashboard</a>
+                    <a asp-controller="AdminProducts" asp-action="Index">Productos</a>
+                    <a asp-controller="AdminOrders" asp-action="Index">Pedidos</a>
+                    <a asp-controller="AdminCustomRequests" asp-action="Index">Clientes</a>
+                    <a asp-controller="AdminHome" asp-action="Feature">
+                        Sección Home destacada
+                    </a>
+
+                    <a asp-controller="Account" asp-action="Logout">Salir</a>
+                </nav>
+            </aside>
+
+            <main class="admin-content">
+                @RenderBody()
+            </main>
+        </div>
+    }
+    else
+    {
+        <main class="site-shell">
+            @RenderBody()
+        </main>
+    }
+
+    @if (!isAdmin && !hideLayout)
+    {
+        <footer class="site-footer">
+            © @DateTime.Now.Year · Saint Hub · Sneakers & Culture ·
+            <a asp-controller="Dev"
+               asp-action="Index"
+               class="saint-link">
+                Desarrollado por Justin Montoya
+            </a>
+        </footer>
+    }
+
+    <script>
+        function updateCartCount(count) {
+            document.querySelectorAll('.cart-count').forEach(el => {
+                if (count > 0) {
+                    el.textContent = count;
+                    el.style.display = 'inline-flex';
+                } else {
+                    el.style.display = 'none';
+                }
+            });
+        }
+    </script>
+
+
+    <script>
+        const openBtn = document.getElementById("openMenu");
+        const closeBtn = document.getElementById("closeMenu");
+        const menu = document.getElementById("mobileMenu");
+
+        if (openBtn && closeBtn && menu) {
+            openBtn.addEventListener("click", () => {
+                menu.classList.add("open");
+                document.body.style.overflow = "hidden";
+            });
+
+            closeBtn.addEventListener("click", () => {
+                menu.classList.remove("open");
+                document.body.style.overflow = "";
+            });
+        }
+    </script>
+    <script>
+        document.querySelectorAll('.mobile-category-toggle').forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const parent = toggle.closest('.mobile-category');
+
+                // Cerrar otros (opcional pero recomendado)
+                document.querySelectorAll('.mobile-category').forEach(cat => {
+                    if (cat !== parent) cat.classList.remove('open');
+                });
+
+                parent.classList.toggle('open');
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const input = document.querySelector('.saint-search');
+            const preview = document.getElementById('searchPreview');
+
+            if (!input || !preview) return;
+
+            let timeout = null;
+
+            input.addEventListener('input', () => {
+                const q = input.value.trim();
+                clearTimeout(timeout);
+
+                if (q.length < 2) {
+                    preview.classList.remove('open');
+                    return;
+                }
+
+                timeout = setTimeout(async () => {
+                    const res = await fetch(`/Category/SearchPreview?q=${encodeURIComponent(q)}`);
+                    const data = await res.json();
+
+                    if (!data.length) {
+                        preview.classList.remove('open');
+                        return;
+                    }
+
+                    preview.innerHTML = `
+                        ${data.map(p => `
+                            <div class="search-preview-item"
+                                 onclick="window.location='/Shop/Details/${p.id}'">
+                                <img src="${p.image}" />
+                                <div class="search-preview-info">
+                                    <span>${p.name}</span>
+                                    <small>₡ ${p.priceCrc.toLocaleString()}</small>
+                                </div>
+                            </div>
+                        `).join('')}
+                        <div class="search-preview-footer">
+                            <a href="/Category?q=${encodeURIComponent(q)}">
+                                Ver todos los resultados
+                            </a>
+                        </div>
+                    `;
+
+                    preview.classList.add('open');
+
+                }, 300);
+            });
+
+            document.addEventListener('click', e => {
+                if (!e.target.closest('.saint-search-wrapper')) {
+                    preview.classList.remove('open');
+                }
+            });
+
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const input = document.querySelector('.mobile-search-input');
+            const preview = document.getElementById('searchPreviewMobile');
+
+            if (!input || !preview) return;
+
+            let timeout = null;
+
+            input.addEventListener('input', () => {
+                const q = input.value.trim();
+                clearTimeout(timeout);
+
+                if (q.length < 2) {
+                    preview.classList.remove('open');
+                    return;
+                }
+
+                timeout = setTimeout(async () => {
+                    const res = await fetch(`/Category/SearchPreview?q=${encodeURIComponent(q)}`);
+                    const data = await res.json();
+
+                    if (!data.length) {
+                        preview.classList.remove('open');
+                        return;
+                    }
+
+                    preview.innerHTML = `
+                        ${data.map(p => `
+                            <div class="search-preview-item"
+                                 onclick="window.location='/Shop/Details/${p.id}'">
+                                <img src="${p.image}" />
+                                <div>
+                                    <span>${p.name}</span><br/>
+                                    <small>₡ ${p.priceCrc.toLocaleString()}</small>
+                                </div>
+                            </div>
+                        `).join('')}
+                        <div class="search-preview-footer">
+                            <a href="/Category?q=${encodeURIComponent(q)}">
+                                Ver todos los resultados
+                            </a>
+                        </div>
+                    `;
+
+                    preview.classList.add('open');
+
+                }, 300);
+            });
+
+        });
+    </script>
+
+    @* Permite que vistas específicas (por ejemplo Admin/Products/Edit) inyecten JS *@
+    @await RenderSectionAsync("Scripts", required: false)
+
+
+</body>
+</html>

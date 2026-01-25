@@ -1,0 +1,217 @@
+@{
+    ViewData["Title"] = "Nuevo producto";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/create-product.css" asp-append-version="true" />
+}
+
+<div class="create-wrapper">
+
+    <!-- HEADER -->
+    <div class="create-header">
+        <div>
+            <h1>Nuevo producto</h1>
+            <span>Creá un producto para Saint Hub</span>
+        </div>
+    </div>
+
+    <section class="create-card">
+        <form asp-controller="Admin"
+              asp-action="CreateProduct"
+              method="post"
+              enctype="multipart/form-data"
+              class="create-form">
+
+            @Html.AntiForgeryToken()
+
+            <!-- INFO -->
+            <div class="form-grid">
+
+                <div class="field span-2">
+                    <label>Nombre del producto</label>
+                    <input name="Name" placeholder="Nombre del producto" required />
+                </div>
+
+                <div class="field">
+                    <label>Precio (CRC)</label>
+                    <input name="PriceCrc" type="number" min="0" required />
+                </div>
+
+                <div class="field" id="stockField">
+                    <label>Stock inicial (solo en stock)</label>
+                    <input name="InitialStock" type="number" min="0" value="0" />
+                </div>
+
+                <div class="field">
+                    <label>Categoría</label>
+                    <select name="Category" required>
+                        <option value="" disabled selected>Seleccionar</option>
+                        <option value="1">Zapatos</option>
+                        <option value="2">Camisas</option>
+                        <option value="3">Suetas</option>
+                        <option value="4">Pantalones</option>
+                        <option value="5">Accesorios</option>
+                        <option value="6">Vinilos</option>
+                    </select>
+                </div>
+
+                <!-- ON-DEMAND PRICING -->
+                <div class="field span-2" id="onDemandWrap">
+                    <label>Precio por encargo</label>
+
+                    <div class="segmented price-toggle">
+                        <input type="radio" id="od-fixed" name="onDemandMode" value="fixed" checked />
+                        <label for="od-fixed">Precio fijo</label>
+
+                        <input type="radio" id="od-range" name="onDemandMode" value="range" />
+                        <label for="od-range">Rango</label>
+
+                        <span class="seg-indicator"></span>
+                    </div>
+
+                    <div class="od-grid" id="odFixedFields">
+                        <div class="od-field">
+                            <span class="od-label">Precio fijo (CRC)</span>
+                            <input name="OnDemandFixedPriceCrc" type="number" min="0" placeholder="Ej: 45000" />
+                        </div>
+                    </div>
+
+                    <div class="od-grid" id="odRangeFields" hidden>
+                        <div class="od-field">
+                            <span class="od-label">Mínimo (CRC)</span>
+                            <input name="OnDemandMinPriceCrc" type="number" min="0" placeholder="Ej: 40000" />
+                        </div>
+                        <div class="od-field">
+                            <span class="od-label">Máximo (CRC)</span>
+                            <input name="OnDemandMaxPriceCrc" type="number" min="0" placeholder="Ej: 55000" />
+                        </div>
+                    </div>
+
+                    <small class="od-hint">Si el producto es “Por encargo”, el precio puede ser fijo o un rango definido desde admin.</small>
+                </div>
+
+
+                <div class="field span-2">
+                    <label>Fulfillment</label>
+                    <select name="Fulfillment" required>
+                        <option value="1">En stock</option>
+                        <option value="2">Por encargo</option>
+                    </select>
+                </div>
+
+                <div class="field span-2">
+                    <label>Descripción</label>
+                    <textarea name="Description"
+                              placeholder="Descripción del producto"></textarea>
+                </div>
+
+            </div>
+
+            <!-- IMAGES -->
+            <div class="images-section">
+                <label class="images-title">Imágenes del producto</label>
+
+                <div id="dropZone" class="drop-zone">
+                    <strong>Arrastrá imágenes aquí</strong>
+                    <span>o hacé click para seleccionarlas</span>
+
+                    <input type="file"
+                           id="images"
+                           name="images"
+                           multiple
+                           accept="image/jpeg,image/png,image/gif,image/webp,image/avif,.webp,.avif"
+                           hidden />
+                </div>
+
+                <div id="preview" class="preview-grid"></div>
+            </div>
+
+            <!-- CTA -->
+            <button type="submit" class="btn-primary">
+                Crear producto
+            </button>
+
+        </form>
+    </section>
+
+</div>
+
+<script>
+    const dropZone = document.getElementById("dropZone");
+    const input = document.getElementById("images");
+    const preview = document.getElementById("preview");
+
+    dropZone.addEventListener("click", () => input.click());
+
+    dropZone.addEventListener("dragover", e => {
+        e.preventDefault();
+        dropZone.classList.add("drag");
+    });
+
+    dropZone.addEventListener("dragleave", () => {
+        dropZone.classList.remove("drag");
+    });
+
+    dropZone.addEventListener("drop", e => {
+        e.preventDefault();
+        input.files = e.dataTransfer.files;
+        renderPreviews();
+        dropZone.classList.remove("drag");
+    });
+
+    input.addEventListener("change", renderPreviews);
+
+    function renderPreviews() {
+        preview.innerHTML = "";
+        Array.from(input.files).forEach(file => {
+            const reader = new FileReader();
+            reader.onload = e => {
+                const img = document.createElement("img");
+                img.src = e.target.result;
+                preview.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+</script>
+
+
+<script>
+    (function initOnDemandUI(){
+        const fulfillment = document.querySelector('select[name="Fulfillment"]');
+        const stockField = document.getElementById('stockField');
+        const wrap = document.getElementById('onDemandWrap');
+        const fixedRadio = document.getElementById('od-fixed');
+        const rangeRadio = document.getElementById('od-range');
+        const fixedFields = document.getElementById('odFixedFields');
+        const rangeFields = document.getElementById('odRangeFields');
+        const indicator = wrap?.querySelector('.seg-indicator');
+
+        if(!fulfillment || !wrap) return;
+
+        function updateVisibility(){
+            const isOnDemand = fulfillment.value === '2';
+            wrap.style.display = isOnDemand ? '' : 'none';
+            if(stockField) stockField.style.display = isOnDemand ? 'none' : '';
+        }
+
+        function updateMode(){
+            const isRange = rangeRadio.checked;
+            fixedFields.hidden = isRange;
+            rangeFields.hidden = !isRange;
+            // animated indicator
+            if(indicator){
+                indicator.dataset.mode = isRange ? 'range' : 'fixed';
+            }
+        }
+
+        fulfillment.addEventListener('change', updateVisibility);
+        fixedRadio.addEventListener('change', updateMode);
+        rangeRadio.addEventListener('change', updateMode);
+
+        // initial
+        updateVisibility();
+        updateMode();
+    })();
+</script>

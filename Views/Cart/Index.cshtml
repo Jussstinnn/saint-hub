@@ -1,0 +1,231 @@
+@model List<SaintHub.ViewModels.CartItemVM>
+
+@{
+    ViewData["Title"] = "Tu carrito";
+
+    bool hasOnDemand = Model.Any(x => x.Fulfillment == SaintHub.Services.ProductRules.PorEncargo);
+
+    decimal totalMin = 0;
+    decimal totalMax = 0;
+
+    foreach (var x in Model)
+    {
+        var uMin = (x.UnitPriceMinCrc ?? (int)x.UnitPriceCrc);
+        var uMax = (x.UnitPriceMaxCrc ?? (int)x.UnitPriceCrc);
+        totalMin += uMin * x.Quantity;
+        totalMax += uMax * x.Quantity;
+    }
+
+    bool totalRange = totalMin != totalMax;
+    string Money(decimal n) => ((long)n).ToString("N0");
+}
+
+@* Si tu layout soporta Styles section, podés incluir el css del cart si existe.
+   OJO: en Linux el nombre es case-sensitive. Ajustá Cart.css/cart.css según tu archivo real. *@
+@* @section Styles {
+    <link rel="stylesheet" href="~/css/Cart.css" asp-append-version="true" />
+} *@
+
+<div class="cart-wrapper">
+
+    <div class="cart-header">
+        <h1>Tu carrito</h1>
+        <p>Revisá tus productos antes de continuar</p>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="cart-empty">
+            <h3>Tu carrito está vacío</h3>
+            <p>Explorá nuestra colección y encontrá algo para vos.</p>
+
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="btn-saint">
+                Volver al inicio
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="cart-grid">
+
+            @foreach (var item in Model)
+            {
+                var uMin = (item.UnitPriceMinCrc ?? (int)item.UnitPriceCrc);
+                var uMax = (item.UnitPriceMaxCrc ?? (int)item.UnitPriceCrc);
+                var isRange = uMin != uMax;
+
+                var subMin = uMin * item.Quantity;
+                var subMax = uMax * item.Quantity;
+                var subRange = subMin != subMax;
+
+                // Stock puede ser null/0 según tu VM. Solo deshabilitamos si hay stock válido.
+                bool disableInc = (item.Stock > 0 && item.Quantity >= item.Stock);
+
+                <div class="cart-item premium">
+
+                    <img src="@item.ImageUrl"
+                         alt="@item.ProductName"
+                         class="cart-img" />
+
+                    <div class="cart-info">
+                        <strong>@item.ProductName</strong>
+
+                        @* Compatibilidad: si usás OptionLabel/OptionValue (nuevo),
+                           si no, caemos al Size (viejo) *@
+                        @if (!string.IsNullOrWhiteSpace(item.OptionValue))
+                        {
+                            <small>@item.OptionLabel: @item.OptionValue</small>
+                        }
+                        
+
+
+                    <span class="price">
+                        @(
+                                            isRange
+                                            ? $"₡ {Money(uMin)} – ₡ {Money(uMax)}"
+                                            : $"₡ {Money(uMin)}"
+                                            )
+                    </span>
+                </div>
+
+                <!-- CANTIDAD -->
+                <div class="cart-qty">
+                    <button type="button"
+                            class="qty-btn js-decrease"
+                            data-id="@item.VariantId">
+                        −
+                    </button>
+
+                    <span class="qty">@item.Quantity</span>
+
+                    <button type="button"
+                            class="qty-btn js-increase"
+                            data-id="@item.VariantId"
+                            @(disableInc ? "disabled" : "")>
+                        +
+                    </button>
+                </div>
+
+                <!-- SUBTOTAL -->
+                <div class="cart-subtotal">
+                    @(
+                                    subRange
+                                    ? $"₡ {Money(subMin)} – ₡ {Money(subMax)}"
+                                    : $"₡ {Money(subMin)}"
+                                    )
+                </div>
+
+                    <!-- REMOVE -->
+                    <button type="button"
+                            class="remove-btn js-remove"
+                            data-id="@item.VariantId">
+                        ✕
+                    </button>
+
+                </div>
+                }
+
+    </div>
+
+    <div class="cart-summary premium">
+
+        <div class="cart-total">
+            <span>Total</span>
+            <strong>
+                @(
+                                totalRange
+                                ? $"₡ {Money(totalMin)} – ₡ {Money(totalMax)}"
+                                : $"₡ {Money(totalMin)}"
+                                )
+            </strong>
+        </div>
+
+            <div class="cart-actions">
+
+                <a class="btn-saint"
+                   asp-controller="Shop"
+                   asp-action="Index">
+                    Seguir comprando
+                </a>
+
+                <a class="btn-saint"
+                   asp-controller="Checkout"
+                   asp-action="Index">
+                    Proceder al pago
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="cart-note">
+            <strong>Información importante</strong>
+            <p>
+                Los precios mostrados son <b>referenciales</b> y pueden variar según talla,
+                color y mercado internacional.
+            </p>
+
+        @if (totalRange)
+            {
+                <p>
+                    Tu total muestra un <b>rango estimado</b> porque hay variantes con precio mínimo y máximo.
+                    Se confirma al coordinar el pedido.
+                </p>
+            }
+
+            @if (hasOnDemand)
+            {
+                <p>
+                    Tu carrito incluye productos <b>por encargo</b>. El precio final puede variar según disponibilidad.
+                </p>
+            }
+
+            <p>
+                Ir al checkout <b>no implica ningún pago</b>. El pedido se registra en nuestro
+                sistema y nos pondremos en contacto para confirmar el precio final.
+            </p>
+
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <p class="muted">
+                    Iniciar sesión te permite ver el estado de tu pedido y recibir actualizaciones.
+                </p>
+            }
+        </div>
+
+        <script>
+            async function post(url, data) {
+                const res = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams(data)
+                });
+                return res.json();
+            }
+
+            document.querySelectorAll('.js-increase').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    await post('/Cart/Increase', { variantId: btn.dataset.id });
+                    location.reload();
+                });
+            });
+
+            document.querySelectorAll('.js-decrease').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    await post('/Cart/Decrease', { variantId: btn.dataset.id });
+                    location.reload();
+                });
+            });
+
+            document.querySelectorAll('.js-remove').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    await post('/Cart/Remove', { variantId: btn.dataset.id });
+                    location.reload();
+                });
+            });
+        </script>
+    }
+
+</div>
